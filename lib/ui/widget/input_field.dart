@@ -1,0 +1,78 @@
+part of 'widget.dart';
+
+class InputField extends StatefulWidget {
+  const InputField({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    required this.icon,
+    this.isPassword,
+    this.textInputAction,
+    required this.validator,
+  });
+
+  final TextEditingController controller;
+  final String hintText;
+  final IconData icon;
+  final bool? isPassword;
+  final TextInputAction? textInputAction;
+  final Function validator;
+
+  @override
+  State<InputField> createState() => _InputFieldState();
+}
+
+class _InputFieldState extends State<InputField> {
+  bool isObscure = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: widget.controller,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: whiteColor,
+        prefixIcon: Icon(widget.icon),
+        suffixIcon: widget.isPassword == true
+            ? isObscure == true
+                ? IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isObscure = !isObscure;
+                      });
+                    },
+                    icon: const Icon(CupertinoIcons.eye_fill),
+                  )
+                : IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isObscure = !isObscure;
+                      });
+                    },
+                    icon: const Icon(CupertinoIcons.eye_slash_fill),
+                  )
+            : const SizedBox(),
+        hintText: widget.hintText,
+        hintStyle: light,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(defaultMargin / 2),
+          borderSide: BorderSide(color: whiteSmokeColor),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(defaultMargin / 2),
+          borderSide: BorderSide(color: mainColor),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(defaultMargin / 2),
+          borderSide: BorderSide(color: redColor),
+        ),
+      ),
+      cursorColor: mainColor,
+      cursorErrorColor: redColor,
+      obscureText: widget.isPassword == true ? isObscure : false,
+      style: regular,
+      textInputAction: widget.textInputAction ?? TextInputAction.next,
+      validator: widget.validator as String? Function(String?)?,
+    );
+  }
+}
