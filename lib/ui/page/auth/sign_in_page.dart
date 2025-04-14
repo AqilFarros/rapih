@@ -43,7 +43,9 @@ class _SignInPageState extends State<SignInPage> {
             width: double.infinity,
             child: PrimaryButton(
               name: "Sign In",
-              function: () {},
+              function: () {
+                Navigator.pushReplacementNamed(context, '/home');
+              },
             ),
           ),
           const SizedBox(

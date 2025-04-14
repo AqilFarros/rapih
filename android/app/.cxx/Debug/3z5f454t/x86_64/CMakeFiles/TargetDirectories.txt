@@ -1,0 +1,2 @@
+D:/VS Code/mobile_project/tutor_flutter/rapih/android/app/.cxx/Debug/3z5f454t/x86_64/CMakeFiles/edit_cache.dir
+D:/VS Code/mobile_project/tutor_flutter/rapih/android/app/.cxx/Debug/3z5f454t/x86_64/CMakeFiles/rebuild_cache.dir

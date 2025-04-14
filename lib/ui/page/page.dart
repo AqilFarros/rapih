@@ -5,6 +5,11 @@ import 'package:rapih/shared/shared.dart';
 import 'package:rapih/ui/widget/widget.dart';
 
 part 'onboarding_page.dart';
+part 'home_page.dart';
+part 'laundry_page.dart';
 part 'auth/sign_in_page.dart';
 part 'auth/sign_up_page.dart';
 part 'auth/authenthication_page.dart';
+part 'laundry/main_page.dart';
+part 'laundry/edit_laundry.dart';
+part 'laundry/finance_page.dart';

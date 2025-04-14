@@ -17,6 +17,7 @@ TextStyle semiBold = GoogleFonts.poppins(fontWeight: FontWeight.w600);
 TextStyle bold = GoogleFonts.poppins(fontWeight: FontWeight.w700);
 TextStyle extraBold = GoogleFonts.poppins(fontWeight: FontWeight.w800);
 
+const double heading = 28.0;
 const double heading1 = 24.0;
 const double heading2 = 18.0;
 const double heading3 = 16.0;
