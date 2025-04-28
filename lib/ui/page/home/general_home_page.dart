@@ -1,7 +1,9 @@
-part of 'page.dart';
+part of '../page.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class GeneralHomePage extends StatelessWidget {
+  const GeneralHomePage({super.key, required this.widget,});
+
+  final Widget widget;
 
   @override
   Widget build(BuildContext context) {
@@ -60,45 +62,7 @@ class HomePage extends StatelessWidget {
               const SizedBox(
                 height: defaultMargin,
               ),
-              CardWidget(
-                content: Row(
-                  children: [
-                    Text(
-                      "Add a new laundry",
-                      style: regular.copyWith(fontSize: heading2),
-                    ),
-                    const Spacer(),
-                    Icon(
-                      Icons.add_business_outlined,
-                      size: heading1,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: defaultMargin,
-              ),
-              const TitleSection(text: "Current laundry"),
-              const SizedBox(
-                height: defaultMargin,
-              ),
-              LaundryCard(),
-              const SizedBox(
-                height: defaultMargin,
-              ),
-              LaundryCard(),
-              const SizedBox(
-                height: defaultMargin,
-              ),
-              LaundryCard(),
-              const SizedBox(
-                height: defaultMargin,
-              ),
-              LaundryCard(),
-              const SizedBox(
-                height: defaultMargin,
-              ),
-              LaundryCard(),
+              widget,
             ],
           ),
         ),

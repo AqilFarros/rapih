@@ -43,7 +43,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 itemCount: ongoingData.length,
                 itemBuilder: (context, index) {
                   return OnBoardingContent(
-                    illustration: ongoingData[index]["illustration"  ],
+                    illustration: ongoingData[index]["illustration"],
                     title: ongoingData[index]["title"],
                     text: ongoingData[index]["description"],
                   );

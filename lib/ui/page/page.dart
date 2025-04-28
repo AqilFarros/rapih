@@ -1,15 +1,29 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
+import 'package:rapih/cubit/user_cubit.dart';
 import 'package:rapih/shared/shared.dart';
 import 'package:rapih/ui/widget/widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+part 'splash_screen.dart';
 part 'onboarding_page.dart';
+part 'subscribe_page.dart';
 part 'home_page.dart';
 part 'laundry_page.dart';
 part 'auth/sign_in_page.dart';
 part 'auth/sign_up_page.dart';
 part 'auth/authenthication_page.dart';
+part 'home/general_home_page.dart';
+part 'home/admin_home_page.dart';
+part 'home/owner_home_page.dart';
+part 'home/cashier_home_page.dart';
+part 'home/unpaid_home_page.dart';
 part 'laundry/main_page.dart';
-part 'laundry/edit_laundry.dart';
-part 'laundry/finance_page.dart';
+part 'laundry/absent_page.dart';
+part 'laundry/manage_laundry_page.dart';
+part 'laundry/transaction_page.dart';

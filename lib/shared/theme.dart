@@ -5,6 +5,7 @@ final Color secondaryColor = "#A1B8FF".toColor();
 final Color blackColor = "#000000".toColor();
 final Color grayColor = '#808080'.toColor();
 final Color redColor = "91322e".toColor();
+final Color greenColor = "74C365".toColor();
 final Color whiteSmokeColor = '#c4cdcc'.toColor();
 final Color whiteColor = "#FFFFFF".toColor();
 

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rapih/cubit/user_cubit.dart';
 import 'package:rapih/ui/page/page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
@@ -11,18 +15,30 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => UserCubit()),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        debugShowCheckedModeBanner: false,
+        home: const SplashScreen(),
+        routes: {
+          '/boarding': (context) => const OnboardingPage(),
+          '/auth': (context) => const AuthenthicationPage(),
+          '/home': (context) => const HomePage(),
+          '/admin': (context) => const AdminHomePage(),
+          '/owner': (context) => const OwnerHomePage(),
+          '/cashier': (context) => const CashierHomePage(),
+          '/unpaid': (context) => const UnpaidHomePage(),
+          '/subscribe': (context) => const SubscribePage(),
+          '/laundry': (context) => const LaundryPage(),
+        },
       ),
-      debugShowCheckedModeBanner: false,
-      home: const OnboardingPage(),
-      routes: {
-        '/home': (context) => const HomePage(),
-        '/laundry': (context) => const LaundryPage(),
-      },
     );
   }
 }
