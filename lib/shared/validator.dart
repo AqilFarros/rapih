@@ -1,5 +1,12 @@
 part of 'shared.dart';
 
+String? requiredValidator(String? value, String fieldName) {
+  if (value == null || value.isEmpty) {
+    return "$fieldName field is required";
+  }
+  return null;
+}
+
 String? nameValidator(String? value) {
   if (value == null || value.isEmpty) {
     return "Name field is required";

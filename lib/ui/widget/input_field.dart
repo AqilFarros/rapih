@@ -9,6 +9,7 @@ class InputField extends StatefulWidget {
     this.isPassword,
     this.textInputAction,
     required this.validator,
+    this.maxLines,
   });
 
   final TextEditingController controller;
@@ -17,6 +18,7 @@ class InputField extends StatefulWidget {
   final bool? isPassword;
   final TextInputAction? textInputAction;
   final Function validator;
+  final int? maxLines;
 
   @override
   State<InputField> createState() => _InputFieldState();
@@ -73,6 +75,7 @@ class _InputFieldState extends State<InputField> {
       style: regular,
       textInputAction: widget.textInputAction ?? TextInputAction.next,
       validator: widget.validator as String? Function(String?)?,
+      maxLines: widget.maxLines ?? 1,
     );
   }
 }

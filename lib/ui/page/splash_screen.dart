@@ -9,6 +9,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   String? finalToken;
+  String? navigation;
 
   Future getValidationData() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
@@ -23,11 +24,29 @@ class _SplashScreenState extends State<SplashScreen> {
     getValidationData().whenComplete(() async {
       if (finalToken != null && mounted) {
         await context.read<UserCubit>().getUserByToken(token: finalToken!);
+        if (context.read<UserCubit>().state is UserLoaded && mounted) {
+          final role =
+              ((context.read<UserCubit>()).state as UserLoaded).user.role;
+
+          if (role == "owner" || role == "admin") {
+            setState(() {
+              navigation = '/owner';
+            });
+          } else if (role == 'cashier') {
+            setState(() {
+              navigation = '/cashier';
+            });
+          } else {
+            setState(() {
+              navigation = '/unpaid';
+            });
+          }
+        }
       }
       Timer(
         const Duration(seconds: 2),
         () => Navigator.pushReplacementNamed(
-            context, finalToken == null ? '/boarding' : '/home'),
+            context, navigation == null ? '/boarding' : navigation!),
       );
     });
     super.initState();

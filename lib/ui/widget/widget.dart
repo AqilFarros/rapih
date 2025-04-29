@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:rapih/shared/shared.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:dotted_border/dotted_border.dart';
 
 part 'input_field.dart';
 part 'primary_button.dart';
@@ -10,6 +14,7 @@ part 'secondary_button.dart';
 part 'card_widget.dart';
 part 'laundry_card.dart';
 part 'title_section.dart';
+part 'image_field.dart';
 part 'laundry/service_widget.dart';
 part 'laundry/transaction_widget.dart';
 part 'laundry/manage_widget.dart';

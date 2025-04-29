@@ -27,3 +27,5 @@ part 'laundry/main_page.dart';
 part 'laundry/absent_page.dart';
 part 'laundry/manage_laundry_page.dart';
 part 'laundry/transaction_page.dart';
+part 'create/laundry/create_laundry_page.dart';
+part 'create/laundry/picture_laundry_page.dart';

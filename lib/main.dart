@@ -36,6 +36,8 @@ class MyApp extends StatelessWidget {
           '/cashier': (context) => const CashierHomePage(),
           '/unpaid': (context) => const UnpaidHomePage(),
           '/subscribe': (context) => const SubscribePage(),
+          '/create-laundry': (context) => const CreateLaundryPage(),
+          '/picture-laundry': (context) => const PictureLaundryPage(),
           '/laundry': (context) => const LaundryPage(),
         },
       ),

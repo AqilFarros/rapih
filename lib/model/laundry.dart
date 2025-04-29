@@ -1,6 +1,7 @@
 part of 'model.dart';
 
 class Laundry extends Equatable {
+  final int id;
   final String name;
   final String address;
   final String? description;
@@ -10,6 +11,7 @@ class Laundry extends Equatable {
   final String? qris;
 
   const Laundry({
+    required this.id,
     required this.name,
     required this.address,
     this.description,
@@ -19,8 +21,25 @@ class Laundry extends Equatable {
     this.qris,
   });
 
-  // factory Laundry.fromJson(Map<String, dynamic> json) => Laundry();
+  factory Laundry.fromJson(Map<String, dynamic> json) => Laundry(
+        id: json["id"],
+        name: json["name"],
+        address: json["address"],
+        description: json["description"] != "" ? json["description"] : "",
+        contactNumber: json["contact_number"],
+        picture: json["picture"],
+        logo: json["logo"],
+        qris: json["qris"] != "" ? json["qris"] : null,
+      );
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+        name,
+        address,
+        description,
+        contactNumber,
+        picture,
+        logo,
+        qris,
+      ];
 }

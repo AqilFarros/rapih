@@ -5,8 +5,9 @@ import 'package:rapih/model/model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'user_service.dart';
+part 'laundry_service.dart';
 
-String baseUrl = "http://192.168.0.27:8000/api";
+String baseUrl = "http://192.168.0.47:8000/api";
 var client = http.Client();
 
 abstract class ApiService {
