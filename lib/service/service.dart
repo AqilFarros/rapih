@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:rapih/model/model.dart';
@@ -7,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'user_service.dart';
 part 'laundry_service.dart';
 
-String baseUrl = "http://192.168.0.47:8000/api";
+String baseUrl = "http://192.168.0.37:8000/api";
 var client = http.Client();
 
 abstract class ApiService {
@@ -28,7 +29,11 @@ abstract class ApiService {
     };
   }
 
-  static get({required String url, required String errorMesssage, String? token,}) async {
+  static get({
+    required String url,
+    required String errorMesssage,
+    String? token,
+  }) async {
     var response = await client.get(
       Uri.parse(url),
       headers: header(token: token),
@@ -52,6 +57,35 @@ abstract class ApiService {
       headers: header(token: token),
       body: jsonEncode(body),
     );
+
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw Exception(errorMessage);
+    } else {
+      return jsonDecode(response.body);
+    }
+  }
+
+  static postDataWithImage({
+    required String url,
+    required List<Map<String, dynamic>> fields,
+    required List<Map<String, dynamic>> files,
+    required String errorMessage,
+  }) async {
+    final uri = Uri.parse(url);
+
+    var request = http.MultipartRequest("POST", uri)..headers.addAll(header());
+
+    for (var item in fields) {
+      request.fields[item.keys.first] = item.values.first;
+    }
+
+    for (var item in files) {
+      request.files.add(await http.MultipartFile.fromPath(
+          item.keys.first, item.values.first));
+    }
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
 
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw Exception(errorMessage);

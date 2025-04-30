@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rapih/cubit/laundry_cubit.dart';
 import 'package:rapih/cubit/user_cubit.dart';
 import 'package:rapih/ui/page/page.dart';
 
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => UserCubit()),
+        BlocProvider(create: (context) => LaundryCubit()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -37,7 +39,6 @@ class MyApp extends StatelessWidget {
           '/unpaid': (context) => const UnpaidHomePage(),
           '/subscribe': (context) => const SubscribePage(),
           '/create-laundry': (context) => const CreateLaundryPage(),
-          '/picture-laundry': (context) => const PictureLaundryPage(),
           '/laundry': (context) => const LaundryPage(),
         },
       ),

@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
     getValidationData().whenComplete(() async {
       if (finalToken != null && mounted) {
         await context.read<UserCubit>().getUserByToken(token: finalToken!);
-        if (context.read<UserCubit>().state is UserLoaded && mounted) {
+        if (User.token != null && mounted) {
           final role =
               ((context.read<UserCubit>()).state as UserLoaded).user.role;
 
