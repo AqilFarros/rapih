@@ -37,9 +37,9 @@ class MyApp extends StatelessWidget {
           '/owner': (context) => const OwnerHomePage(),
           '/cashier': (context) => const CashierHomePage(),
           '/unpaid': (context) => const UnpaidHomePage(),
-          '/subscribe': (context) => const SubscribePage(),
           '/create-laundry': (context) => const CreateLaundryPage(),
           '/laundry': (context) => const LaundryPage(),
+          '/profile': (context) => const ProfilePage(),
         },
       ),
     );

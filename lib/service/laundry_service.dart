@@ -1,6 +1,22 @@
 part of 'service.dart';
 
 class LaundryService {
+  static Future<ApiReturnValue<List<Laundry>>> getLaundry() async {
+    String url = "$baseUrl/stores";
+
+    var response = await ApiService.handleResponse(() async {
+      var result = await ApiService.get(
+          url: url, errorMesssage: "Failed to get laundry");
+
+      List<Laundry> laundry =
+          (result['data'] as Iterable).map((e) => Laundry.fromJson(e)).toList();
+
+      return laundry;
+    });
+
+    return response;
+  }
+
   static Future<ApiReturnValue<Laundry>> createLaundry(
       {required Map<String, dynamic> data,
       required File image,
@@ -11,10 +27,13 @@ class LaundryService {
     List<Map<String, dynamic>> files = [];
 
     data.forEach((key, value) {
-      if (value != null) {
+      if (value != "") {
         fields.add({key: value.toString()});
       }
     });
+
+    print(fields);
+
     files.add({"picture": image.path});
     if (logo != null) {
       files.add({"logo": logo.path});
@@ -30,8 +49,6 @@ class LaundryService {
         files: files,
         errorMessage: "Failed to create laundry",
       );
-
-      print(result);
 
       Laundry laundry = Laundry.fromJson(result['data']['store']);
 

@@ -69,11 +69,8 @@ class _SignUpPageState extends State<SignUpPage> {
             BlocConsumer<UserCubit, UserState>(
               listener: (context, state) {
                 if (state is UserLoaded) {
-                  if (state.user.role != "unpaid") {
-                    Navigator.pushReplacementNamed(context, '/home');
-                  } else {
-                    Navigator.pushReplacementNamed(context, '/subscribe');
-                  }
+                  Navigator.pushReplacementNamed(
+                      context, roleNavigation(context));
                 } else if (state is UserLoadedFailed) {
                   print(state.message);
                 }

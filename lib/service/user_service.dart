@@ -58,6 +58,22 @@ class UserService {
     return response;
   }
 
+  static Future<ApiReturnValue<bool>> logout() async {
+    String url = "$baseUrl/logout";
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var response = await ApiService.handleResponse(() async {
+      await ApiService.post(url: url, errorMessage: "Failed to logout");
+
+      await prefs.remove('token');
+      User.token = null;
+
+      return true;
+    });
+
+    return response;
+  }
+
   static Future<ApiReturnValue<User>> getUserByToken(
       {required String token}) async {
     String url = "$baseUrl/me";

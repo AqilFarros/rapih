@@ -25,22 +25,9 @@ class _SplashScreenState extends State<SplashScreen> {
       if (finalToken != null && mounted) {
         await context.read<UserCubit>().getUserByToken(token: finalToken!);
         if (User.token != null && mounted) {
-          final role =
-              ((context.read<UserCubit>()).state as UserLoaded).user.role;
-
-          if (role == "owner" || role == "admin") {
-            setState(() {
-              navigation = '/owner';
-            });
-          } else if (role == 'cashier') {
-            setState(() {
-              navigation = '/cashier';
-            });
-          } else {
-            setState(() {
-              navigation = '/unpaid';
-            });
-          }
+          setState(() {
+            navigation = roleNavigation(context);
+          });
         }
       }
       Timer(

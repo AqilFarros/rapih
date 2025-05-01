@@ -1,7 +1,18 @@
 part of '../page.dart';
 
-class OwnerHomePage extends StatelessWidget {
+class OwnerHomePage extends StatefulWidget {
   const OwnerHomePage({super.key});
+
+  @override
+  State<OwnerHomePage> createState() => _OwnerHomePageState();
+}
+
+class _OwnerHomePageState extends State<OwnerHomePage> {
+  @override
+  void initState() {
+    context.read<LaundryCubit>().getLaundry();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +46,40 @@ class OwnerHomePage extends StatelessWidget {
           const TitleSection(text: 'Current laundry'),
           const SizedBox(
             height: defaultMargin / 2,
+          ),
+          BlocBuilder<LaundryCubit, LaundryState>(
+            builder: (context, state) {
+              if (state is LaundryLoaded) {
+                if (state.laundry.isEmpty) {
+                  return Center(
+                    child: Text('No laundry data available'),
+                  );
+                } else {
+                  return Column(
+                    children: state.laundry
+                        .map((e) => [
+                              LaundryCard(
+                                laundry: e,
+                              ),
+                              const SizedBox(height: defaultMargin),
+                            ])
+                        .expand((pair) => pair)
+                        .toList()
+                      ..removeLast(),
+                  );
+                }
+              } else if (state is LaundryLoadedFailed) {
+                return Center(
+                  child: Text(state.message),
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: mainColor,
+                  ),
+                );
+              }
+            },
           ),
         ],
       ),

@@ -10,7 +10,15 @@ part 'laundry_state.dart';
 class LaundryCubit extends Cubit<LaundryState> {
   LaundryCubit() : super(LaundryInitial());
 
-  Future<void> getLaundry() async {}
+  Future<void> getLaundry() async {
+    ApiReturnValue<List<Laundry>> result = await LaundryService.getLaundry();
+
+    if (result.value != null) {
+      emit(LaundryLoaded(result.value!));
+    } else {
+      emit(LaundryLoadedFailed(result.message!));
+    }
+  }
 
   Future<void> createLaundry(
       {required Map<String, dynamic> data,
@@ -25,9 +33,17 @@ class LaundryCubit extends Cubit<LaundryState> {
     );
 
     if (result.value != null) {
-      emit(LaundryLoaded((state as LaundryLoaded).laundry + [result.value!]));
-    } else {
-      emit(LaundryLoadedFailed(result.message!));
-    }
+    // Ambil laundry yang sudah ada (jika ada)
+    List<Laundry> currentLaundry = (state is LaundryLoaded) ? (state as LaundryLoaded).laundry : [];
+
+    // Gabungkan data lama dengan data baru
+    List<Laundry> updatedLaundryList = List.from(currentLaundry)..add(result.value!);
+
+    // Emit state baru dengan laundry yang sudah diperbarui
+    emit(LaundryLoaded(updatedLaundryList));
+  } else {
+    // Jika gagal, pastikan laundry yang ada tetap di state dan tampilkan error
+    emit(LaundryLoadedFailed(result.message!));
+  }
   }
 }

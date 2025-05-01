@@ -82,23 +82,23 @@ class HomePage extends StatelessWidget {
               const SizedBox(
                 height: defaultMargin,
               ),
-              LaundryCard(),
-              const SizedBox(
-                height: defaultMargin,
-              ),
-              LaundryCard(),
-              const SizedBox(
-                height: defaultMargin,
-              ),
-              LaundryCard(),
-              const SizedBox(
-                height: defaultMargin,
-              ),
-              LaundryCard(),
-              const SizedBox(
-                height: defaultMargin,
-              ),
-              LaundryCard(),
+              // LaundryCard(),
+              // const SizedBox(
+              //   height: defaultMargin,
+              // ),
+              // LaundryCard(),
+              // const SizedBox(
+              //   height: defaultMargin,
+              // ),
+              // LaundryCard(),
+              // const SizedBox(
+              //   height: defaultMargin,
+              // ),
+              // LaundryCard(),
+              // const SizedBox(
+              //   height: defaultMargin,
+              // ),
+              // LaundryCard(),
             ],
           ),
         ),

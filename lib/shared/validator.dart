@@ -7,6 +7,13 @@ String? requiredValidator(String? value, String fieldName) {
   return null;
 }
 
+String? requiredImageValidator(File? image, String fieldName) {
+  if (image == null) {
+    return "$fieldName is required";
+  }
+  return null;
+}
+
 String? nameValidator(String? value) {
   if (value == null || value.isEmpty) {
     return "Name field is required";

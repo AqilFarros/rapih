@@ -1,7 +1,9 @@
 part of 'widget.dart';
 
 class LaundryCard extends StatelessWidget {
-  const LaundryCard({super.key});
+  const LaundryCard({super.key, required this.laundry});
+
+  final Laundry laundry;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class LaundryCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Laundry pak Ujang",
+                      laundry.name,
                       style: medium.copyWith(
                         fontSize: heading4,
                         color: blackColor,
@@ -30,7 +32,7 @@ class LaundryCard extends StatelessWidget {
                       maxLines: 1,
                     ),
                     Text(
-                      "Babakan Madang, Sentul",
+                      laundry.address,
                       style: regular.copyWith(
                         fontSize: description,
                         color: grayColor,
@@ -46,7 +48,7 @@ class LaundryCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(
-                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPzjFyJ39NLJEFydPkuOF-WyJvzRzbZ1915A&s',
+                        '$imageUrl/${laundry.picture}',
                       ),
                       fit: BoxFit.cover,
                     ),

@@ -38,8 +38,19 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
+  Future<void> logout() async {
+    ApiReturnValue<bool> result = await UserService.logout();
+
+    if (result.value != null) {
+      emit(UserInitial());
+    } else {
+      emit(UserLoadedFailed(message: result.message!));
+    }
+  }
+
   Future<void> getUserByToken({required String token}) async {
-    ApiReturnValue<User> result = await UserService.getUserByToken(token: token);
+    ApiReturnValue<User> result =
+        await UserService.getUserByToken(token: token);
 
     if (result.value != null) {
       emit(UserLoaded(user: result.value!));

@@ -1,7 +1,10 @@
 part of '../page.dart';
 
 class GeneralHomePage extends StatelessWidget {
-  const GeneralHomePage({super.key, required this.widget,});
+  const GeneralHomePage({
+    super.key,
+    required this.widget,
+  });
 
   final Widget widget;
 
@@ -11,7 +14,6 @@ class GeneralHomePage extends StatelessWidget {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        color: grayColor.withOpacity(0.1),
         padding: const EdgeInsets.symmetric(
           horizontal: defaultMargin,
         ),
@@ -44,17 +46,22 @@ class GeneralHomePage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          'https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659652_640.png',
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/profile');
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            'https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659652_640.png',
+                          ),
+                          fit: BoxFit.cover,
                         ),
-                        fit: BoxFit.cover,
+                        borderRadius: BorderRadius.circular(defaultMargin),
                       ),
-                      borderRadius: BorderRadius.circular(defaultMargin),
                     ),
                   ),
                 ],
