@@ -1,18 +1,25 @@
-part of 'page.dart';
+part of '../page.dart';
 
-class LaundryPage extends StatefulWidget {
-  const LaundryPage({super.key});
+class GeneralLaundryPage extends StatefulWidget {
+  const GeneralLaundryPage({
+    super.key,
+    required this.laundry,
+  });
+
+  final Laundry laundry;
 
   @override
-  State<LaundryPage> createState() => _LaundryPageState();
+  State<GeneralLaundryPage> createState() => _GeneralLaundryPageState();
 }
 
-class _LaundryPageState extends State<LaundryPage> {
+class _GeneralLaundryPageState extends State<GeneralLaundryPage> {
   final _pageController = PageController();
   int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>> laundryWidget = getLaundryWidget(widget.laundry);
+
     return Scaffold(
       body: Stack(
         children: [
@@ -35,7 +42,7 @@ class _LaundryPageState extends State<LaundryPage> {
                       child: IntrinsicHeight(
                         child: Column(
                           children: [
-                            const LaundryHeader(),
+                            LaundryHeader(laundry: widget.laundry),
                             Expanded(
                               child: Container(
                                 padding: const EdgeInsets.all(defaultMargin),
@@ -111,7 +118,12 @@ class _LaundryPageState extends State<LaundryPage> {
 }
 
 class LaundryHeader extends StatelessWidget {
-  const LaundryHeader({super.key});
+  const LaundryHeader({
+    super.key,
+    required this.laundry,
+  });
+
+  final Laundry laundry;
 
   @override
   Widget build(BuildContext context) {
@@ -138,13 +150,13 @@ class LaundryHeader extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Laundry pak Ujang",
+                    laundry.name,
                     style: semiBold.copyWith(
                       fontSize: heading2,
                     ),
                   ),
                   Text(
-                    "Name: Anto Bambang Santoso",
+                    "Name: ${(context.read<UserCubit>().state as UserLoaded).user.username}",
                     style: regular.copyWith(
                       fontSize: description,
                     ),
@@ -159,7 +171,7 @@ class LaundryHeader extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
-                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPzjFyJ39NLJEFydPkuOF-WyJvzRzbZ1915A&s',
+                      '$imageUrl/${laundry.picture}',
                     ),
                     fit: BoxFit.cover,
                   ),
@@ -221,16 +233,16 @@ class LaundryNavigation extends StatelessWidget {
   }
 }
 
-List<Map<String, dynamic>> laundryWidget = [
+List<Map<String, dynamic>> getLaundryWidget(Laundry laundry) => [
   {
     "icon": Icons.home_rounded,
     "text": "Home",
-    "widget": const MainPage(),
+    "widget": MainPage(laundry: laundry),
   },
   {
     "icon": Icons.business_center_outlined,
     "text": "Manage",
-    "widget": const ManageLaundryPage(),
+    "widget": ManageLaundryPage(laundry: laundry),
   },
   {
     "icon": Icons.history,

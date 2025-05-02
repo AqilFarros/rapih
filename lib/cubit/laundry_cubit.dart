@@ -33,16 +33,12 @@ class LaundryCubit extends Cubit<LaundryState> {
     );
 
     if (result.value != null) {
-    // Ambil laundry yang sudah ada (jika ada)
     List<Laundry> currentLaundry = (state is LaundryLoaded) ? (state as LaundryLoaded).laundry : [];
 
-    // Gabungkan data lama dengan data baru
     List<Laundry> updatedLaundryList = List.from(currentLaundry)..add(result.value!);
 
-    // Emit state baru dengan laundry yang sudah diperbarui
     emit(LaundryLoaded(updatedLaundryList));
   } else {
-    // Jika gagal, pastikan laundry yang ada tetap di state dan tampilkan error
     emit(LaundryLoadedFailed(result.message!));
   }
   }

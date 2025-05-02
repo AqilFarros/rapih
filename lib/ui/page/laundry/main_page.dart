@@ -1,7 +1,20 @@
 part of '../page.dart';
 
-class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+class MainPage extends StatefulWidget {
+  const MainPage({super.key, required this.laundry});
+
+  final Laundry laundry;
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  @override
+  void initState() {
+    context.read<WalletCubit>().getWallet(storeId: widget.laundry.id);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +69,7 @@ class MainPage extends StatelessWidget {
                         vertical: defaultMargin / 3,
                       ),
                       minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize
-                          .shrinkWrap,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     child: Text(
                       "Absen Sekarang",
@@ -79,99 +91,113 @@ class MainPage extends StatelessWidget {
         const SizedBox(
           height: defaultMargin / 2,
         ),
-        CardWidget(
-          content: Row(
-            children: [
-              Image.asset("asset/image/uang.png", height: 70),
-              const SizedBox(
-                width: defaultMargin,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Total uang saat ini adalah",
-                    style: medium.copyWith(fontSize: heading2),
+        BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
+          if (state is WalletLoaded) {
+            return Column(
+              children: [
+                CardWidget(
+                  content: Row(
+                    children: [
+                      Image.asset("asset/image/uang.png", height: 70),
+                      const SizedBox(
+                        width: defaultMargin,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Total uang saat ini adalah",
+                            style: medium.copyWith(fontSize: heading2),
+                          ),
+                          const SizedBox(
+                            height: defaultMargin / 3,
+                          ),
+                          Text(
+                            NumberFormat.currency(
+                              locale: 'id',
+                              symbol: 'Rp ',
+                              decimalDigits: 0,
+                            ).format(state.wallet.balance),
+                            style: semiBold.copyWith(
+                              fontSize: heading1,
+                              color: mainColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  const SizedBox(
-                    height: defaultMargin / 3,
-                  ),
-                  Text(
-                    NumberFormat.currency(
-                      locale: 'id',
-                      symbol: 'Rp ',
-                      decimalDigits: 0,
-                    ).format(10000000),
-                    style: semiBold.copyWith(
-                      fontSize: heading1,
-                      color: mainColor,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: defaultMargin,
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: CardWidget(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
+                ),
+                const SizedBox(
+                  height: defaultMargin,
+                ),
+                Row(
                   children: [
-                    Icon(
-                      Icons.trending_up_rounded,
-                      size: 40,
-                      color: greenColor,
+                    Expanded(
+                      child: CardWidget(
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.trending_up_rounded,
+                              size: 40,
+                              color: greenColor,
+                            ),
+                            Text(
+                              NumberFormat.currency(
+                                locale: 'id',
+                                symbol: 'Rp ',
+                                decimalDigits: 0,
+                              ).format(state.wallet.income),
+                              style: medium.copyWith(
+                                fontSize: heading2,
+                                color: greenColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    Text(
-                      NumberFormat.currency(
-                        locale: 'id',
-                        symbol: 'Rp ',
-                        decimalDigits: 0,
-                      ).format(10000000),
-                      style: medium.copyWith(
-                        fontSize: heading2,
-                        color: greenColor,
+                    const SizedBox(
+                      width: defaultMargin,
+                    ),
+                    Expanded(
+                      child: CardWidget(
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.trending_down_rounded,
+                              size: 40,
+                              color: redColor,
+                            ),
+                            Text(
+                              NumberFormat.currency(
+                                locale: 'id',
+                                symbol: 'Rp ',
+                                decimalDigits: 0,
+                              ).format(state.wallet.expense),
+                              style: medium.copyWith(
+                                fontSize: heading2,
+                                color: redColor,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ),
-            ),
-            const SizedBox(
-              width: defaultMargin,
-            ),
-            Expanded(
-              child: CardWidget(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.trending_down_rounded,
-                      size: 40,
-                      color: redColor,
-                    ),
-                    Text(
-                      NumberFormat.currency(
-                        locale: 'id',
-                        symbol: 'Rp ',
-                        decimalDigits: 0,
-                      ).format(10000000),
-                      style: medium.copyWith(
-                        fontSize: heading2,
-                        color: redColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+              ],
+            );
+          } else if (state is WalletLoadedFailed) {
+            return Text(state.message);
+          } else {
+            return CircularProgressIndicator(
+              color: mainColor,
+            );
+          }
+        }),
         const SizedBox(
           height: defaultMargin,
         ),

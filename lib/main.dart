@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rapih/cubit/category_cubit.dart';
+import 'package:rapih/cubit/customer_cubit.dart';
+import 'package:rapih/cubit/delivery_cubit.dart';
+import 'package:rapih/cubit/discount_cubit.dart';
 import 'package:rapih/cubit/laundry_cubit.dart';
+import 'package:rapih/cubit/layanan_cubit.dart';
+import 'package:rapih/cubit/parfume_cubit.dart';
+import 'package:rapih/cubit/product_cubit.dart';
 import 'package:rapih/cubit/user_cubit.dart';
+import 'package:rapih/cubit/wallet_cubit.dart';
 import 'package:rapih/ui/page/page.dart';
 
 void main() async {
@@ -20,6 +28,14 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => UserCubit()),
         BlocProvider(create: (context) => LaundryCubit()),
+        BlocProvider(create: (context) => WalletCubit()),
+        BlocProvider(create: (context) => CategoryCubit()),
+        BlocProvider(create: (context) => CustomerCubit()),
+        BlocProvider(create: (context) => DeliveryCubit()),
+        BlocProvider(create: (context) => DiscountCubit()),
+        BlocProvider(create: (context) => LayananCubit()),
+        BlocProvider(create: (context) => ParfumeCubit()),
+        BlocProvider(create: (context) => ProductCubit()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -38,7 +54,6 @@ class MyApp extends StatelessWidget {
           '/cashier': (context) => const CashierHomePage(),
           '/unpaid': (context) => const UnpaidHomePage(),
           '/create-laundry': (context) => const CreateLaundryPage(),
-          '/laundry': (context) => const LaundryPage(),
           '/profile': (context) => const ProfilePage(),
         },
       ),

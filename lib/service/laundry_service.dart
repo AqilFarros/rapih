@@ -8,8 +8,9 @@ class LaundryService {
       var result = await ApiService.get(
           url: url, errorMesssage: "Failed to get laundry");
 
-      List<Laundry> laundry =
-          (result['data'] as Iterable).map((e) => Laundry.fromJson(e)).toList();
+      List<Laundry> laundry = (result['data'] as Iterable).map((e) {
+        return Laundry.fromJson(e['store']);
+      }).toList();
 
       return laundry;
     });

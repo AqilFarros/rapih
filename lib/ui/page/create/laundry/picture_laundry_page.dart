@@ -26,6 +26,9 @@ class _PictureLaundryPageState extends State<PictureLaundryPage> {
   File? qris;
   bool isLoading = false;
 
+  String? pictureError;
+  String? logoError;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +56,7 @@ class _PictureLaundryPageState extends State<PictureLaundryPage> {
                   onTap: () async {
                     XFile? file = await ImagePicker()
                         .pickImage(source: ImageSource.gallery);
-          
+
                     if (file != null) {
                       setState(() {
                         picture = File(file.path);
@@ -65,6 +68,15 @@ class _PictureLaundryPageState extends State<PictureLaundryPage> {
                     title: "Picture",
                   ),
                 ),
+                pictureError != null
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          pictureError!,
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                      )
+                    : const SizedBox(),
                 const SizedBox(
                   height: defaultMargin,
                 ),
@@ -72,7 +84,7 @@ class _PictureLaundryPageState extends State<PictureLaundryPage> {
                   onTap: () async {
                     XFile? file = await ImagePicker()
                         .pickImage(source: ImageSource.gallery);
-          
+
                     if (file != null) {
                       setState(() {
                         logo = File(file.path);
@@ -86,6 +98,15 @@ class _PictureLaundryPageState extends State<PictureLaundryPage> {
                     radius: 99,
                   ),
                 ),
+                logoError != null
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          logoError!,
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                      )
+                    : const SizedBox(),
                 const SizedBox(
                   height: defaultMargin,
                 ),
@@ -93,7 +114,7 @@ class _PictureLaundryPageState extends State<PictureLaundryPage> {
                   onTap: () async {
                     XFile? file = await ImagePicker()
                         .pickImage(source: ImageSource.gallery);
-          
+
                     if (file != null) {
                       setState(() {
                         qris = File(file.path);
@@ -112,21 +133,8 @@ class _PictureLaundryPageState extends State<PictureLaundryPage> {
                 BlocConsumer<LaundryCubit, LaundryState>(
                   listener: (context, state) {
                     if (state is LaundryLoaded) {
-                      final role =
-                          ((context.read<UserCubit>()).state as UserLoaded)
-                              .user
-                              .role;
-                      String navigation = "";
-          
-                      if (role == "owner" || role == "admin") {
-                        navigation = '/owner';
-                      } else if (role == 'cashier') {
-                        navigation = '/cashier';
-                      } else {
-                        navigation = '/unpaid';
-                      }
                       Navigator.pushNamedAndRemoveUntil(
-                          context, navigation, (route) => false);
+                          context, '/owner', (route) => false);
                     } else if (state is LaundryLoadedFailed) {
                       print(state.message);
                     }
@@ -141,6 +149,17 @@ class _PictureLaundryPageState extends State<PictureLaundryPage> {
                             child: PrimaryButton(
                               name: "Create laundry",
                               function: () async {
+                                setState(() {
+                                  pictureError = requiredImageValidator(
+                                      picture, "Picture");
+                                  logoError =
+                                      requiredImageValidator(logo, "Logo");
+                                });
+
+                                if (pictureError != null || logoError != null) {
+                                  return;
+                                }
+
                                 Map<String, dynamic> data = {
                                   "name": widget.name,
                                   "address": widget.address,
@@ -150,7 +169,9 @@ class _PictureLaundryPageState extends State<PictureLaundryPage> {
                                 setState(() {
                                   isLoading = true;
                                 });
-                                await context.read<LaundryCubit>().createLaundry(
+                                await context
+                                    .read<LaundryCubit>()
+                                    .createLaundry(
                                       data: data,
                                       image: picture!,
                                       logo: logo,
