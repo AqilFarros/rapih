@@ -7,6 +7,17 @@ String? requiredValidator(String? value, String fieldName) {
   return null;
 }
 
+String? numberValidator(String? value, String fieldName) {
+  if (value == null || value.isEmpty) {
+    return "$fieldName field is required";
+  }
+  final number = num.tryParse(value);
+  if (number == null) {
+    return "$fieldName must be a valid number";
+  }
+  return null;
+}
+
 String? requiredImageValidator(File? image, String fieldName) {
   if (image == null) {
     return "$fieldName is required";

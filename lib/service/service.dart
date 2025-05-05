@@ -12,7 +12,7 @@ part 'category_service.dart';
 part 'product_service.dart';
 part 'customer_service.dart';
 
-String baseUrl = "http://192.168.0.26:8000/api";
+String baseUrl = "http://192.168.0.29:8000/api";
 var client = http.Client();
 
 abstract class ApiService {

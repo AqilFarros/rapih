@@ -81,6 +81,7 @@ class _ProductPageState extends State<ProductPage> {
                               width: itemWidth,
                               child: CardWidget(
                                 content: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Image.asset(
                                         "asset/icon/laundry-machine.png"),
@@ -88,53 +89,47 @@ class _ProductPageState extends State<ProductPage> {
                                     Text(
                                       state.product[index].name,
                                       style:
-                                          medium.copyWith(fontSize: heading1),
+                                          semiBold.copyWith(fontSize: heading2),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                    Text(
+                                      NumberFormat.currency(
+                                        locale: 'id',
+                                        symbol: 'Rp',
+                                        decimalDigits: 0,
+                                      ).format(state.product[index].price),
+                                      style: medium.copyWith(
+                                        fontSize: heading3,
+                                        color: mainColor,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          'asset/icon/category.png',
+                                          width: heading2,
+                                        ),
+                                        const SizedBox(
+                                            width: defaultMargin / 4),
+                                        Text(
+                                          state.product[index].categoryName,
+                                          style: medium.copyWith(
+                                              fontSize: heading3),
+                                        )
+                                      ],
                                     ),
                                     const SizedBox(height: defaultMargin / 2),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: SecondaryButton(
-                                        name: "Edit",
-                                        function: () {
-                                          if (!isLoading) {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    EditProductPage(
-                                                  laundry: widget.laundry,
-                                                  product: state.product[index],
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: PrimaryButton(
-                                        name: "Delete",
-                                        function: () async {
-                                          if (!isLoading) {
-                                            setState(() {
-                                              isLoading = true;
-                                            });
-
-                                            await context
-                                                .read<ProductCubit>()
-                                                .deleteProduct(
-                                                    storeId: widget.laundry.id,
-                                                    productId: state
-                                                        .product[index].id);
-
-                                            setState(() {
-                                              isLoading = false;
-                                            });
-                                          }
-                                        },
-                                      ),
-                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        EditButtonWidget(onTap: () {}),
+                                        const SizedBox(
+                                          width: defaultMargin / 2,
+                                        ),
+                                        DeleteButtonWidget(onTap: () {}),
+                                      ],
+                                    )
                                   ],
                                 ),
                               ),

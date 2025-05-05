@@ -9,7 +9,7 @@ class ProductService {
       var result = await ApiService.get(
           url: url, errorMesssage: "Failed to get product");
 
-      List<Product> product = (result['data'] as Iterable)
+      List<Product> product = (result['products'] as Iterable)
           .map((e) => Product.fromJson(e))
           .toList();
 
@@ -34,7 +34,7 @@ class ProductService {
         errorMessage: "Failed to add product",
       );
 
-      Product product = Product.fromJson(result['data']);
+      Product product = Product.fromJson(result['product']);
 
       return product;
     });
@@ -61,7 +61,7 @@ class ProductService {
         errorMessage: "Failed to edit product",
       );
 
-      Product product = Product.fromJson(result['data']);
+      Product product = Product.fromJson(result['product']);
 
       return product;
     });
