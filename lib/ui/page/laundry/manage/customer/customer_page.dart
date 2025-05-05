@@ -1,27 +1,26 @@
 part of '../../../page.dart';
 
-class CategoryPage extends StatefulWidget {
-  const CategoryPage({super.key, required this.laundry});
-
+class CustomerPage extends StatefulWidget {
+  const CustomerPage({super.key, required this.laundry});
   final Laundry laundry;
 
   @override
-  State<CategoryPage> createState() => _CategoryPageState();
+  State<CustomerPage> createState() => _CustomerPageState();
 }
 
-class _CategoryPageState extends State<CategoryPage> {
+class _CustomerPageState extends State<CustomerPage> {
   bool isLoading = false;
 
   @override
   void initState() {
-    context.read<CategoryCubit>().getCategory(storeId: widget.laundry.id);
+    context.read<CustomerCubit>().getCustomer(storeId: widget.laundry.id);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return GeneralManagePage(
-      title: "Category",
+      title: "Customer",
       widget: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -31,32 +30,32 @@ class _CategoryPageState extends State<CategoryPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CreateCategoryPage(
+                  builder: (context) => CreateCustomerPage(
                     laundry: widget.laundry,
                   ),
                 ),
               );
             },
-            text: "Add a new category",
-            image: "asset/icon/category.png",
+            text: "Add a new customer",
+            image: "asset/icon/customer.png",
           ),
           const SizedBox(height: defaultMargin),
-          const TitleSection(text: "Current Category"),
+          const TitleSection(text: "Current Customer"),
           const SizedBox(
             height: defaultMargin / 2,
           ),
-          BlocBuilder<CategoryCubit, CategoryState>(
+          BlocBuilder<CustomerCubit, CustomerState>(
             builder: (context, state) {
-              if (state is CategoryLoaded) {
-                if (state.category.isEmpty) {
+              if (state is CustomerLoaded) {
+                if (state.customer.isEmpty) {
                   return AddIllustrationWidget(
-                    image: 'asset/icon/category.png',
-                    text: "a category",
+                    image: 'asset/icon/customer.png',
+                    text: "a customer",
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CreateCategoryPage(
+                          builder: (context) => CreateCustomerPage(
                             laundry: widget.laundry,
                           ),
                         ),
@@ -77,16 +76,16 @@ class _CategoryPageState extends State<CategoryPage> {
                           spacing: defaultMargin,
                           runSpacing: defaultMargin,
                           children: List.generate(
-                            state.category.length,
+                            state.customer.length,
                             (index) => SizedBox(
                               width: itemWidth,
                               child: CardWidget(
                                 content: Column(
                                   children: [
-                                    Image.asset("asset/icon/category.png"),
+                                    Image.asset("asset/icon/customer.png"),
                                     const SizedBox(height: defaultMargin / 2),
                                     Text(
-                                      state.category[index].name,
+                                      state.customer[index].name,
                                       style:
                                           medium.copyWith(fontSize: heading1),
                                     ),
@@ -96,19 +95,19 @@ class _CategoryPageState extends State<CategoryPage> {
                                       child: SecondaryButton(
                                         name: "Edit",
                                         function: () {
-                                          if (!isLoading) {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    EditCategoryPage(
-                                                  laundry: widget.laundry,
-                                                  category:
-                                                      state.category[index],
-                                                ),
-                                              ),
-                                            );
-                                          }
+                                          // if (!isLoading) {
+                                          //   Navigator.push(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //       builder: (context) =>
+                                          //           EditCustomerPage(
+                                          //         laundry: widget.laundry,
+                                          //         category:
+                                          //             state.customer[index],
+                                          //       ),
+                                          //     ),
+                                          //   );
+                                          // }
                                         },
                                       ),
                                     ),
@@ -117,22 +116,22 @@ class _CategoryPageState extends State<CategoryPage> {
                                       child: PrimaryButton(
                                         name: "Delete",
                                         function: () async {
-                                          if (!isLoading) {
-                                            setState(() {
-                                              isLoading = true;
-                                            });
+                                          // if (!isLoading) {
+                                          //   setState(() {
+                                          //     isLoading = true;
+                                          //   });
 
-                                            await context
-                                                .read<CategoryCubit>()
-                                                .deleteCategory(
-                                                    storeId: widget.laundry.id,
-                                                    categoryId: state
-                                                        .category[index].id);
+                                          //   await context
+                                          //       .read<CustomerCubit>()
+                                          //       .deleteCategory(
+                                          //           storeId: widget.laundry.id,
+                                          //           categoryId: state
+                                          //               .customer[index].id);
 
-                                            setState(() {
-                                              isLoading = false;
-                                            });
-                                          }
+                                          //   setState(() {
+                                          //     isLoading = false;
+                                          //   });
+                                          // }
                                         },
                                       ),
                                     ),
@@ -143,7 +142,7 @@ class _CategoryPageState extends State<CategoryPage> {
                           ),
                         );
                       });
-              } else if (state is CategoryLoadedFailed) {
+              } else if (state is CustomerLoadedFailed) {
                 return Text(state.message);
               } else {
                 return Center(

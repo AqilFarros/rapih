@@ -19,23 +19,37 @@ class ManageLaundryPage extends StatelessWidget {
               ),
             );
           },
-          text: "Add a new category",
+          text: "Manage category",
           image: "asset/icon/category.png",
         ),
         const SizedBox(
           height: defaultMargin,
         ),
         ManageWidget(
-          onTap: () {},
-          text: "Add a new product",
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProductPage(laundry: laundry),
+              ),
+            );
+          },
+          text: "Manage product",
           image: "asset/icon/laundry-machine.png",
         ),
         const SizedBox(
           height: defaultMargin,
         ),
         ManageWidget(
-          onTap: () {},
-          text: "Add a new customer",
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CustomerPage(laundry: laundry),
+              ),
+            );
+          },
+          text: "Manage customer",
           image: "asset/icon/customer.png",
         ),
         const SizedBox(

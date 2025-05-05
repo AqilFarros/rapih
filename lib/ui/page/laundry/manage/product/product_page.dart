@@ -1,27 +1,26 @@
 part of '../../../page.dart';
 
-class CategoryPage extends StatefulWidget {
-  const CategoryPage({super.key, required this.laundry});
-
+class ProductPage extends StatefulWidget {
+  const ProductPage({super.key, required this.laundry});
   final Laundry laundry;
 
   @override
-  State<CategoryPage> createState() => _CategoryPageState();
+  State<ProductPage> createState() => _ProductPageState();
 }
 
-class _CategoryPageState extends State<CategoryPage> {
+class _ProductPageState extends State<ProductPage> {
   bool isLoading = false;
 
   @override
   void initState() {
-    context.read<CategoryCubit>().getCategory(storeId: widget.laundry.id);
+    context.read<ProductCubit>().getProduct(storeId: widget.laundry.id);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return GeneralManagePage(
-      title: "Category",
+      title: "Product",
       widget: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -31,32 +30,32 @@ class _CategoryPageState extends State<CategoryPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CreateCategoryPage(
+                  builder: (context) => CreateProductPage(
                     laundry: widget.laundry,
                   ),
                 ),
               );
             },
-            text: "Add a new category",
-            image: "asset/icon/category.png",
+            text: "Add a new product",
+            image: "asset/icon/laundry-machine.png",
           ),
           const SizedBox(height: defaultMargin),
-          const TitleSection(text: "Current Category"),
+          const TitleSection(text: "Current product"),
           const SizedBox(
             height: defaultMargin / 2,
           ),
-          BlocBuilder<CategoryCubit, CategoryState>(
+          BlocBuilder<ProductCubit, ProductState>(
             builder: (context, state) {
-              if (state is CategoryLoaded) {
-                if (state.category.isEmpty) {
+              if (state is ProductLoaded) {
+                if (state.product.isEmpty) {
                   return AddIllustrationWidget(
-                    image: 'asset/icon/category.png',
-                    text: "a category",
+                    image: 'asset/icon/laundry-machine.png',
+                    text: "a product",
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CreateCategoryPage(
+                          builder: (context) => CreateProductPage(
                             laundry: widget.laundry,
                           ),
                         ),
@@ -77,16 +76,17 @@ class _CategoryPageState extends State<CategoryPage> {
                           spacing: defaultMargin,
                           runSpacing: defaultMargin,
                           children: List.generate(
-                            state.category.length,
+                            state.product.length,
                             (index) => SizedBox(
                               width: itemWidth,
                               child: CardWidget(
                                 content: Column(
                                   children: [
-                                    Image.asset("asset/icon/category.png"),
+                                    Image.asset(
+                                        "asset/icon/laundry-machine.png"),
                                     const SizedBox(height: defaultMargin / 2),
                                     Text(
-                                      state.category[index].name,
+                                      state.product[index].name,
                                       style:
                                           medium.copyWith(fontSize: heading1),
                                     ),
@@ -101,10 +101,9 @@ class _CategoryPageState extends State<CategoryPage> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    EditCategoryPage(
+                                                    EditProductPage(
                                                   laundry: widget.laundry,
-                                                  category:
-                                                      state.category[index],
+                                                  product: state.product[index],
                                                 ),
                                               ),
                                             );
@@ -123,11 +122,11 @@ class _CategoryPageState extends State<CategoryPage> {
                                             });
 
                                             await context
-                                                .read<CategoryCubit>()
-                                                .deleteCategory(
+                                                .read<ProductCubit>()
+                                                .deleteProduct(
                                                     storeId: widget.laundry.id,
-                                                    categoryId: state
-                                                        .category[index].id);
+                                                    productId: state
+                                                        .product[index].id);
 
                                             setState(() {
                                               isLoading = false;
@@ -143,7 +142,7 @@ class _CategoryPageState extends State<CategoryPage> {
                           ),
                         );
                       });
-              } else if (state is CategoryLoadedFailed) {
+              } else if (state is ProductLoadedFailed) {
                 return Text(state.message);
               } else {
                 return Center(

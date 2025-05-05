@@ -1,8 +1,11 @@
 part of '../../page.dart';
 
 class GeneralManagePage extends StatelessWidget {
-  const GeneralManagePage(
-      {super.key, required this.title, required this.widget,});
+  const GeneralManagePage({
+    super.key,
+    required this.title,
+    required this.widget,
+  });
 
   final String title;
   final Widget widget;
@@ -22,7 +25,9 @@ class GeneralManagePage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(
           horizontal: defaultMargin,
         ),
-        child: SingleChildScrollView(child: widget,),
+        child: SingleChildScrollView(
+          child: widget,
+        ),
       ),
     );
   }

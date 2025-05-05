@@ -1,19 +1,19 @@
 part of 'service.dart';
 
-class CategoryService {
-  static Future<ApiReturnValue<List<Category>>> getCategories(
+class CustomerService {
+  static Future<ApiReturnValue<List<Customer>>> getCustomer(
       {required int storeId}) async {
-    String url = "$baseUrl/stores/$storeId/categories";
+    String url = "$baseUrl/stores/$storeId/customers";
 
     var response = await ApiService.handleResponse(() async {
       var result = await ApiService.get(
-          url: url, errorMesssage: "Failed to get category");
+          url: url, errorMesssage: "Failed to get customer");
 
-      List<Category> category = (result['data'] as Iterable)
-          .map((e) => Category.fromJson(e))
+      List<Customer> customer = (result['data'] as Iterable)
+          .map((e) => Customer.fromJson(e))
           .toList();
 
-      return category;
+      return customer;
     });
 
     return response;

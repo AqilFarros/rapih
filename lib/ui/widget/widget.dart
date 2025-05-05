@@ -19,6 +19,7 @@ part 'card_widget.dart';
 part 'laundry_card.dart';
 part 'title_section.dart';
 part 'image_field.dart';
+part 'add_illustration_widget.dart';
 part 'laundry/service_widget.dart';
 part 'laundry/transaction_widget.dart';
 part 'laundry/manage_widget.dart';

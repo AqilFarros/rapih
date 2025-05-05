@@ -9,8 +9,10 @@ part 'user_service.dart';
 part 'laundry_service.dart';
 part 'wallet_service.dart';
 part 'category_service.dart';
+part 'product_service.dart';
+part 'customer_service.dart';
 
-String baseUrl = "http://192.168.0.25:8000/api";
+String baseUrl = "http://192.168.0.26:8000/api";
 var client = http.Client();
 
 abstract class ApiService {
@@ -55,6 +57,25 @@ abstract class ApiService {
     String? token,
   }) async {
     var response = await client.post(
+      Uri.parse(url),
+      headers: header(token: token),
+      body: jsonEncode(body),
+    );
+
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw Exception(errorMessage);
+    } else {
+      return jsonDecode(response.body);
+    }
+  }
+
+  static delete({
+    required String url,
+    required String errorMessage,
+    Map<String, dynamic>? body,
+    String? token,
+  }) async {
+    var response = await client.delete(
       Uri.parse(url),
       headers: header(token: token),
       body: jsonEncode(body),

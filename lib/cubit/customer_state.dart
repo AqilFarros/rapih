@@ -8,3 +8,22 @@ sealed class CustomerState extends Equatable {
 }
 
 final class CustomerInitial extends CustomerState {}
+
+final class CustomerLoaded extends CustomerState {
+  final List<Customer> customer;
+
+  const CustomerLoaded(this.customer);
+
+  @override
+  List<Object> get props => [customer];
+}
+
+final class CustomerLoadedFailed extends CustomerState {
+  final String message;
+
+  const CustomerLoadedFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+}
