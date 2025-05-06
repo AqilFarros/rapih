@@ -80,7 +80,7 @@ class UserService {
 
     var response = await ApiService.handleResponse(() async {
       var result = await ApiService.get(
-          url: url, token: token, errorMesssage: "Failed to get user");
+          url: url, token: token, errorMessage: "Failed to get user");
 
       User.token = token;
       User user = User.fromJson(result['user']);

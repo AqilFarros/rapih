@@ -1,25 +1,24 @@
 part of '../../../page.dart';
 
-class CreateCategoryPage extends StatefulWidget {
-  const CreateCategoryPage({
-    super.key,
-    required this.laundry,
-  });
+class CreateParfumePage extends StatefulWidget {
+  const CreateParfumePage({super.key, required this.laundry});
+
   final Laundry laundry;
 
   @override
-  State<CreateCategoryPage> createState() => _CreateCategoryPageState();
+  State<CreateParfumePage> createState() => _CreateParfumePageState();
 }
 
-class _CreateCategoryPageState extends State<CreateCategoryPage> {
+class _CreateParfumePageState extends State<CreateParfumePage> {
   final nameController = TextEditingController();
+  final priceController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return GeneralManagePage(
-      title: "Create Category",
+      title: "Create Parfume",
       widget: Form(
         key: _formKey,
         child: Column(
@@ -30,7 +29,7 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
             InputField(
               controller: nameController,
               hintText: "Name",
-              icon: Icons.category_rounded,
+              icon: Icons.person,
               validator: (value) {
                 return requiredValidator(value, "Name");
               },
@@ -38,9 +37,20 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
             const SizedBox(
               height: defaultMargin,
             ),
-            BlocConsumer<CategoryCubit, CategoryState>(
+            InputField(
+              controller: priceController,
+              hintText: "Price",
+              icon: Icons.monetization_on_rounded,
+              validator: (value) {
+                return numberValidator(value, "Price");
+              },
+            ),
+            const SizedBox(
+              height: defaultMargin,
+            ),
+            BlocConsumer<ParfumeCubit, ParfumeState>(
               listener: (context, state) {
-                if (state is CategoryLoaded) {
+                if (state is ParfumeLoaded) {
                   Navigator.pop(context);
                 } else {}
               },
@@ -79,10 +89,11 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
                                   });
 
                                   await context
-                                      .read<CategoryCubit>()
-                                      .addCategory(
+                                      .read<ParfumeCubit>()
+                                      .addParfume(
                                           name: nameController.text,
-                                          storeId: widget.laundry.id);
+                                          price: int.parse(priceController.text),
+                                          storeId: widget.laundry.id,);
 
                                   setState(() {
                                     isLoading = false;

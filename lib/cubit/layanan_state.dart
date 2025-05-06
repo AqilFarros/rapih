@@ -8,3 +8,21 @@ sealed class LayananState extends Equatable {
 }
 
 final class LayananInitial extends LayananState {}
+
+final class LayananLoaded extends LayananState {
+  final List<Layanan> layanan;
+
+  const LayananLoaded(this.layanan);
+
+  @override
+  List<Object> get props => [layanan];
+}
+
+final class LayananLoadedFailed extends LayananState {
+  final String message;
+
+  const LayananLoadedFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+}

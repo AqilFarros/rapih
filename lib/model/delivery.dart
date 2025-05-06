@@ -3,7 +3,7 @@ part of 'model.dart';
 class Delivery extends Equatable {
   final int id;
   final String name;
-  final double amount;
+  final int amount;
   final int storeId;
 
   const Delivery({
@@ -16,7 +16,7 @@ class Delivery extends Equatable {
   factory Delivery.fromJson(Map<String, dynamic> json) => Delivery(
     id: json['id'] as int,
     name: json['name'] as String,
-    amount: json['amount'] as double,
+    amount: json['amount'] as int,
     storeId: json['store_id'] as int,
   );
 

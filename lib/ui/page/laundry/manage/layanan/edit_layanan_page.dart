@@ -1,25 +1,33 @@
 part of '../../../page.dart';
 
-class CreateCategoryPage extends StatefulWidget {
-  const CreateCategoryPage({
-    super.key,
-    required this.laundry,
-  });
+class EditLayananPage extends StatefulWidget {
+  const EditLayananPage(
+      {super.key, required this.laundry, required this.layanan});
+
   final Laundry laundry;
+  final Layanan layanan;
 
   @override
-  State<CreateCategoryPage> createState() => _CreateCategoryPageState();
+  State<EditLayananPage> createState() => _EditLayananPageState();
 }
 
-class _CreateCategoryPageState extends State<CreateCategoryPage> {
+class _EditLayananPageState extends State<EditLayananPage> {
   final nameController = TextEditingController();
+  final durationController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
   @override
+  void initState() {
+    nameController.text = widget.layanan.name;
+    durationController.text = widget.layanan.duration.toString();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GeneralManagePage(
-      title: "Create Category",
+      title: "Edit Layanan",
       widget: Form(
         key: _formKey,
         child: Column(
@@ -30,7 +38,7 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
             InputField(
               controller: nameController,
               hintText: "Name",
-              icon: Icons.category_rounded,
+              icon: Icons.local_laundry_service_outlined,
               validator: (value) {
                 return requiredValidator(value, "Name");
               },
@@ -38,9 +46,20 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
             const SizedBox(
               height: defaultMargin,
             ),
-            BlocConsumer<CategoryCubit, CategoryState>(
+            InputField(
+              controller: durationController,
+              hintText: "Duration",
+              icon: Icons.timer,
+              validator: (value) {
+                return numberValidator(value, "Duration");
+              },
+            ),
+            const SizedBox(
+              height: defaultMargin,
+            ),
+            BlocConsumer<LayananCubit, LayananState>(
               listener: (context, state) {
-                if (state is CategoryLoaded) {
+                if (state is LayananLoaded) {
                   Navigator.pop(context);
                 } else {}
               },
@@ -78,11 +97,13 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
                                     isLoading = true;
                                   });
 
-                                  await context
-                                      .read<CategoryCubit>()
-                                      .addCategory(
-                                          name: nameController.text,
-                                          storeId: widget.laundry.id);
+                                  await context.read<LayananCubit>().editLayanan(
+                                        name: nameController.text,
+                                        duration:
+                                            int.parse(durationController.text),
+                                            layananId: widget.layanan.id,
+                                        storeId: widget.laundry.id,
+                                      );
 
                                   setState(() {
                                     isLoading = false;

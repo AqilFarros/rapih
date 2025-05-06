@@ -1,25 +1,36 @@
 part of '../../../page.dart';
 
-class CreateCategoryPage extends StatefulWidget {
-  const CreateCategoryPage({
+class EditDiscountPage extends StatefulWidget {
+  const EditDiscountPage({
     super.key,
     required this.laundry,
+    required this.discount,
   });
+
   final Laundry laundry;
+  final Discount discount;
 
   @override
-  State<CreateCategoryPage> createState() => _CreateCategoryPageState();
+  State<EditDiscountPage> createState() => _EditDiscountPageState();
 }
 
-class _CreateCategoryPageState extends State<CreateCategoryPage> {
+class _EditDiscountPageState extends State<EditDiscountPage> {
   final nameController = TextEditingController();
+  final amountController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
   @override
+  void initState() {
+    nameController.text = widget.discount.name;
+    amountController.text = widget.discount.amount.toString();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GeneralManagePage(
-      title: "Create Category",
+      title: "Edit Discount",
       widget: Form(
         key: _formKey,
         child: Column(
@@ -30,7 +41,7 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
             InputField(
               controller: nameController,
               hintText: "Name",
-              icon: Icons.category_rounded,
+              icon: Icons.discount_rounded,
               validator: (value) {
                 return requiredValidator(value, "Name");
               },
@@ -38,9 +49,20 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
             const SizedBox(
               height: defaultMargin,
             ),
-            BlocConsumer<CategoryCubit, CategoryState>(
+            InputField(
+              controller: amountController,
+              hintText: "Amount",
+              icon: Icons.monetization_on_rounded,
+              validator: (value) {
+                return numberValidator(value, "Amount");
+              },
+            ),
+            const SizedBox(
+              height: defaultMargin,
+            ),
+            BlocConsumer<DiscountCubit, DiscountState>(
               listener: (context, state) {
-                if (state is CategoryLoaded) {
+                if (state is DiscountLoaded) {
                   Navigator.pop(context);
                 } else {}
               },
@@ -68,7 +90,7 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
                             width: defaultMargin,
                           ),
                           PrimaryButton(
-                            name: "Create",
+                            name: "Edit",
                             function: () async {
                               if (isLoading) {
                                 return;
@@ -79,10 +101,14 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
                                   });
 
                                   await context
-                                      .read<CategoryCubit>()
-                                      .addCategory(
-                                          name: nameController.text,
-                                          storeId: widget.laundry.id);
+                                      .read<DiscountCubit>()
+                                      .editDiscount(
+                                        name: nameController.text,
+                                        amount:
+                                            int.parse(amountController.text),
+                                        discountId: widget.discount.id,
+                                        storeId: widget.laundry.id,
+                                      );
 
                                   setState(() {
                                     isLoading = false;

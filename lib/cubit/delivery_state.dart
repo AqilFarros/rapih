@@ -8,3 +8,22 @@ sealed class DeliveryState extends Equatable {
 }
 
 final class DeliveryInitial extends DeliveryState {}
+
+final class DeliveryLoaded extends DeliveryState {
+  final List<Delivery> delivery;
+
+  const DeliveryLoaded(this.delivery);
+
+  @override
+  List<Object> get props => [delivery];
+}
+
+final class DeliveryLoadedFailed extends DeliveryState {
+  final String message;
+
+  const DeliveryLoadedFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+}

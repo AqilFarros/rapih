@@ -37,7 +37,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
               hintText: "Name",
               icon: Icons.category_rounded,
               validator: (value) {
-                requiredValidator(value, "Name");
+                return requiredValidator(value, "Name");
               },
             ),
             const SizedBox(

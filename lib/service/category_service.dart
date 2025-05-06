@@ -7,7 +7,7 @@ class CategoryService {
 
     var response = await ApiService.handleResponse(() async {
       var result = await ApiService.get(
-          url: url, errorMesssage: "Failed to get category");
+          url: url, errorMessage: "Failed to get category");
 
       List<Category> category = (result['data'] as Iterable)
           .map((e) => Category.fromJson(e))

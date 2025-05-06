@@ -63,7 +63,7 @@ class _CreateProductPageState extends State<CreateProductPage> {
                       hintText: "Name",
                       icon: Icons.production_quantity_limits_rounded,
                       validator: (value) {
-                        requiredValidator(value, "Name");
+                        return requiredValidator(value, "Name");
                       },
                     ),
                     const SizedBox(
@@ -74,58 +74,25 @@ class _CreateProductPageState extends State<CreateProductPage> {
                       hintText: "10000",
                       icon: Icons.monetization_on_outlined,
                       validator: (value) {
-                        numberValidator(value, "Price");
+                        return numberValidator(value, "Price");
                       },
                     ),
                     const SizedBox(
                       height: defaultMargin,
                     ),
-                    DropdownButtonFormField<int>(
-                      value: selectedCategory,
-                      isExpanded: true,
-                      items: categoryState.category
-                          .map(
-                            (item) => DropdownMenuItem(
-                              value: item.id,
-                              child: Text(
-                                item.name,
-                                style: regular.copyWith(color: blackColor),
-                              ),
-                            ),
-                          )
-                          .toList(),
+                    DropdownWidget<int, Category>(
+                      selectedValue: selectedCategory,
+                      items: categoryState.category,
+                      getLabel: (item) => item.name,
+                      getValue: (item) => item.id,
                       onChanged: (item) {
                         setState(() {
                           selectedCategory = item;
                         });
                       },
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: whiteColor,
-                        prefixIcon: const Icon(Icons.category_rounded),
-                        hintText: "Select Category",
-                        hintStyle: light,
-                        border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.circular(defaultMargin / 2),
-                          borderSide: BorderSide(color: whiteSmokeColor),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.circular(defaultMargin / 2),
-                          borderSide: BorderSide(color: mainColor),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.circular(defaultMargin / 2),
-                          borderSide: BorderSide(color: redColor),
-                        ),
-                      ),
-                      icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                      dropdownColor: whiteColor,
-                      style: regular,
                       validator: (value) =>
                           value == null ? "Please select a category" : null,
+                      icon: Icons.category_outlined,
                     ),
                     const SizedBox(
                       height: defaultMargin,
@@ -175,8 +142,9 @@ class _CreateProductPageState extends State<CreateProductPage> {
                                               .addProduct(
                                                 name: nameController.text,
                                                 storeId: widget.laundry.id,
-                                                categoryId: 0,
-                                                price: 0,
+                                                categoryId: selectedCategory!,
+                                                price: int.parse(
+                                                    priceController.text),
                                               );
 
                                           setState(() {
@@ -195,9 +163,12 @@ class _CreateProductPageState extends State<CreateProductPage> {
               );
             }
           } else {
-            return Center(
-              child: CircularProgressIndicator(
-                color: mainColor,
+            return Container(
+              margin: const EdgeInsets.all(defaultMargin),
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: mainColor,
+                ),
               ),
             );
           }

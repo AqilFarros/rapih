@@ -6,7 +6,7 @@ class LaundryService {
 
     var response = await ApiService.handleResponse(() async {
       var result = await ApiService.get(
-          url: url, errorMesssage: "Failed to get laundry");
+          url: url, errorMessage: "Failed to get laundry");
 
       List<Laundry> laundry = (result['data'] as Iterable).map((e) {
         return Laundry.fromJson(e['store']);

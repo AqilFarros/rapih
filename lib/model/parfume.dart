@@ -3,7 +3,7 @@ part of 'model.dart';
 class Parfume extends Equatable {
   final int id;
   final String name;
-  final double price;
+  final int price;
   final int storeId;
 
   const Parfume({
@@ -16,7 +16,7 @@ class Parfume extends Equatable {
   factory Parfume.fromJson(Map<String, dynamic> json) => Parfume(
     id: json['id'] as int,
     name: json['name'] as String,
-    price: json['price'] as double,
+    price: json['price'] as int,
     storeId: json['store_id'] as int,
   );
 

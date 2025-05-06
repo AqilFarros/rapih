@@ -7,9 +7,9 @@ class CustomerService {
 
     var response = await ApiService.handleResponse(() async {
       var result = await ApiService.get(
-          url: url, errorMesssage: "Failed to get customer");
+          url: url, errorMessage: "Failed to get customer");
 
-      List<Customer> customer = (result['data'] as Iterable)
+      List<Customer> customer = (result['customers']['data'] as Iterable)
           .map((e) => Customer.fromJson(e))
           .toList();
 
@@ -19,63 +19,24 @@ class CustomerService {
     return response;
   }
 
-  static Future<ApiReturnValue<Category>> addCategory(
-      {required int storeId, required String name}) async {
-    String url = "$baseUrl/stores/$storeId/categories/create";
+  static Future<ApiReturnValue<Customer>> addCustomer(
+      {required int storeId, required String name, required String address, required int number}) async {
+    String url = "$baseUrl/stores/$storeId/customers/create";
 
     var response = await ApiService.handleResponse(() async {
       var result = await ApiService.post(
         url: url,
         body: {
           "name": name,
+          "address": address,
+          "number": number.toString(),
         },
-        errorMessage: "Failed to add category",
+        errorMessage: "Failed to add customer",
       );
 
-      Category category = Category.fromJson(result['data']);
+      Customer customer = Customer.fromJson(result['customer']);
 
-      return category;
-    });
-
-    return response;
-  }
-
-  static Future<ApiReturnValue<Category>> editCategory(
-      {required int storeId,
-      required int categoryId,
-      required String name}) async {
-    String url = "$baseUrl/stores/$storeId/categories/$categoryId/update";
-
-    var response = await ApiService.handleResponse(() async {
-      var result = await ApiService.post(
-        url: url,
-        body: {
-          "name": name,
-        },
-        errorMessage: "Failed to edit category",
-      );
-
-      Category category = Category.fromJson(result['data']);
-
-      return category;
-    });
-
-    return response;
-  }
-
-  static Future<ApiReturnValue<bool>> deleteCategory({
-    required int storeId,
-    required int categoryId,
-  }) async {
-    String url = "$baseUrl/stores/$storeId/categories/$categoryId/delete";
-
-    var response = await ApiService.handleResponse(() async {
-      await ApiService.delete(
-        url: url,
-        errorMessage: "Failed to delete category",
-      );
-
-      return true;
+      return customer;
     });
 
     return response;

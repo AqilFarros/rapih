@@ -28,7 +28,7 @@ class CategoryCubit extends Cubit<CategoryState> {
           (state is CategoryLoaded) ? (state as CategoryLoaded).category : [];
 
       List<Category> updatedCategoryList = List.from(currentCategory)
-        ..add(result.value!);
+        ..insert(0,result.value!);
 
       emit(CategoryLoaded(updatedCategoryList));
     } else {

@@ -13,6 +13,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:rapih/ui/page/page.dart';
 
 part 'input_field.dart';
+part 'dropdown_widget.dart';
 part 'primary_button.dart';
 part 'secondary_button.dart';
 part 'card_widget.dart';
@@ -26,3 +27,4 @@ part 'laundry/service_widget.dart';
 part 'laundry/transaction_widget.dart';
 part 'laundry/manage_widget.dart';
 part 'fl_chart/bar_chart_widget.dart';
+part 'manage_card.dart';

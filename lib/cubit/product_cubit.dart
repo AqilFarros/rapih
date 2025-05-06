@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rapih/model/model.dart';
 import 'package:rapih/service/service.dart';
+import 'package:supercharged/supercharged.dart';
 
 part 'product_state.dart';
 
@@ -19,16 +20,21 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  Future<void> addProduct({required int storeId, required int categoryId,required String name, required int price,}) async {
-    ApiReturnValue<Product> result =
-        await ProductService.addProduct(storeId: storeId, name: name, categoryId: categoryId, price: price);
+  Future<void> addProduct({
+    required int storeId,
+    required int categoryId,
+    required String name,
+    required int price,
+  }) async {
+    ApiReturnValue<Product> result = await ProductService.addProduct(
+        storeId: storeId, name: name, categoryId: categoryId, price: price);
 
     if (result.value != null) {
       List<Product> currentProduct =
           (state is ProductLoaded) ? (state as ProductLoaded).product : [];
 
       List<Product> updatedProductList = List.from(currentProduct)
-        ..add(result.value!);
+        ..insert(0, result.value!);
 
       emit(ProductLoaded(updatedProductList));
     } else {
@@ -36,14 +42,19 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  Future<void> editProduct(
-      {required int storeId,
-      required int categoryId,
-      required int productId,
-      required String name,
-      required int price,}) async {
+  Future<void> editProduct({
+    required int storeId,
+    required int categoryId,
+    required int productId,
+    required String name,
+    required int price,
+  }) async {
     ApiReturnValue<Product> result = await ProductService.editProduct(
-        storeId: storeId, productId: productId, name: name, categoryId: categoryId, price: price);
+        storeId: storeId,
+        productId: productId,
+        name: name,
+        categoryId: categoryId,
+        price: price);
 
     if (result.value != null) {
       final currentState = state as ProductLoaded;

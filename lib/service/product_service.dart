@@ -7,7 +7,7 @@ class ProductService {
 
     var response = await ApiService.handleResponse(() async {
       var result = await ApiService.get(
-          url: url, errorMesssage: "Failed to get product");
+          url: url, errorMessage: "Failed to get product");
 
       List<Product> product = (result['products'] as Iterable)
           .map((e) => Product.fromJson(e))
@@ -19,8 +19,12 @@ class ProductService {
     return response;
   }
 
-  static Future<ApiReturnValue<Product>> addProduct(
-      {required int storeId, required String name, required int categoryId, required int price,}) async {
+  static Future<ApiReturnValue<Product>> addProduct({
+    required int storeId,
+    required String name,
+    required int categoryId,
+    required int price,
+  }) async {
     String url = "$baseUrl/stores/$storeId/products/create";
 
     var response = await ApiService.handleResponse(() async {
@@ -42,12 +46,13 @@ class ProductService {
     return response;
   }
 
-  static Future<ApiReturnValue<Product>> editProduct(
-      {required int storeId,
-      required int productId,
-      required int categoryId,
-      required String name,
-      required int price,}) async {
+  static Future<ApiReturnValue<Product>> editProduct({
+    required int storeId,
+    required int productId,
+    required int categoryId,
+    required String name,
+    required int price,
+  }) async {
     String url = "$baseUrl/stores/$storeId/products/$productId/update";
 
     var response = await ApiService.handleResponse(() async {
@@ -62,6 +67,8 @@ class ProductService {
       );
 
       Product product = Product.fromJson(result['product']);
+
+      print(product);
 
       return product;
     });

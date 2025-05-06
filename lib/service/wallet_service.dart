@@ -7,7 +7,7 @@ class WalletService {
 
     var response = ApiService.handleResponse(() async {
       var result =
-          await ApiService.get(url: url, errorMesssage: "Failed to get wallet");
+          await ApiService.get(url: url, errorMessage: "Failed to get wallet");
 
       Wallet wallet = Wallet.fromJson(result, result['wallet']);
 

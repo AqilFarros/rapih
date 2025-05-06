@@ -1,25 +1,24 @@
 part of '../../../page.dart';
 
-class CreateCategoryPage extends StatefulWidget {
-  const CreateCategoryPage({
-    super.key,
-    required this.laundry,
-  });
+class CreateDeliveryPage extends StatefulWidget {
+  const CreateDeliveryPage({super.key, required this.laundry});
+
   final Laundry laundry;
 
   @override
-  State<CreateCategoryPage> createState() => _CreateCategoryPageState();
+  State<CreateDeliveryPage> createState() => _CreateDeliveryPageState();
 }
 
-class _CreateCategoryPageState extends State<CreateCategoryPage> {
+class _CreateDeliveryPageState extends State<CreateDeliveryPage> {
   final nameController = TextEditingController();
+  final amountController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return GeneralManagePage(
-      title: "Create Category",
+      title: "Create Delivery",
       widget: Form(
         key: _formKey,
         child: Column(
@@ -30,7 +29,7 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
             InputField(
               controller: nameController,
               hintText: "Name",
-              icon: Icons.category_rounded,
+              icon: Icons.delivery_dining_rounded,
               validator: (value) {
                 return requiredValidator(value, "Name");
               },
@@ -38,9 +37,20 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
             const SizedBox(
               height: defaultMargin,
             ),
-            BlocConsumer<CategoryCubit, CategoryState>(
+            InputField(
+              controller: amountController,
+              hintText: "Amount",
+              icon: Icons.monetization_on_rounded,
+              validator: (value) {
+                return numberValidator(value, "Amount");
+              },
+            ),
+            const SizedBox(
+              height: defaultMargin,
+            ),
+            BlocConsumer<DeliveryCubit, DeliveryState>(
               listener: (context, state) {
-                if (state is CategoryLoaded) {
+                if (state is DeliveryLoaded) {
                   Navigator.pop(context);
                 } else {}
               },
@@ -79,10 +89,11 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
                                   });
 
                                   await context
-                                      .read<CategoryCubit>()
-                                      .addCategory(
+                                      .read<DeliveryCubit>()
+                                      .addDelivery(
                                           name: nameController.text,
-                                          storeId: widget.laundry.id);
+                                          amount: int.parse(amountController.text),
+                                          storeId: widget.laundry.id,);
 
                                   setState(() {
                                     isLoading = false;

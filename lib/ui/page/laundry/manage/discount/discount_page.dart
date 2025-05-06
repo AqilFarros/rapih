@@ -1,26 +1,27 @@
 part of '../../../page.dart';
 
-class ProductPage extends StatefulWidget {
-  const ProductPage({super.key, required this.laundry});
+class DiscountPage extends StatefulWidget {
+  const DiscountPage({super.key, required this.laundry,});
+
   final Laundry laundry;
 
   @override
-  State<ProductPage> createState() => _ProductPageState();
+  State<DiscountPage> createState() => _DiscountPageState();
 }
 
-class _ProductPageState extends State<ProductPage> {
+class _DiscountPageState extends State<DiscountPage> {
   bool isLoading = false;
 
   @override
   void initState() {
-    context.read<ProductCubit>().getProduct(storeId: widget.laundry.id);
+    context.read<DiscountCubit>().getDiscount(storeId: widget.laundry.id);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return GeneralManagePage(
-      title: "Product",
+      title: "Discount",
       widget: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -30,32 +31,32 @@ class _ProductPageState extends State<ProductPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CreateProductPage(
+                  builder: (context) => CreateDiscountPage(
                     laundry: widget.laundry,
                   ),
                 ),
               );
             },
-            text: "Add a new product",
-            image: "asset/icon/laundry-machine.png",
+            text: "Add a new discount",
+            image: "asset/icon/discount.png",
           ),
           const SizedBox(height: defaultMargin),
-          const TitleSection(text: "Current product"),
+          const TitleSection(text: "Current discount"),
           const SizedBox(
             height: defaultMargin / 2,
           ),
-          BlocBuilder<ProductCubit, ProductState>(
+          BlocBuilder<DiscountCubit, DiscountState>(
             builder: (context, state) {
-              if (state is ProductLoaded) {
-                if (state.product.isEmpty) {
+              if (state is DiscountLoaded) {
+                if (state.discount.isEmpty) {
                   return AddIllustrationWidget(
-                    image: 'asset/icon/laundry-machine.png',
-                    text: "a product",
+                    image: 'asset/icon/discount.png',
+                    text: "a discount",
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CreateProductPage(
+                          builder: (context) => CreateDiscountPage(
                             laundry: widget.laundry,
                           ),
                         ),
@@ -76,20 +77,20 @@ class _ProductPageState extends State<ProductPage> {
                           spacing: defaultMargin,
                           runSpacing: defaultMargin,
                           children: List.generate(
-                            state.product.length,
+                            state.discount.length,
                             (index) => SizedBox(
                               width: itemWidth,
                               child: ManageCard(
-                                title: state.product[index].name,
-                                image: "asset/icon/laundry-machine.png",
+                                title: state.discount[index].name,
+                                image: "asset/icon/discount.png",
                                 edit: () {
                                   if (!isLoading) {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => EditProductPage(
+                                        builder: (context) => EditDiscountPage(
                                           laundry: widget.laundry,
-                                          product: state.product[index],
+                                          discount: state.discount[index],
                                         ),
                                       ),
                                     );
@@ -102,10 +103,10 @@ class _ProductPageState extends State<ProductPage> {
                                     });
 
                                     await context
-                                        .read<ProductCubit>()
-                                        .deleteProduct(
+                                        .read<DiscountCubit>()
+                                        .deleteDiscount(
                                             storeId: widget.laundry.id,
-                                            productId: state.product[index].id);
+                                            discountId: state.discount[index].id);
 
                                     setState(() {
                                       isLoading = false;
@@ -118,25 +119,11 @@ class _ProductPageState extends State<ProductPage> {
                                       locale: 'id',
                                       symbol: 'Rp',
                                       decimalDigits: 0,
-                                    ).format(state.product[index].price),
+                                    ).format(state.discount[index].amount),
                                     style: medium.copyWith(
                                       fontSize: heading3,
                                       color: mainColor,
                                     ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        'asset/icon/category.png',
-                                        width: heading2,
-                                      ),
-                                      const SizedBox(width: defaultMargin / 4),
-                                      Text(
-                                        state.product[index].categoryName,
-                                        style:
-                                            medium.copyWith(fontSize: heading3),
-                                      )
-                                    ],
                                   ),
                                 ],
                               ),
@@ -144,7 +131,7 @@ class _ProductPageState extends State<ProductPage> {
                           ),
                         );
                       });
-              } else if (state is ProductLoadedFailed) {
+              } else if (state is DiscountLoadedFailed) {
                 return Text(state.message);
               } else {
                 return Center(

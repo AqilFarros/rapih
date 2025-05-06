@@ -1,25 +1,32 @@
 part of '../../../page.dart';
 
-class CreateCategoryPage extends StatefulWidget {
-  const CreateCategoryPage({
-    super.key,
-    required this.laundry,
-  });
+class EditParfumePage extends StatefulWidget {
+  const EditParfumePage({super.key, required this.laundry, required this.parfume});
+
   final Laundry laundry;
+  final Parfume parfume;
 
   @override
-  State<CreateCategoryPage> createState() => _CreateCategoryPageState();
+  State<EditParfumePage> createState() => _EditParfumePageState();
 }
 
-class _CreateCategoryPageState extends State<CreateCategoryPage> {
+class _EditParfumePageState extends State<EditParfumePage> {
   final nameController = TextEditingController();
+  final priceController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
   @override
+  void initState() {
+    nameController.text = widget.parfume.name;
+    priceController.text = widget.parfume.price.toString();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GeneralManagePage(
-      title: "Create Category",
+      title: "Create Parfume",
       widget: Form(
         key: _formKey,
         child: Column(
@@ -30,7 +37,7 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
             InputField(
               controller: nameController,
               hintText: "Name",
-              icon: Icons.category_rounded,
+              icon: Icons.person,
               validator: (value) {
                 return requiredValidator(value, "Name");
               },
@@ -38,9 +45,20 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
             const SizedBox(
               height: defaultMargin,
             ),
-            BlocConsumer<CategoryCubit, CategoryState>(
+            InputField(
+              controller: priceController,
+              hintText: "Price",
+              icon: Icons.monetization_on_rounded,
+              validator: (value) {
+                return numberValidator(value, "Price");
+              },
+            ),
+            const SizedBox(
+              height: defaultMargin,
+            ),
+            BlocConsumer<ParfumeCubit, ParfumeState>(
               listener: (context, state) {
-                if (state is CategoryLoaded) {
+                if (state is ParfumeLoaded) {
                   Navigator.pop(context);
                 } else {}
               },
@@ -68,7 +86,7 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
                             width: defaultMargin,
                           ),
                           PrimaryButton(
-                            name: "Create",
+                            name: "Edit",
                             function: () async {
                               if (isLoading) {
                                 return;
@@ -79,10 +97,12 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
                                   });
 
                                   await context
-                                      .read<CategoryCubit>()
-                                      .addCategory(
+                                      .read<ParfumeCubit>()
+                                      .editParfume(
                                           name: nameController.text,
-                                          storeId: widget.laundry.id);
+                                          price: int.parse(priceController.text),
+                                          parfumeId: widget.parfume.id,
+                                          storeId: widget.laundry.id,);
 
                                   setState(() {
                                     isLoading = false;

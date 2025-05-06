@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -11,8 +12,12 @@ part 'wallet_service.dart';
 part 'category_service.dart';
 part 'product_service.dart';
 part 'customer_service.dart';
+part 'parfume_service.dart';
+part 'delivery_service.dart';
+part 'discount_service.dart';
+part 'layanan_service.dart';
 
-String baseUrl = "http://192.168.0.29:8000/api";
+String baseUrl = "http://192.168.0.33:8000/api";
 var client = http.Client();
 
 abstract class ApiService {
@@ -35,7 +40,7 @@ abstract class ApiService {
 
   static get({
     required String url,
-    required String errorMesssage,
+    required String errorMessage,
     String? token,
   }) async {
     var response = await client.get(
@@ -44,7 +49,7 @@ abstract class ApiService {
     );
 
     if (response.statusCode != 200 && response.statusCode != 201) {
-      throw Exception(errorMesssage);
+      throw Exception(errorMessage);
     } else {
       return jsonDecode(response.body);
     }
