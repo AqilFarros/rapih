@@ -27,6 +27,7 @@ class _CreateLayananPageState extends State<CreateLayananPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Name",
               controller: nameController,
               hintText: "Name",
               icon: Icons.local_laundry_service_outlined,
@@ -38,6 +39,7 @@ class _CreateLayananPageState extends State<CreateLayananPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Duration",
               controller: durationController,
               hintText: "Duration",
               icon: Icons.timer,

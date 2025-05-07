@@ -61,7 +61,9 @@ class _MainPageState extends State<MainPage> {
                     height: defaultMargin / 2,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      absentDialog(context, widget.laundry);
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: mainColor,
                       padding: const EdgeInsets.symmetric(
@@ -230,9 +232,8 @@ class _MainPageState extends State<MainPage> {
                         horizontal: defaultMargin,
                         vertical: defaultMargin / 3,
                       ),
-                      minimumSize: Size.zero, // Menghilangkan ukuran minimum
-                      tapTargetSize: MaterialTapTargetSize
-                          .shrinkWrap, // Menghindari ukuran besar default
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     child: Text(
                       "Selesaikan Sekarang",
@@ -310,4 +311,42 @@ class _MainPageState extends State<MainPage> {
       ],
     );
   }
+}
+
+void absentDialog(BuildContext context, Laundry laundry) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      actions: [
+        SecondaryButton(
+          name: "absent",
+          function: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AbsentPage(laundry: laundry),
+              ),
+            );
+          },
+        ),
+        PrimaryButton(
+          name: "attend",
+          function: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AttendPage(laundry: laundry),
+              ),
+            );
+          },
+        ),
+      ],
+      title: Text(
+        "What is your absence status today?",
+        style: semiBold.copyWith(fontSize: heading),
+      ),
+    ),
+  );
 }

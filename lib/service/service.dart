@@ -17,7 +17,7 @@ part 'delivery_service.dart';
 part 'discount_service.dart';
 part 'layanan_service.dart';
 
-String baseUrl = "http://192.168.0.33:8000/api";
+String baseUrl = "http://192.168.0.24:8000/api";
 var client = http.Client();
 
 abstract class ApiService {

@@ -36,6 +36,7 @@ class _EditLayananPageState extends State<EditLayananPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Name",
               controller: nameController,
               hintText: "Name",
               icon: Icons.local_laundry_service_outlined,
@@ -47,6 +48,7 @@ class _EditLayananPageState extends State<EditLayananPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Duration",
               controller: durationController,
               hintText: "Duration",
               icon: Icons.timer,
@@ -87,7 +89,7 @@ class _EditLayananPageState extends State<EditLayananPage> {
                             width: defaultMargin,
                           ),
                           PrimaryButton(
-                            name: "Create",
+                            name: "Edit",
                             function: () async {
                               if (isLoading) {
                                 return;
@@ -97,11 +99,13 @@ class _EditLayananPageState extends State<EditLayananPage> {
                                     isLoading = true;
                                   });
 
-                                  await context.read<LayananCubit>().editLayanan(
+                                  await context
+                                      .read<LayananCubit>()
+                                      .editLayanan(
                                         name: nameController.text,
                                         duration:
                                             int.parse(durationController.text),
-                                            layananId: widget.layanan.id,
+                                        layananId: widget.layanan.id,
                                         storeId: widget.laundry.id,
                                       );
 

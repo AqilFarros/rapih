@@ -27,6 +27,7 @@ class _CreateDeliveryPageState extends State<CreateDeliveryPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Name",
               controller: nameController,
               hintText: "Name",
               icon: Icons.delivery_dining_rounded,
@@ -38,6 +39,7 @@ class _CreateDeliveryPageState extends State<CreateDeliveryPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Amount",
               controller: amountController,
               hintText: "Amount",
               icon: Icons.monetization_on_rounded,

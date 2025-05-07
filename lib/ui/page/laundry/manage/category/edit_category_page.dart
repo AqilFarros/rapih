@@ -33,6 +33,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Name",
               controller: nameController,
               hintText: "Name",
               icon: Icons.category_rounded,

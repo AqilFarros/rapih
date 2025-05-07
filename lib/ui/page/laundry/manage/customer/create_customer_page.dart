@@ -27,6 +27,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Name",
               controller: nameController,
               hintText: "Name",
               icon: Icons.person,
@@ -38,6 +39,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Address",
               controller: addressController,
               hintText: "Address",
               icon: Icons.location_on,
@@ -49,6 +51,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Phone Number",
               controller: numberController,
               hintText: "Phone Number",
               icon: Icons.phone,

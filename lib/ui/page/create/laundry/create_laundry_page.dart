@@ -38,6 +38,7 @@ class _CreateLaundryPageState extends State<CreateLaundryPage> {
                   height: defaultMargin,
                 ),
                 InputField(
+                  label: "Name",
                   controller: nameController,
                   hintText: "Name",
                   icon: Icons.add_business_outlined,
@@ -49,6 +50,7 @@ class _CreateLaundryPageState extends State<CreateLaundryPage> {
                   height: defaultMargin,
                 ),
                 InputField(
+                  label: "Address",
                   controller: addressController,
                   hintText: "Address",
                   icon: Icons.location_on_outlined,
@@ -60,6 +62,7 @@ class _CreateLaundryPageState extends State<CreateLaundryPage> {
                   height: defaultMargin,
                 ),
                 InputField(
+                  label: "Contact Number",
                   controller: contactNumberController,
                   hintText: "Contact Number",
                   icon: Icons.phone_outlined,
@@ -71,6 +74,7 @@ class _CreateLaundryPageState extends State<CreateLaundryPage> {
                   height: defaultMargin,
                 ),
                 InputField(
+                  label: "Description",
                   controller: descriptionController,
                   hintText: "",
                   icon: Icons.description_outlined,

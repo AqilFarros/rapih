@@ -39,6 +39,7 @@ class _EditDiscountPageState extends State<EditDiscountPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Name",
               controller: nameController,
               hintText: "Name",
               icon: Icons.discount_rounded,
@@ -50,6 +51,7 @@ class _EditDiscountPageState extends State<EditDiscountPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Amount",
               controller: amountController,
               hintText: "Amount",
               icon: Icons.monetization_on_rounded,

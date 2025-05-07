@@ -27,6 +27,7 @@ class _CreateParfumePageState extends State<CreateParfumePage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Name",
               controller: nameController,
               hintText: "Name",
               icon: Icons.person,
@@ -38,6 +39,7 @@ class _CreateParfumePageState extends State<CreateParfumePage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Price",
               controller: priceController,
               hintText: "Price",
               icon: Icons.monetization_on_rounded,

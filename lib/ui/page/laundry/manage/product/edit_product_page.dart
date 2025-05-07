@@ -61,6 +61,7 @@ class _EditProductPageState extends State<EditProductPage> {
                       height: defaultMargin,
                     ),
                     InputField(
+                      label: "Name",
                       controller: nameController,
                       hintText: "Name",
                       icon: Icons.production_quantity_limits_rounded,
@@ -72,6 +73,7 @@ class _EditProductPageState extends State<EditProductPage> {
                       height: defaultMargin,
                     ),
                     InputField(
+                      label: "Price",
                       controller: priceController,
                       hintText: "10000",
                       icon: Icons.monetization_on_outlined,

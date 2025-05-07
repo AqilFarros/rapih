@@ -81,65 +81,6 @@ class _CategoryPageState extends State<CategoryPage> {
                             state.category.length,
                             (index) => SizedBox(
                               width: itemWidth,
-                              // child: CardWidget(
-                              //   content: Column(
-                              //     children: [
-                              //       Image.asset("asset/icon/category.png"),
-                              //       const SizedBox(height: defaultMargin / 2),
-                              //       Text(
-                              //         state.category[index].name,
-                              //         style:
-                              //             medium.copyWith(fontSize: heading1),
-                              //       ),
-                              //       const SizedBox(height: defaultMargin / 2),
-                              //       SizedBox(
-                              //         width: MediaQuery.of(context).size.width,
-                              //         child: SecondaryButton(
-                              //           name: "Edit",
-                              //           function: () {
-                              //             if (!isLoading) {
-                              //               Navigator.push(
-                              //                 context,
-                              //                 MaterialPageRoute(
-                              //                   builder: (context) =>
-                              //                       EditCategoryPage(
-                              //                     laundry: widget.laundry,
-                              //                     category:
-                              //                         state.category[index],
-                              //                   ),
-                              //                 ),
-                              //               );
-                              //             }
-                              //           },
-                              //         ),
-                              //       ),
-                              //       SizedBox(
-                              //         width: MediaQuery.of(context).size.width,
-                              //         child: PrimaryButton(
-                              //           name: "Delete",
-                              //           function: () async {
-                              //             if (!isLoading) {
-                              //               setState(() {
-                              //                 isLoading = true;
-                              //               });
-
-                              //               await context
-                              //                   .read<CategoryCubit>()
-                              //                   .deleteCategory(
-                              //                       storeId: widget.laundry.id,
-                              //                       categoryId: state
-                              //                           .category[index].id);
-
-                              //               setState(() {
-                              //                 isLoading = false;
-                              //               });
-                              //             }
-                              //           },
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
                               child: ManageCard(
                                 title: state.category[index].name,
                                 image: "asset/icon/category.png",

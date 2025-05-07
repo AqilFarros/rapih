@@ -1,7 +1,8 @@
 part of '../../../page.dart';
 
 class EditParfumePage extends StatefulWidget {
-  const EditParfumePage({super.key, required this.laundry, required this.parfume});
+  const EditParfumePage(
+      {super.key, required this.laundry, required this.parfume});
 
   final Laundry laundry;
   final Parfume parfume;
@@ -26,7 +27,7 @@ class _EditParfumePageState extends State<EditParfumePage> {
   @override
   Widget build(BuildContext context) {
     return GeneralManagePage(
-      title: "Create Parfume",
+      title: "Edit Parfume",
       widget: Form(
         key: _formKey,
         child: Column(
@@ -35,6 +36,7 @@ class _EditParfumePageState extends State<EditParfumePage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Name",
               controller: nameController,
               hintText: "Name",
               icon: Icons.person,
@@ -46,6 +48,7 @@ class _EditParfumePageState extends State<EditParfumePage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Price",
               controller: priceController,
               hintText: "Price",
               icon: Icons.monetization_on_rounded,
@@ -99,10 +102,11 @@ class _EditParfumePageState extends State<EditParfumePage> {
                                   await context
                                       .read<ParfumeCubit>()
                                       .editParfume(
-                                          name: nameController.text,
-                                          price: int.parse(priceController.text),
-                                          parfumeId: widget.parfume.id,
-                                          storeId: widget.laundry.id,);
+                                        name: nameController.text,
+                                        price: int.parse(priceController.text),
+                                        parfumeId: widget.parfume.id,
+                                        storeId: widget.laundry.id,
+                                      );
 
                                   setState(() {
                                     isLoading = false;

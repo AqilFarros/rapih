@@ -19,6 +19,21 @@ class ManageLaundryPage extends StatelessWidget {
               ),
             );
           },
+          text: "Manage laundry",
+          image: "asset/icon/laundry.png",
+        ),
+        const SizedBox(
+          height: defaultMargin,
+        ),
+        ManageWidget(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CategoryPage(laundry: laundry),
+              ),
+            );
+          },
           text: "Manage category",
           image: "asset/icon/category.png",
         ),
@@ -45,6 +60,21 @@ class ManageLaundryPage extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
+                builder: (context) => LayananPage(laundry: laundry),
+              ),
+            );
+          },
+          text: "Manage layanan",
+          image: "asset/icon/layanan.png",
+        ),
+        const SizedBox(
+          height: defaultMargin,
+        ),
+        ManageWidget(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
                 builder: (context) => CustomerPage(laundry: laundry),
               ),
             );
@@ -56,25 +86,49 @@ class ManageLaundryPage extends StatelessWidget {
           height: defaultMargin,
         ),
         ManageWidget(
-          onTap: () {},
-          text: "Add a new delivery",
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DeliveryPage(laundry: laundry),
+              ),
+            );
+          },
+          text: "Manage delivery",
           image: "asset/icon/delivery.png",
         ),
         const SizedBox(
           height: defaultMargin,
         ),
         ManageWidget(
-          onTap: () {},
-          text: "Add a new parfume",
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ParfumePage(laundry: laundry),
+              ),
+            );
+          },
+          text: "Manage parfume",
           image: "asset/icon/parfume.png",
         ),
         const SizedBox(
           height: defaultMargin,
         ),
         ManageWidget(
-          onTap: () {},
-          text: "Add a new discounted service",
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DiscountPage(laundry: laundry),
+              ),
+            );
+          },
+          text: "Manage discounted service",
           image: "asset/icon/discount.png",
+        ),
+        const SizedBox(
+          height: 70,
         ),
       ],
     );

@@ -82,7 +82,7 @@ class _LayananPageState extends State<LayananPage> {
                               width: itemWidth,
                               child: ManageCard(
                                 title: state.layanan[index].name,
-                                image: "asset/icon/Layanan.png",
+                                image: "asset/icon/layanan.png",
                                 edit: () {
                                   if (!isLoading) {
                                     Navigator.push(
@@ -126,7 +126,9 @@ class _LayananPageState extends State<LayananPage> {
                                         child: Text(
                                           "${state.layanan[index].duration.toString()} days",
                                           style: medium.copyWith(
-                                              fontSize: heading3, color: mainColor,),
+                                            fontSize: heading3,
+                                            color: mainColor,
+                                          ),
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       )

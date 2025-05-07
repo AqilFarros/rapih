@@ -27,6 +27,7 @@ class _SignUpPageState extends State<SignUpPage> {
               height: defaultMargin * 2,
             ),
             InputField(
+              label: "Name",
               controller: nameController,
               hintText: "Your Name",
               icon: CupertinoIcons.person,
@@ -36,6 +37,7 @@ class _SignUpPageState extends State<SignUpPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Email",
               controller: emailController,
               hintText: "Your Email",
               icon: CupertinoIcons.mail,
@@ -45,6 +47,7 @@ class _SignUpPageState extends State<SignUpPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Password",
               controller: passwordController,
               hintText: "Your Password",
               icon: CupertinoIcons.lock,
@@ -55,6 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Confirm Password",
               controller: confirmPasswordController,
               hintText: "Confirm Password",
               icon: CupertinoIcons.lock,

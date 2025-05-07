@@ -24,6 +24,7 @@ class _SignInPageState extends State<SignInPage> {
               height: defaultMargin * 2,
             ),
             InputField(
+              label: "Email",
               controller: emailController,
               hintText: "Your Email",
               icon: CupertinoIcons.mail,
@@ -33,6 +34,7 @@ class _SignInPageState extends State<SignInPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Password",
               controller: passwordController,
               hintText: "Your Password",
               icon: CupertinoIcons.lock,

@@ -216,6 +216,7 @@ class LaundryNavigation extends StatelessWidget {
           Icon(
             icon,
             color: isActive ? mainColor : whiteColor,
+            size: heading,
           ),
           SizedBox(
             width: isActive ? defaultMargin / 3 : 0,
@@ -234,24 +235,25 @@ class LaundryNavigation extends StatelessWidget {
 }
 
 List<Map<String, dynamic>> getLaundryWidget(Laundry laundry) => [
-  {
-    "icon": Icons.home_rounded,
-    "text": "Home",
-    "widget": MainPage(laundry: laundry),
-  },
-  {
-    "icon": Icons.business_center_outlined,
-    "text": "Manage",
-    "widget": ManageLaundryPage(laundry: laundry),
-  },
-  {
-    "icon": Icons.history,
-    "text": "Order",
-    "widget": const TransactionPage(),
-  },
-  {
-    "icon": Icons.person,
-    "text": "Absent",
-    "widget": const AbsentPage(),
-  },
-];
+      {
+        "icon": Icons.home_rounded,
+        "text": "Home",
+        "widget": MainPage(laundry: laundry),
+      },
+      {
+        "icon": Icons.history,
+        "text": "Order",
+        "widget": const TransactionPage(),
+      },
+      {
+        "icon": Icons.person,
+        "text": "Absent",
+        "widget": const AbsencePage(),
+      },
+      {
+        // "icon": Icons.business_center_outlined,
+        "icon": Icons.settings,
+        "text": "Manage",
+        "widget": ManageLaundryPage(laundry: laundry),
+      },
+    ];

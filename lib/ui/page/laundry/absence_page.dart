@@ -1,7 +1,7 @@
 part of '../page.dart';
 
-class AbsentPage extends StatelessWidget {
-  const AbsentPage({super.key});
+class AbsencePage extends StatelessWidget {
+  const AbsencePage({super.key});
 
   @override
   Widget build(BuildContext context) {

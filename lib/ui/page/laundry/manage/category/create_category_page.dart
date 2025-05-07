@@ -28,6 +28,7 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
               height: defaultMargin,
             ),
             InputField(
+              label: "Name",
               controller: nameController,
               hintText: "Name",
               icon: Icons.category_rounded,
