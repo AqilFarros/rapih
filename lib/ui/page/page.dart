@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,6 +63,7 @@ part 'laundry/manage/parfume/create_parfume_page.dart';
 part 'laundry/manage/parfume/edit_parfume_page.dart';
 part 'laundry/absence/absent_page.dart';
 part 'laundry/absence/attend_page.dart';
+part 'laundry/absence/camera_page.dart';
 part 'create/laundry/create_laundry_page.dart';
 part 'create/laundry/picture_laundry_page.dart';
 part 'profile/profile_page.dart';

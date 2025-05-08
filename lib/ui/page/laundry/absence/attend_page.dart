@@ -29,6 +29,22 @@ class _AttendPageState extends State<AttendPage> {
           child: Column(
             children: [
               const SizedBox(height: defaultMargin),
+              GestureDetector(
+                onTap: () async {
+                  await availableCameras().then(
+                    (value) => Navigator.push(
+                      // ignore: use_build_context_synchronously
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CameraPage(
+                          camera: value,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                child: ImageField(title: "Your photo"),
+              ),
             ],
           ),
         ),
