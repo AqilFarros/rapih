@@ -16,8 +16,9 @@ part 'parfume_service.dart';
 part 'delivery_service.dart';
 part 'discount_service.dart';
 part 'layanan_service.dart';
+part 'absence_service.dart';
 
-String baseUrl = "http://192.168.0.26:8000/api";
+String baseUrl = "http://192.168.0.24:8000/api";
 var client = http.Client();
 
 abstract class ApiService {
@@ -95,7 +96,7 @@ abstract class ApiService {
 
   static postDataWithImage({
     required String url,
-    required List<Map<String, dynamic>> fields,
+    required List<Map<String, dynamic>>? fields,
     required List<Map<String, dynamic>> files,
     required String errorMessage,
   }) async {
@@ -103,8 +104,10 @@ abstract class ApiService {
 
     var request = http.MultipartRequest("POST", uri)..headers.addAll(header());
 
-    for (var item in fields) {
-      request.fields[item.keys.first] = item.values.first;
+    if (fields != null) {
+      for (var item in fields) {
+        request.fields[item.keys.first] = item.values.first;
+      }
     }
 
     for (var item in files) {

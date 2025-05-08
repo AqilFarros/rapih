@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 part of '../page.dart';
 
 class GeneralLaundryPage extends StatefulWidget {
@@ -51,13 +53,13 @@ class _GeneralLaundryPageState extends State<GeneralLaundryPage> {
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.black.withOpacity(0.05),
-                                      offset: Offset(0, -2),
+                                      offset: const Offset(0, -2),
                                       blurRadius: 24,
                                       spreadRadius: 2,
                                     ),
                                     BoxShadow(
                                       color: Colors.white.withOpacity(0.6),
-                                      offset: Offset(0, 2),
+                                      offset: const Offset(0, 2),
                                       blurRadius: 4,
                                     ),
                                   ],

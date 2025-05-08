@@ -1,6 +1,6 @@
 part of 'widget.dart';
 
-class ImageField extends StatefulWidget {
+class ImageField extends StatelessWidget {
   const ImageField({
     this.image,
     super.key,
@@ -8,26 +8,23 @@ class ImageField extends StatefulWidget {
     this.width,
     this.height,
     this.radius,
+    this.errorMessage,
   });
 
-final File? image;
+  final File? image;
   final String title;
   final double? width;
   final double? height;
   final double? radius;
+  final String? errorMessage;
 
-  @override
-  State<ImageField> createState() => _ImageFieldState();
-}
-
-class _ImageFieldState extends State<ImageField> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Column(
         children: [
           Text(
-            widget.title,
+            title,
             style: medium.copyWith(fontSize: heading2),
           ),
           const SizedBox(
@@ -35,27 +32,40 @@ class _ImageFieldState extends State<ImageField> {
           ),
           DottedBorder(
             borderType: BorderType.RRect,
-            radius: Radius.circular(widget.radius ?? 10),
+            radius: Radius.circular(radius ?? 10),
             dashPattern: const [10, 4],
             strokeWidth: 2,
             color: Colors.grey.shade500,
             child: Container(
-              width: widget.width ?? double.infinity,
-              height: widget.height ?? 150,
-              padding: EdgeInsets.all(widget.image != null ? 0 : defaultMargin / 2),
-              margin: EdgeInsets.all(widget.image != null ? defaultMargin / 2 : 0),
+              width: width ?? double.infinity,
+              height: height ?? 150,
+              padding:
+                  EdgeInsets.all(image != null ? 0 : defaultMargin / 2),
+              margin:
+                  EdgeInsets.all(image != null ? defaultMargin / 2 : 0),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(widget.radius ?? 10),
+                borderRadius: BorderRadius.circular(radius ?? 10),
                 color: Colors.white,
                 image: DecorationImage(
-                  image: widget.image != null
-                      ? FileImage(widget.image!)
+                  image: image != null
+                      ? FileImage(image!)
                       : const AssetImage('asset/image/add.jpg'),
-                  fit: widget.image != null ? BoxFit.cover : BoxFit.contain,
+                  fit: image != null ? BoxFit.cover : BoxFit.contain,
                 ),
               ),
             ),
           ),
+          errorMessage != null
+          ?
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(
+              errorMessage!,
+              style: const TextStyle(color: Colors.red),
+            ),
+          )
+          :
+          const SizedBox(),
         ],
       ),
     );

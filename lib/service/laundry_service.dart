@@ -33,8 +33,6 @@ class LaundryService {
       }
     });
 
-    print(fields);
-
     files.add({"picture": image.path});
     if (logo != null) {
       files.add({"logo": logo.path});

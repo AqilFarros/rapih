@@ -66,17 +66,9 @@ class _PictureLaundryPageState extends State<PictureLaundryPage> {
                   child: ImageField(
                     image: picture,
                     title: "Picture",
+                    errorMessage: pictureError,
                   ),
                 ),
-                pictureError != null
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          pictureError!,
-                          style: const TextStyle(color: Colors.red),
-                        ),
-                      )
-                    : const SizedBox(),
                 const SizedBox(
                   height: defaultMargin,
                 ),
@@ -94,19 +86,11 @@ class _PictureLaundryPageState extends State<PictureLaundryPage> {
                   child: ImageField(
                     image: logo,
                     title: "Logo (optional)",
+                    errorMessage: logoError,
                     width: 150,
                     radius: 99,
                   ),
                 ),
-                logoError != null
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          logoError!,
-                          style: const TextStyle(color: Colors.red),
-                        ),
-                      )
-                    : const SizedBox(),
                 const SizedBox(
                   height: defaultMargin,
                 ),
