@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rapih/cubit/cashier_cubit.dart';
 import 'package:rapih/cubit/category_cubit.dart';
 import 'package:rapih/cubit/customer_cubit.dart';
 import 'package:rapih/cubit/delivery_cubit.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => LayananCubit()),
         BlocProvider(create: (context) => ParfumeCubit()),
         BlocProvider(create: (context) => ProductCubit()),
+        BlocProvider(create: (context) => CashierCubit()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

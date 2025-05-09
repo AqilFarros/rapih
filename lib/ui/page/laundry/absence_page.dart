@@ -1,28 +1,23 @@
 part of '../page.dart';
 
 class AbsencePage extends StatelessWidget {
-  const AbsencePage({super.key});
+  const AbsencePage({super.key, required this.laundry});
+
+  final Laundry laundry;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CardWidget(
-          content: Row(
-            children: [
-              Text(
-                "Recruit a new employee",
-                style: regular.copyWith(fontSize: heading2),
-              ),
-              const Spacer(),
-              const Icon(
-                Icons.person_add_alt_1_outlined,
-                size: heading1,
-              ),
-            ],
-          ),
-        ),
+        ManageWidget(onTap: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CashirePage(laundry: laundry),
+            ),
+          );
+        },text: "Manage cashier", image:"asset/icon/cashier.png",),
         const SizedBox(
           height: defaultMargin,
         ),

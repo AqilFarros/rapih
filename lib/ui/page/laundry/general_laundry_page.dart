@@ -250,7 +250,7 @@ List<Map<String, dynamic>> getLaundryWidget(Laundry laundry) => [
       {
         "icon": Icons.person,
         "text": "Absent",
-        "widget": const AbsencePage(),
+        "widget": AbsencePage(laundry: laundry),
       },
       {
         // "icon": Icons.business_center_outlined,
