@@ -55,6 +55,7 @@ class _EditLayananPageState extends State<EditLayananPage> {
               validator: (value) {
                 return numberValidator(value, "Duration");
               },
+              textInputAction: TextInputAction.done,
             ),
             const SizedBox(
               height: defaultMargin,

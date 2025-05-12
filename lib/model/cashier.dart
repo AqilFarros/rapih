@@ -18,7 +18,7 @@ class Cashier extends Equatable {
       id: json['id'],
       userId: json['user_id'],
       storeId: json['store_id'],
-      isActive: json['is_active'] == 1 ? true : false,
+      isActive: json['is_active'] == 1 ? true : json['is_active'] == true ? true : false,
     );
   }
 

@@ -39,56 +39,6 @@ class _MainPageState extends State<MainPage> {
         const SizedBox(
           height: defaultMargin,
         ),
-        const TitleSection(text: "Absence"),
-        const SizedBox(
-          height: defaultMargin / 2,
-        ),
-        CardWidget(
-          content: Row(
-            children: [
-              Image.asset("asset/image/jam.png", height: 70),
-              const SizedBox(
-                width: defaultMargin,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Kamu belum absen hari ini!",
-                    style: medium.copyWith(fontSize: heading2),
-                  ),
-                  const SizedBox(
-                    height: defaultMargin / 2,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      absentDialog(context, widget.laundry);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: mainColor,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: defaultMargin,
-                        vertical: defaultMargin / 3,
-                      ),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: Text(
-                      "Absen Sekarang",
-                      style: semiBold.copyWith(
-                        fontSize: heading4,
-                        color: whiteColor,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: defaultMargin,
-        ),
         const TitleSection(text: "Finance"),
         const SizedBox(
           height: defaultMargin / 2,
@@ -307,46 +257,7 @@ class _MainPageState extends State<MainPage> {
         const SizedBox(
           height: 70,
         ),
-        // BarChartWidget(),
       ],
     );
   }
-}
-
-void absentDialog(BuildContext context, Laundry laundry) {
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      actions: [
-        SecondaryButton(
-          name: "absent",
-          function: () {
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AbsentPage(laundry: laundry),
-              ),
-            );
-          },
-        ),
-        PrimaryButton(
-          name: "attend",
-          function: () {
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AttendPage(laundry: laundry),
-              ),
-            );
-          },
-        ),
-      ],
-      title: Text(
-        "What is your absence status today?",
-        style: semiBold.copyWith(fontSize: heading),
-      ),
-    ),
-  );
 }

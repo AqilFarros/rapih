@@ -40,6 +40,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
               validator: (value) {
                 return requiredValidator(value, "Name");
               },
+              textInputAction: TextInputAction.done,
             ),
             const SizedBox(
               height: defaultMargin,

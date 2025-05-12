@@ -46,6 +46,7 @@ class _CreateDiscountPageState extends State<CreateDiscountPage> {
               validator: (value) {
                 return numberValidator(value, "Amount");
               },
+              textInputAction: TextInputAction.done,
             ),
             const SizedBox(
               height: defaultMargin,

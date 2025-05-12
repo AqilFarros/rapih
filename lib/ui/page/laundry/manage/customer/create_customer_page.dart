@@ -58,6 +58,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
               validator: (value) {
                 return numberValidator(value, "Phone Number");
               },
+              textInputAction: TextInputAction.done,
             ),
             const SizedBox(
               height: defaultMargin,

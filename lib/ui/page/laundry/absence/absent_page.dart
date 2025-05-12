@@ -15,6 +15,9 @@ class _AbsentPageState extends State<AbsentPage> {
   final fromController = TextEditingController();
   final toController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  List<String> status = ['izin', 'sakit'];
+  String? selectedValue;
+  bool isLoading = false;
 
   Future<void> selectDate({required TextEditingController controller}) async {
     DateTime? picked = await showDatePicker(
@@ -33,6 +36,7 @@ class _AbsentPageState extends State<AbsentPage> {
   void initState() {
     fromController.text = DateFormat("dd-MM-yyyy").format(DateTime.now());
     toController.text = DateFormat("yyyy-MM-dd").format(DateTime.now());
+    selectedValue = status[0];
     super.initState();
   }
 
@@ -64,6 +68,21 @@ class _AbsentPageState extends State<AbsentPage> {
                   icon: Icons.person,
                   validator: (value) =>
                       requiredValidator(value, "Permittor name"),
+                ),
+                const SizedBox(height: defaultMargin),
+                DropdownWidget<String, String>(
+                  selectedValue: selectedValue,
+                  items: status,
+                  getLabel: (item) => item,
+                  getValue: (item) => item,
+                  onChanged: (item) {
+                    setState(() {
+                      selectedValue = item;
+                    });
+                  },
+                  validator: (value) =>
+                      value == null ? "Please select a status" : null,
+                  icon: Icons.info_outline_rounded,
                 ),
                 const SizedBox(height: defaultMargin),
                 InputField(
@@ -99,26 +118,56 @@ class _AbsentPageState extends State<AbsentPage> {
                   textInputAction: TextInputAction.done,
                 ),
                 const SizedBox(height: defaultMargin),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    SecondaryButton(
-                      name: "Cancel",
-                      function: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    const SizedBox(width: defaultMargin),
-                    PrimaryButton(
-                      name: "Submit",
-                      function: () {
-                        if (formKey.currentState!.validate()) {
-                          Navigator.pop(context);
-                        }
-                      },
-                    ),
-                  ],
-                ),
+                isLoading
+                    ? CircularProgressIndicator(
+                        color: mainColor,
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SecondaryButton(
+                            name: "Cancel",
+                            function: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          const SizedBox(width: defaultMargin),
+                          PrimaryButton(
+                            name: "Submit",
+                            function: () async {
+                              if (formKey.currentState!.validate() &&
+                                  !isLoading) {
+                                setState(() {
+                                  isLoading = true;
+                                });
+
+                                var result =
+                                    await AbsenceService().cashierAbsent(
+                                  storeId: widget.laundry.id,
+                                  status: selectedValue!,
+                                  name: nameController.text,
+                                  reason: reasonController.text,
+                                  fromDate: fromController.text,
+                                  toDate: toController.text,
+                                );
+
+                                if (result.value == true) {
+                                  await context
+                                      .read<UserCubit>()
+                                      .getUserByToken(
+                                        token: User.token!,
+                                      );
+                                  Navigator.pop(context);
+                                }
+
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              }
+                            },
+                          ),
+                        ],
+                      ),
               ],
             ),
           ),

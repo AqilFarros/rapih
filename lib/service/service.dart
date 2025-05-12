@@ -19,7 +19,7 @@ part 'layanan_service.dart';
 part 'absence_service.dart';
 part 'cashier_service.dart';
 
-String baseUrl = "http://192.168.198.176:8000/api";
+String baseUrl = "http://192.168.0.24:8000/api";
 var client = http.Client();
 
 abstract class ApiService {
@@ -67,6 +67,24 @@ abstract class ApiService {
       Uri.parse(url),
       headers: header(token: token),
       body: jsonEncode(body),
+    );
+
+    print(response.body);
+
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw Exception(errorMessage);
+    } else {
+      return jsonDecode(response.body);
+    }
+  }
+
+  static put(
+      {required String url,
+      required String errorMessage,
+      String? token}) async {
+    var response = await client.put(
+      Uri.parse(url),
+      headers: header(token: token),
     );
 
     if (response.statusCode != 200 && response.statusCode != 201) {

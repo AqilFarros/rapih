@@ -83,7 +83,25 @@ class _CashirePageState extends State<CashirePage> {
                               child: ManageCard(
                                 title: "Name kasir",
                                 image: "asset/icon/cashier.png",
-                                edit: () {},
+                                edit: () async {
+                                  if (!isLoading) {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+
+                                    await context
+                                        .read<CashierCubit>()
+                                        .editCashier(
+                                          cashierId: state.cashier[index].id,
+                                          storeId: widget.laundry.id,
+                                          status: state.cashier[index].isActive,
+                                        );
+
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                  }
+                                },
                                 delete: () async {
                                   if (!isLoading) {
                                     setState(() {
@@ -110,16 +128,16 @@ class _CashirePageState extends State<CashirePage> {
                                       Icon(
                                         Icons.circle,
                                         size: 10,
-                                        color:
-                                            state.cashier[index].isActive == 1
-                                                ? Colors.green
-                                                : Colors.red,
+                                        color: state.cashier[index].isActive ==
+                                                true
+                                            ? Colors.green
+                                            : Colors.red,
                                       ),
                                       const SizedBox(
                                         width: defaultMargin / 2,
                                       ),
                                       Text(
-                                        state.cashier[index].isActive == 1
+                                        state.cashier[index].isActive == true
                                             ? "Active"
                                             : "Not active",
                                         style:

@@ -46,6 +46,7 @@ class _CreateParfumePageState extends State<CreateParfumePage> {
               validator: (value) {
                 return numberValidator(value, "Price");
               },
+              textInputAction: TextInputAction.done,
             ),
             const SizedBox(
               height: defaultMargin,

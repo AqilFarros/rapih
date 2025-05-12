@@ -58,6 +58,7 @@ class _EditDeliveryPageState extends State<EditDeliveryPage> {
               validator: (value) {
                 return numberValidator(value, "Amount");
               },
+              textInputAction: TextInputAction.done,
             ),
             const SizedBox(
               height: defaultMargin,

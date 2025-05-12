@@ -91,15 +91,19 @@ class _AttendPageState extends State<AttendPage> {
                             image: File(widget.image!.path),
                           );
 
-                          setState(() {
-                            isLoading = false;
-                          });
-
                           if (result.value == true) {
+                            await context.read<UserCubit>().getUserByToken(
+                                  token: User.token!,
+                                );
+                            
                             Navigator.pop(context);
                           } else {
                             print(result.message);
                           }
+
+                          setState(() {
+                            isLoading = false;
+                          });
                         } else {
                           setState(() {
                             imageError = "Your photo is required";

@@ -46,6 +46,7 @@ class _CreateLayananPageState extends State<CreateLayananPage> {
               validator: (value) {
                 return numberValidator(value, "Duration");
               },
+              textInputAction: TextInputAction.done,
             ),
             const SizedBox(
               height: defaultMargin,

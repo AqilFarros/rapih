@@ -21,6 +21,23 @@ class UserService {
       User.token = result['token'];
       User user = User.fromJson(result['user']);
 
+      if (result['kasir'] != null) {
+        user = user.copyWith(
+          laundry: Laundry.fromJson(
+            result['kasir']['store'],
+          ),
+        );
+
+        ApiReturnValue<bool> isAbsence =
+            await AbsenceService().checkAbsence(storeId: user.laundry!.id);
+
+        if (isAbsence.value == true) {
+          user = user.copyWith(isAbsence: true);
+        } else {
+          user = user.copyWith(isAbsence: false);
+        }
+      }
+
       return user;
     });
 
@@ -84,6 +101,23 @@ class UserService {
 
       User.token = token;
       User user = User.fromJson(result['user']);
+
+      if (result['kasir'] != null) {
+        user = user.copyWith(
+          laundry: Laundry.fromJson(
+            result['kasir']['store'],
+          ),
+        );
+
+        ApiReturnValue<bool> isAbsence =
+            await AbsenceService().checkAbsence(storeId: user.laundry!.id);
+
+        if (isAbsence.value == true) {
+          user = user.copyWith(isAbsence: true);
+        } else {
+          user = user.copyWith(isAbsence: false);
+        }
+      }
 
       return user;
     });

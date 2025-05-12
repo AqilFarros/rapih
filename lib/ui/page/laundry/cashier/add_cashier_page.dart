@@ -13,6 +13,7 @@ class _AddCashierPageState extends State<AddCashierPage> {
   final emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
+  bool isAdding = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +41,12 @@ class _AddCashierPageState extends State<AddCashierPage> {
               listener: (context, state) {
                 if (state is CashierLoaded) {
                   Navigator.pop(context);
-                } else {
-                  
+                } else if (state is CashierLoadedFailed) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                    ),
+                  );
                 }
               },
               builder: (context, state) {

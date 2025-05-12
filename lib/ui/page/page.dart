@@ -36,7 +36,7 @@ part 'auth/authenthication_page.dart';
 part 'home/general_home_page.dart';
 part 'home/admin_home_page.dart';
 part 'home/owner_home_page.dart';
-part 'laundry/cashier_home_page.dart';
+part 'home/cashier_home_page.dart';
 part 'home/unpaid_home_page.dart';
 part 'laundry/main_page.dart';
 part 'laundry/absence_page.dart';

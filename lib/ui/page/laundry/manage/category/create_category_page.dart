@@ -35,6 +35,7 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
               validator: (value) {
                 return requiredValidator(value, "Name");
               },
+              textInputAction: TextInputAction.done,
             ),
             const SizedBox(
               height: defaultMargin,

@@ -30,7 +30,31 @@ class CashierService {
         errorMessage: "Cashier is not found. Pleas put a correct email",
       );
 
-      Cashier cashier = Cashier.fromJson(result);
+      Cashier cashier = Cashier.fromJson(result['kasir']);
+
+      return cashier;
+    });
+
+    return response;
+  }
+
+  static Future<ApiReturnValue<Cashier>> editCashier(
+      {required int storeId,
+      required int cashierId,
+      required bool status}) async {
+    String url = "$baseUrl/stores/$storeId/kasirs/$cashierId";
+
+    if (status == true) {
+      url = "$url/update";
+    } else {
+      url = "$url/toggle";
+    }
+
+    var response = await ApiService.handleResponse(() async {
+      var result = await ApiService.put(
+          url: url, errorMessage: "Failed to edit cashier");
+
+      Cashier cashier = Cashier.fromJson(result['kasir']);
 
       return cashier;
     });

@@ -68,7 +68,7 @@ class HomePage extends StatelessWidget {
                       style: regular.copyWith(fontSize: heading2),
                     ),
                     const Spacer(),
-                    Icon(
+                    const Icon(
                       Icons.add_business_outlined,
                       size: heading1,
                     ),

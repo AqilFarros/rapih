@@ -36,6 +36,27 @@ class CashierCubit extends Cubit<CashierState> {
     }
   }
 
+  Future<void> editCashier(
+      {required int storeId,
+      required int cashierId,
+      required bool status}) async {
+    ApiReturnValue<Cashier> result = await CashierService.editCashier(
+      storeId: storeId,
+      cashierId: cashierId,
+      status: status,
+    );
+
+    if (result.value != null) {
+      final currentState = state as CashierLoaded;
+      final updatedCashierList = currentState.cashier
+          .map((item) => item.id == cashierId ? result.value! : item)
+          .toList();
+      emit(CashierLoaded(updatedCashierList));
+    } else {
+      emit(CashierLoadedFailed(result.message!));
+    }
+  }
+
   Future<void> deleteCashier(
       {required int storeId, required int cashierId}) async {
     ApiReturnValue<bool> result = await CashierService.deleteCashier(
