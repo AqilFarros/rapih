@@ -73,9 +73,26 @@ class _AbsencePageState extends State<AbsencePage> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: defaultMargin,
-                  ),
+                ],
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: mainColor,
+                ),
+              );
+            }
+          },
+        ),
+        const SizedBox(
+          height: defaultMargin,
+        ),
+        BlocBuilder<AbsenceCubit, AbsenceState>(
+          builder: (context, state) {
+            if (state is AbsenceLoaded) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Row(
                     children: [
                       Expanded(
@@ -91,7 +108,7 @@ class _AbsencePageState extends State<AbsencePage> {
                                 ),
                               ),
                               Text(
-                                "7",
+                                state.absence.attendList.length.toString(),
                                 style: medium.copyWith(
                                   fontSize: heading,
                                   color: mainColor,
@@ -117,7 +134,7 @@ class _AbsencePageState extends State<AbsencePage> {
                                 ),
                               ),
                               Text(
-                                "5",
+                                state.absence.absentList.length.toString(),
                                 style: medium.copyWith(
                                   fontSize: heading,
                                   color: mainColor,
@@ -147,9 +164,6 @@ class _AbsencePageState extends State<AbsencePage> {
                       },
                     ),
                   ),
-                  const SizedBox(
-                    height: 70,
-                  ),
                 ],
               );
             } else {
@@ -160,6 +174,9 @@ class _AbsencePageState extends State<AbsencePage> {
               );
             }
           },
+        ),
+        const SizedBox(
+          height: 70,
         ),
       ],
     );

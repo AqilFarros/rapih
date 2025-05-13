@@ -16,7 +16,6 @@ import 'package:rapih/ui/page/page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   runApp(const MyApp());
 }
 

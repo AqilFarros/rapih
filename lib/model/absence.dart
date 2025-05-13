@@ -56,6 +56,7 @@ class Attend extends Equatable {
   final String? reason;
   final String? fromDate;
   final String? toDate;
+  final String? createdAt;
 
   const Attend({
     required this.id,
@@ -68,6 +69,7 @@ class Attend extends Equatable {
     this.reason,
     this.fromDate,
     this.toDate,
+    required this.createdAt,
   });
 
   factory Attend.fromJson(Map<String, dynamic> json) => Attend(
@@ -81,6 +83,7 @@ class Attend extends Equatable {
         reason: json['alasan_izin'] ?? '',
         fromDate: json['mulai_izin'] ?? '',
         toDate: json['selesai_izin'] ?? '',
+        createdAt: json['created_at'],
       );
 
   @override

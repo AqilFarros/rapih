@@ -1,7 +1,9 @@
 part of 'widget.dart';
 
 class AttendHistoryWidget extends StatelessWidget {
-  const AttendHistoryWidget({super.key});
+  const AttendHistoryWidget({super.key, required this.attendance});
+
+  final Attend attendance;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,7 @@ class AttendHistoryWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Aqil Farros Al Ghonim",
+                attendance.name,
                 style: semiBold.copyWith(
                   fontSize: heading2,
                   color: mainColor,
@@ -27,7 +29,9 @@ class AttendHistoryWidget extends StatelessWidget {
                     color: grayColor,
                   ),
                   Text(
-                    " 12 November - 13 November",
+                    attendance.fromDate != ""
+                        ? " ${formatDateMonthYear(attendance.fromDate!)} - ${formatDateMonthYear(attendance.toDate!)}"
+                        : " ${convertToHourMinute(attendance.createdAt!)}, ${formatDate(attendance.createdAt!)}",
                     style: medium.copyWith(
                       fontSize: heading3,
                       color: grayColor,
@@ -45,15 +49,25 @@ class AttendHistoryWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CircleAvatar(
-                backgroundImage: AssetImage('asset/image/karyawan.png'),
+                backgroundImage: switch (attendance.status) {
+                  'hadir' => NetworkImage('$imageUrl/${attendance.image}'),
+                  'izin' => const AssetImage('asset/image/absence/izin.jpg'),
+                  'sakit' => const AssetImage('asset/image/absence/sakit.jpg'),
+                  _ => const AssetImage('asset/image/absence/izin.jpg'),
+                },
                 radius: 30,
               ),
               const SizedBox(height: defaultMargin / 2),
               Text(
-                "Sakit",
+                attendance.status,
                 style: medium.copyWith(
                   fontSize: heading3,
-                  color: redColor,
+                  color: switch (attendance.status) {
+                    'hadir' => mainColor,
+                    'izin' => secondaryColor,
+                    'sakit' => redColor,
+                    _ => mainColor,
+                  },
                 ),
               ),
             ],
