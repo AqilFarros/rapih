@@ -58,4 +58,13 @@ class UserCubit extends Cubit<UserState> {
       emit(UserLoadedFailed(message: result.message!));
     }
   }
+
+  void setAbsent(bool value) {
+    if (state is UserLoaded) {
+      User user = (state as UserLoaded).user;
+      final updatedUser = user.copyWith(isAbsence: value);
+      emit(UserInitial());
+      emit(UserLoaded(user: updatedUser));
+    }
+  }
 }

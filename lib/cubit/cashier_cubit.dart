@@ -23,16 +23,17 @@ class CashierCubit extends Cubit<CashierState> {
     ApiReturnValue<Cashier> result =
         await CashierService.addCashier(storeId: storeId, email: email);
 
-    if (result.value != null) {
-      List<Cashier> currentCashier =
-          (state is CashierLoaded) ? (state as CashierLoaded).cashier : [];
+    List<Cashier> currentCashier =
+        (state is CashierLoaded) ? (state as CashierLoaded).cashier : [];
 
+    if (result.value != null) {
       List<Cashier> updatedCashierList = List.from(currentCashier)
         ..insert(0, result.value!);
 
       emit(CashierLoaded(updatedCashierList));
     } else {
       emit(CashierLoadedFailed(result.message!));
+      emit(CashierLoaded(currentCashier));
     }
   }
 

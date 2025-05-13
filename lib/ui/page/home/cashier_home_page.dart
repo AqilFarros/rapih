@@ -9,52 +9,65 @@ class CashierHomePage extends StatelessWidget {
       widget: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CardWidget(
-            content: Row(
-              children: [
-                Image.asset("asset/image/jam.png", height: 70),
-                const SizedBox(
-                  width: defaultMargin,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Kamu belum absen hari ini!",
-                      style: medium.copyWith(fontSize: heading2),
-                    ),
-                    const SizedBox(
-                      height: defaultMargin / 2,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        absentDialog(
-                            context,
-                            ((context.read<UserCubit>()).state as UserLoaded)
-                                .user
-                                .laundry!);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: mainColor,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: defaultMargin,
-                          vertical: defaultMargin / 3,
+          BlocBuilder<UserCubit, UserState>(
+            builder: (context, state) {
+              if (state is UserLoaded) {
+                if (state.user.isAbsence == false) {
+                  return CardWidget(
+                    content: Row(
+                      children: [
+                        Image.asset("asset/image/jam.png", height: 70),
+                        const SizedBox(
+                          width: defaultMargin,
                         ),
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      child: Text(
-                        "Absen Sekarang",
-                        style: semiBold.copyWith(
-                          fontSize: heading4,
-                          color: whiteColor,
-                        ),
-                      ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Kamu belum absen hari ini!",
+                              style: medium.copyWith(fontSize: heading2),
+                            ),
+                            const SizedBox(
+                              height: defaultMargin / 2,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                absentDialog(
+                                    context,
+                                    ((context.read<UserCubit>()).state
+                                            as UserLoaded)
+                                        .user
+                                        .laundry!);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: mainColor,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: defaultMargin,
+                                  vertical: defaultMargin / 3,
+                                ),
+                                minimumSize: Size.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              child: Text(
+                                "Absen Sekarang",
+                                style: semiBold.copyWith(
+                                  fontSize: heading4,
+                                  color: whiteColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  );
+                } else {
+                  return SizedBox();
+                }
+              } else {
+                return SizedBox();
+              }
+            },
           ),
         ],
       ),

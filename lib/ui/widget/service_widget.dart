@@ -1,4 +1,4 @@
-part of '../widget.dart';
+part of 'widget.dart';
 
 class ServiceWidget extends StatelessWidget {
   const ServiceWidget({super.key});

@@ -92,10 +92,7 @@ class _AttendPageState extends State<AttendPage> {
                           );
 
                           if (result.value == true) {
-                            await context.read<UserCubit>().getUserByToken(
-                                  token: User.token!,
-                                );
-                            
+                            context.read<UserCubit>().setAbsent(true);
                             Navigator.pop(context);
                           } else {
                             print(result.message);

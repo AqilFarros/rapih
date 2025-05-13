@@ -69,7 +69,7 @@ class _InputFieldState extends State<InputField> {
                         },
                         icon: const Icon(CupertinoIcons.eye_slash_fill),
                       )
-                : const SizedBox(),
+                : null,
             hintText: widget.hintText,
             hintStyle: light,
             border: OutlineInputBorder(

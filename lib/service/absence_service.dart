@@ -5,7 +5,7 @@ class AbsenceService {
     String url = "$baseUrl/store/$storeId/absensi-kasir/check-today";
 
     var response = await ApiService.handleResponse(() async {
-      var result = await ApiService.post(
+      var result = await ApiService.get(
         url: url,
         errorMessage: "Failed to check absence",
       );
@@ -72,7 +72,11 @@ class AbsenceService {
 
   Future<ApiReturnValue<Absence>> getAbsence(
       {required int storeId, String? start, String? end}) async {
-    String url = "$baseUrl/absensi/riwayat/$storeId";
+    start ??= DateFormat('yyyy-MM-dd').format(DateTime.now());
+    end ??= DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+    String url =
+        "$baseUrl/absensi/riwayat/$storeId?start_date=$start&end_date=$end";
 
     var response = await ApiService.handleResponse(() async {
       var result = await ApiService.get(

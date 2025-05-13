@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:rapih/model/model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,7 +20,7 @@ part 'layanan_service.dart';
 part 'absence_service.dart';
 part 'cashier_service.dart';
 
-String baseUrl = "http://192.168.0.24:8000/api";
+String baseUrl = "http://192.168.0.28:8000/api";
 var client = http.Client();
 
 abstract class ApiService {
