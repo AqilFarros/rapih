@@ -78,7 +78,7 @@ class Attend extends Equatable {
         cashierId: json['kasir_id'],
         name: json['nama'],
         status: json['status'],
-        permittorName: json['name_pemberi_izin'] ?? '',
+        permittorName: json['nama_pemberi_izin'] ?? '',
         image: json['foto_path'] ?? '',
         reason: json['alasan_izin'] ?? '',
         fromDate: json['mulai_izin'] ?? '',

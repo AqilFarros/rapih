@@ -68,6 +68,7 @@ part 'laundry/absence/absent_page.dart';
 part 'laundry/absence/attend_page.dart';
 part 'laundry/absence/camera_page.dart';
 part 'laundry/absence/absence_history_page.dart';
+part 'laundry/absence/absence_detail_page.dart';
 part 'laundry/cashier/cashire_page.dart';
 part 'laundry/cashier/add_cashier_page.dart';
 part 'create/laundry/create_laundry_page.dart';
