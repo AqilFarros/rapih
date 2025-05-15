@@ -1,8 +1,9 @@
 part of '../../../page.dart';
 
 class CustomerPage extends StatefulWidget {
-  const CustomerPage({super.key, required this.laundry});
+  const CustomerPage({super.key, required this.laundry, this.isOrder = false});
   final Laundry laundry;
+  final bool? isOrder;
 
   @override
   State<CustomerPage> createState() => _CustomerPageState();
@@ -80,6 +81,8 @@ class _CustomerPageState extends State<CustomerPage> {
                             (index) => SizedBox(
                               width: itemWidth,
                               child: ManageCard(
+                                isOrder: widget.isOrder,
+                                data: state.customer[index],
                                 title: state.customer[index].name,
                                 image: "asset/icon/customer.png",
                                 widget: [

@@ -1,5 +1,12 @@
 part of 'model.dart';
 
+class SelectedProduct {
+  final Product product;
+  final double quantity;
+
+  SelectedProduct({required this.product, required this.quantity});
+}
+
 class Product extends Equatable {
   final int id;
   final String name;

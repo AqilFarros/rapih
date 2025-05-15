@@ -107,7 +107,7 @@ void absentDialog(BuildContext context, Laundry laundry) {
       ],
       title: Text(
         "What is your absence status today?",
-        style: semiBold.copyWith(fontSize: heading),
+        style: medium.copyWith(fontSize: heading2),
       ),
     ),
   );

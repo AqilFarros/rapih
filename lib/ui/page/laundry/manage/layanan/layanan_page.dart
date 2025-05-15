@@ -1,9 +1,10 @@
 part of '../../../page.dart';
 
 class LayananPage extends StatefulWidget {
-  const LayananPage({super.key, required this.laundry});
+  const LayananPage({super.key, required this.laundry, this.isOrder = false});
 
   final Laundry laundry;
+  final bool? isOrder;
 
   @override
   State<LayananPage> createState() => _LayananPageState();
@@ -81,6 +82,8 @@ class _LayananPageState extends State<LayananPage> {
                             (index) => SizedBox(
                               width: itemWidth,
                               child: ManageCard(
+                                isOrder: widget.isOrder,
+                                data: state.layanan[index],
                                 title: state.layanan[index].name,
                                 image: "asset/icon/layanan.png",
                                 edit: () {
@@ -124,7 +127,7 @@ class _LayananPageState extends State<LayananPage> {
                                       const SizedBox(width: defaultMargin / 4),
                                       Expanded(
                                         child: Text(
-                                          "${state.layanan[index].duration.toString()} days",
+                                          "${state.layanan[index].duration.toString()} jam",
                                           style: medium.copyWith(
                                             fontSize: heading3,
                                             color: mainColor,

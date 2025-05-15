@@ -6,23 +6,25 @@ class InputField extends StatefulWidget {
     required this.label,
     required this.controller,
     required this.hintText,
-    required this.icon,
+    this.icon,
     this.isPassword,
     this.textInputAction,
     required this.validator,
     this.maxLines,
     this.onTap,
+    this.keyboardType,
   });
 
   final String label;
   final TextEditingController controller;
   final String hintText;
-  final IconData icon;
+  final IconData? icon;
   final bool? isPassword;
   final TextInputAction? textInputAction;
   final Function validator;
   final int? maxLines;
   final void Function()? onTap;
+  final TextInputType? keyboardType;
 
   @override
   State<InputField> createState() => _InputFieldState();
@@ -50,7 +52,7 @@ class _InputFieldState extends State<InputField> {
           decoration: InputDecoration(
             filled: true,
             fillColor: whiteColor,
-            prefixIcon: Icon(widget.icon),
+            prefixIcon: widget.icon != null ? Icon(widget.icon) : null,
             suffixIcon: widget.isPassword == true
                 ? isObscure == true
                     ? IconButton(
@@ -90,6 +92,7 @@ class _InputFieldState extends State<InputField> {
           obscureText: widget.isPassword == true ? isObscure : false,
           style: regular,
           textInputAction: widget.textInputAction ?? TextInputAction.next,
+          keyboardType: widget.keyboardType ?? TextInputType.text,
           validator: widget.validator as String? Function(String?)?,
           maxLines: widget.maxLines ?? 1,
         ),

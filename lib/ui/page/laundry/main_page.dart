@@ -21,19 +21,29 @@ class _MainPageState extends State<MainPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CardWidget(
-          content: Row(
-            children: [
-              Text(
-                "Make an order",
-                style: regular.copyWith(fontSize: heading2),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddOrderPage(laundry: widget.laundry),
               ),
-              const Spacer(),
-              const Icon(
-                Icons.shopping_cart_outlined,
-                size: heading1,
-              ),
-            ],
+            );
+          },
+          child: CardWidget(
+            content: Row(
+              children: [
+                Text(
+                  "Make an order",
+                  style: regular.copyWith(fontSize: heading2),
+                ),
+                const Spacer(),
+                const Icon(
+                  Icons.shopping_cart_outlined,
+                  size: heading1,
+                ),
+              ],
+            ),
           ),
         ),
         const SizedBox(

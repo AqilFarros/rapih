@@ -55,6 +55,7 @@ class _CreateCustomerPageState extends State<CreateCustomerPage> {
               controller: numberController,
               hintText: "Phone Number",
               icon: Icons.phone,
+              keyboardType: TextInputType.number,
               validator: (value) {
                 return numberValidator(value, "Phone Number");
               },
