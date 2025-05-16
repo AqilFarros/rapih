@@ -71,6 +71,7 @@ class _AbsentPageState extends State<AbsentPage> {
                 ),
                 const SizedBox(height: defaultMargin),
                 DropdownWidget<String, String>(
+                  label: "Status",
                   selectedValue: selectedValue,
                   items: status,
                   getLabel: (item) => item,

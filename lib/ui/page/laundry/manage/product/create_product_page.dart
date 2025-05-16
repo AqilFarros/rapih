@@ -83,6 +83,7 @@ class _CreateProductPageState extends State<CreateProductPage> {
                       height: defaultMargin,
                     ),
                     DropdownWidget<int, Category>(
+                      label: "Category",
                       selectedValue: selectedCategory,
                       items: categoryState.category,
                       getLabel: (item) => item.name,

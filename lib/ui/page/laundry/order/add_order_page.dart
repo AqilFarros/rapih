@@ -19,6 +19,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
   final TextEditingController parfumeController = TextEditingController();
   final TextEditingController discountController = TextEditingController();
   final TextEditingController deliveryController = TextEditingController();
+  final TextEditingController receiveMoneyController = TextEditingController();
 
   Customer? selectedCustomer;
   Layanan? selectedLayanan;
@@ -26,6 +27,31 @@ class _AddOrderPageState extends State<AddOrderPage> {
   Discount? selectedDiscount;
   Delivery? selectedDelivery;
   List<SelectedProduct> selectedProduct = [];
+  String? selectedPayment;
+  String? selectedPaymentStatus;
+  List<String> payments = ['Cash', 'Transfer', 'E-Wallet'];
+  List<String> paymentStatus = ['Sudah Dibayar', 'Belum Dibayar'];
+
+  @override
+  void initState() {
+    selectedPayment = payments.first;
+    selectedPaymentStatus = paymentStatus.first;
+    receiveMoneyController.text = 0.toString();
+    super.initState();
+  }
+
+  double uangKembalian() {
+    double receivedMoney = double.tryParse(receiveMoneyController.text) ?? 0;
+
+    double total = calculateTotalPrice(selectedProduct).toDouble() +
+        (selectedDelivery?.amount ?? 0) +
+        (selectedParfume?.price ?? 0) -
+        (selectedDiscount?.amount ?? 0);
+
+    double change = receivedMoney - total;
+
+    return change;
+  }
 
   void selectProduct() async {
     final result = await Navigator.push(
@@ -270,6 +296,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                 controller: layananController,
                 name: 'Layanan',
                 icon: Icons.local_laundry_service_outlined,
+                isRequired: true,
               ),
               const SizedBox(height: defaultMargin),
               AddOrderWidget(
@@ -280,7 +307,8 @@ class _AddOrderPageState extends State<AddOrderPage> {
                 resultFunction: (Parfume result) {
                   setState(() {
                     selectedParfume = result;
-                    parfumeController.text = result.name;
+                    parfumeController.text =
+                        "${result.name} (${NumberFormat.currency(locale: 'id', symbol: 'Rp ', decimalDigits: 0).format(result.price)})";
                   });
                 },
                 controller: parfumeController,
@@ -289,17 +317,243 @@ class _AddOrderPageState extends State<AddOrderPage> {
               ),
               const SizedBox(height: defaultMargin),
               AddOrderWidget(
-                page: DeliveryPage(laundry: widget.laundry),
+                page: DeliveryPage(
+                  laundry: widget.laundry,
+                  isOrder: true,
+                ),
                 resultFunction: (Delivery result) {
                   setState(() {
                     selectedDelivery = result;
-                    deliveryController.text = result.name;
+                    deliveryController.text =
+                        "${result.name} (${NumberFormat.currency(locale: 'id', symbol: 'Rp ', decimalDigits: 0).format(result.amount)})";
                   });
                 },
                 controller: deliveryController,
                 name: 'Delivery',
-                icon: Icons.local_laundry_service_outlined,
+                icon: Icons.delivery_dining_rounded,
               ),
+              const SizedBox(height: defaultMargin),
+              AddOrderWidget(
+                page: DiscountPage(
+                  laundry: widget.laundry,
+                  isOrder: true,
+                ),
+                resultFunction: (Discount result) {
+                  setState(() {
+                    selectedDiscount = result;
+                    discountController.text =
+                        "${result.name} (${NumberFormat.currency(locale: 'id', symbol: 'Rp ', decimalDigits: 0).format(result.amount)})";
+                  });
+                },
+                icon: Icons.discount_rounded,
+                name: "Discount",
+                controller: discountController,
+              ),
+              const SizedBox(height: defaultMargin),
+              CardWidget(
+                content: DropdownWidget(
+                  label: "Payment method",
+                  selectedValue: selectedPayment,
+                  items: payments,
+                  getLabel: (item) => item,
+                  getValue: (item) => item,
+                  onChanged: (item) {
+                    setState(() {
+                      selectedPayment = item;
+                    });
+                  },
+                  validator: (value) =>
+                      value == null ? "Please select a payment" : null,
+                  icon: Icons.payment_rounded,
+                ),
+              ),
+              const SizedBox(height: defaultMargin),
+              CardWidget(
+                content: DropdownWidget(
+                  label: "Payment status",
+                  selectedValue: selectedPaymentStatus,
+                  items: paymentStatus,
+                  getLabel: (item) => item,
+                  getValue: (item) => item,
+                  onChanged: (item) {
+                    setState(() {
+                      selectedPaymentStatus = item;
+                    });
+                  },
+                  validator: (value) =>
+                      value == null ? "Please select a payment status" : null,
+                  icon: Icons.payment_rounded,
+                ),
+              ),
+              const SizedBox(height: defaultMargin),
+              CardWidget(
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    InputField(
+                      label: "Uang diterima",
+                      controller: receiveMoneyController,
+                      hintText: "0",
+                      validator: (value) {},
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.done,
+                    ),
+                    const SizedBox(
+                      height: defaultMargin / 2,
+                    ),
+                    Text(
+                      "Kembalian: ${NumberFormat.currency(
+                        locale: 'id',
+                        symbol: 'Rp ',
+                        decimalDigits: 0,
+                      ).format(
+                        uangKembalian() < 0 ? 0 : uangKembalian(),
+                      )}",
+                      style: medium,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: defaultMargin),
+              const Divider(),
+              const SizedBox(height: defaultMargin),
+              CardWidget(
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          "Subtotal produk",
+                          style: medium.copyWith(fontSize: heading3),
+                        ),
+                        const Spacer(),
+                        Text(
+                          NumberFormat.currency(
+                            locale: 'id',
+                            symbol: 'Rp ',
+                            decimalDigits: 0,
+                          ).format(calculateTotalPrice(selectedProduct)),
+                          style: medium.copyWith(fontSize: heading3),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Biaya delivery",
+                          style: medium.copyWith(fontSize: heading3),
+                        ),
+                        const Spacer(),
+                        Text(
+                          NumberFormat.currency(
+                            locale: 'id',
+                            symbol: 'Rp ',
+                            decimalDigits: 0,
+                          ).format(
+                            selectedDelivery?.amount ?? 0,
+                          ),
+                          style: medium.copyWith(fontSize: heading3),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Biaya parfum",
+                          style: medium.copyWith(fontSize: heading3),
+                        ),
+                        const Spacer(),
+                        Text(
+                          NumberFormat.currency(
+                            locale: 'id',
+                            symbol: 'Rp ',
+                            decimalDigits: 0,
+                          ).format(
+                            selectedParfume?.price ?? 0,
+                          ),
+                          style: medium.copyWith(fontSize: heading3),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Diskon",
+                          style: medium.copyWith(fontSize: heading3),
+                        ),
+                        const Spacer(),
+                        Text(
+                          "-${NumberFormat.currency(
+                            locale: 'id',
+                            symbol: 'Rp ',
+                            decimalDigits: 0,
+                          ).format(
+                            selectedDiscount?.amount ?? 0,
+                          )}",
+                          style: medium.copyWith(fontSize: heading3),
+                        ),
+                      ],
+                    ),
+                    const Divider(),
+                    Row(
+                      children: [
+                        Text(
+                          "Total",
+                          style: semiBold.copyWith(fontSize: heading1),
+                        ),
+                        const Spacer(),
+                        Text(
+                          NumberFormat.currency(
+                            locale: 'id',
+                            symbol: 'Rp ',
+                            decimalDigits: 0,
+                          ).format(
+                            calculateTotalPrice(selectedProduct) +
+                                (selectedDelivery?.amount ?? 0) +
+                                (selectedParfume?.price ?? 0) -
+                                (selectedDiscount?.amount ?? 0),
+                          ),
+                          style: semiBold.copyWith(
+                            color: mainColor,
+                            fontSize: heading1,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      "Est selesai: ",
+                      style: semiBold.copyWith(fontSize: heading3),
+                    ),
+                    Text(
+                      formatWaktuDenganPenambahan(
+                          tambahJam: selectedLayanan?.duration ?? 0),
+                      style: semiBold.copyWith(
+                        fontSize: heading3,
+                        color: mainColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: defaultMargin),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  SecondaryButton(
+                    name: "Cancel",
+                    function: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  const SizedBox(width: defaultMargin / 2),
+                  PrimaryButton(
+                    name: "Save",
+                    function: () {},
+                  ),
+                ],
+              ),
+              const SizedBox(height: 70),
             ],
           ),
         ),

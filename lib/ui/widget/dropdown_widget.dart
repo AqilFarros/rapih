@@ -3,6 +3,7 @@ part of 'widget.dart';
 class DropdownWidget<T, D> extends StatelessWidget {
   const DropdownWidget({
     super.key,
+    required this.label,
     required this.selectedValue,
     required this.items,
     required this.getLabel,
@@ -12,6 +13,7 @@ class DropdownWidget<T, D> extends StatelessWidget {
     required this.icon,
   });
 
+  final String label;
   final T? selectedValue;
   final List<D> items;
   final String Function(D item) getLabel;
@@ -22,44 +24,56 @@ class DropdownWidget<T, D> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField(
-      value: selectedValue,
-      isExpanded: true,
-      items: items
-          .map(
-            (item) => DropdownMenuItem<T>(
-              value: getValue(item),
-              child: Text(
-                getLabel(item),
-                style: regular.copyWith(color: blackColor),
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: medium,
+        ),
+        const SizedBox(
+          height: defaultMargin / 2,
+        ),
+        DropdownButtonFormField(
+          value: selectedValue,
+          isExpanded: true,
+          items: items
+              .map(
+                (item) => DropdownMenuItem<T>(
+                  value: getValue(item),
+                  child: Text(
+                    getLabel(item),
+                    style: regular.copyWith(color: blackColor),
+                  ),
+                ),
+              )
+              .toList(),
+          onChanged: onChanged,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: whiteColor,
+            prefixIcon: Icon(icon),
+            hintText: "Select an item",
+            hintStyle: light,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(defaultMargin / 2),
+              borderSide: BorderSide(color: whiteSmokeColor),
             ),
-          )
-          .toList(),
-      onChanged: onChanged,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: whiteColor,
-        prefixIcon: Icon(icon),
-        hintText: "Select an item",
-        hintStyle: light,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(defaultMargin / 2),
-          borderSide: BorderSide(color: whiteSmokeColor),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(defaultMargin / 2),
+              borderSide: BorderSide(color: mainColor),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(defaultMargin / 2),
+              borderSide: BorderSide(color: redColor),
+            ),
+          ),
+          icon: const Icon(Icons.keyboard_arrow_down_rounded),
+          dropdownColor: whiteColor,
+          style: regular,
+          validator: validator,
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(defaultMargin / 2),
-          borderSide: BorderSide(color: mainColor),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(defaultMargin / 2),
-          borderSide: BorderSide(color: redColor),
-        ),
-      ),
-      icon: const Icon(Icons.keyboard_arrow_down_rounded),
-      dropdownColor: whiteColor,
-      style: regular,
-      validator: validator,
+      ],
     );
   }
 }

@@ -85,6 +85,7 @@ class _EditProductPageState extends State<EditProductPage> {
                       height: defaultMargin,
                     ),
                     DropdownWidget<int, Category>(
+                      label: "Category",
                       selectedValue: selectedCategory,
                       items: categoryState.category,
                       getLabel: (item) => item.name,

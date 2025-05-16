@@ -1,9 +1,10 @@
 part of '../../../page.dart';
 
 class DeliveryPage extends StatefulWidget {
-  const DeliveryPage({super.key, required this.laundry});
+  const DeliveryPage({super.key, required this.laundry, this.isOrder = false,});
 
   final Laundry laundry;
+  final bool? isOrder;
 
   @override
   State<DeliveryPage> createState() => _DeliveryPageState();
@@ -81,6 +82,8 @@ class _DeliveryPageState extends State<DeliveryPage> {
                             (index) => SizedBox(
                               width: itemWidth,
                               child: ManageCard(
+                                isOrder: widget.isOrder,
+                                data: state.delivery[index],
                                 title: state.delivery[index].name,
                                 image: "asset/icon/delivery.png",
                                 edit: () {
