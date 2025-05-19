@@ -5,12 +5,18 @@ class LaundryService {
     String url = "$baseUrl/stores";
 
     var response = await ApiService.handleResponse(() async {
-      var result = await ApiService.get(
-          url: url, errorMessage: "Failed to get laundry");
+      var result =
+          await ApiService.get(url: url, errorMessage: "Failed to get laundry");
 
-      List<Laundry> laundry = (result['data'] as Iterable).map((e) {
-        return Laundry.fromJson(e['store']);
-      }).toList();
+      List<Laundry> laundry =
+          await Future.wait((result['data'] as Iterable).map((e) async {
+        Laundry laundry = Laundry.fromJson(e['store']);
+        ApiReturnValue<Wallet> wallet =
+            await WalletService.getWallet(storeId: e['store']['id']);
+        laundry = laundry.copyWith(wallet: wallet.value);
+
+        return laundry;
+      }).toList());
 
       return laundry;
     });
@@ -50,6 +56,9 @@ class LaundryService {
       );
 
       Laundry laundry = Laundry.fromJson(result['data']['store']);
+      ApiReturnValue<Wallet> wallet =
+          await WalletService.getWallet(storeId: laundry.id);
+      laundry = laundry.copyWith(wallet: wallet.value);
 
       return laundry;
     });

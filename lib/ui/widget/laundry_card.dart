@@ -1,20 +1,9 @@
 part of 'widget.dart';
 
-class LaundryCard extends StatefulWidget {
+class LaundryCard extends StatelessWidget {
   const LaundryCard({super.key, required this.laundry});
 
   final Laundry laundry;
-
-  @override
-  State<LaundryCard> createState() => _LaundryCardState();
-}
-
-class _LaundryCardState extends State<LaundryCard> {
-  @override
-  void initState() {
-    context.read<WalletCubit>().getWallet(storeId: widget.laundry.id);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +13,7 @@ class _LaundryCardState extends State<LaundryCard> {
           context,
           MaterialPageRoute(
             builder: (context) => GeneralLaundryPage(
-              laundry: widget.laundry,
+              laundry: laundry,
             ),
           ),
         );
@@ -41,7 +30,7 @@ class _LaundryCardState extends State<LaundryCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.laundry.name,
+                      laundry.name,
                       style: medium.copyWith(
                         fontSize: heading4,
                         color: blackColor,
@@ -50,7 +39,7 @@ class _LaundryCardState extends State<LaundryCard> {
                       maxLines: 1,
                     ),
                     Text(
-                      widget.laundry.address,
+                      laundry.address,
                       style: regular.copyWith(
                         fontSize: description,
                         color: grayColor,
@@ -66,7 +55,7 @@ class _LaundryCardState extends State<LaundryCard> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(
-                        '$imageUrl/${widget.laundry.picture}',
+                        '$imageUrl/${laundry.picture}',
                       ),
                       fit: BoxFit.cover,
                     ),
@@ -85,26 +74,17 @@ class _LaundryCardState extends State<LaundryCard> {
                   children: [
                     Row(
                       children: [
-                        BlocBuilder<WalletCubit, WalletState>(
-                            builder: (context, state) {
-                          if (state is WalletLoaded) {
-                            return Text(
+                        Text(
                               NumberFormat.currency(
                                 locale: 'id',
                                 symbol: 'Rp ',
                                 decimalDigits: 0,
-                              ).format(state.wallet.balance),
+                              ).format(laundry.wallet != null ? laundry.wallet!.balance : 0),
                               style: medium.copyWith(
                                 fontSize: heading1,
                                 color: mainColor,
                               ),
-                            );
-                          } else if (state is WalletLoadedFailed) {
-                            return const Text("");
-                          } else {
-                            return CircularProgressIndicator(color: mainColor,);
-                          }
-                        }),
+                            )
                       ],
                     ),
                   ],

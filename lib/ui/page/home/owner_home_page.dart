@@ -81,6 +81,9 @@ class _OwnerHomePageState extends State<OwnerHomePage> {
               }
             },
           ),
+          const SizedBox(
+            height: defaultMargin,
+          ),
         ],
       ),
     );

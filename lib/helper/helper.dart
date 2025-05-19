@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:rapih/cubit/user_cubit.dart';
 import 'package:rapih/model/model.dart';
 
-String imageUrl = "http://192.168.0.39:8000/storage";
+String imageUrl = "http://192.168.0.25:8000/storage";
 
 String roleNavigation(BuildContext context) {
   final role = ((context.read<UserCubit>()).state as UserLoaded).user.role;

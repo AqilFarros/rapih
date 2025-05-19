@@ -9,7 +9,7 @@ class WalletService {
       var result =
           await ApiService.get(url: url, errorMessage: "Failed to get wallet");
 
-      Wallet wallet = Wallet.fromJson(result, result['wallet']);
+      Wallet wallet = Wallet.fromJson(result);
 
       return wallet;
     });

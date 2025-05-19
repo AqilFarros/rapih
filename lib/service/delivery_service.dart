@@ -21,6 +21,22 @@ class DeliveryService {
     return response;
   }
 
+  static Future<ApiReturnValue<Delivery>> getDeliveryById(
+      {required int storeId, required int deliveryId}) async {
+    String url = "$baseUrl/stores/$storeId/deliveries/$deliveryId";
+
+    var response = await ApiService.handleResponse(() async {
+      var result = await ApiService.get(
+        url: url,
+        errorMessage: "Failed to get delivery",
+      );
+
+      return Delivery.fromJson(result['delivery']);
+    });
+
+    return response;
+  }
+
   static Future<ApiReturnValue<Delivery>> addDelivery(
       {required int storeId, required String name, required int amount}) async {
     String url = "$baseUrl/stores/$storeId/deliveries/create";

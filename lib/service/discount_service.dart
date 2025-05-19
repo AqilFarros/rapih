@@ -21,6 +21,22 @@ class DiscountService {
     return response;
   }
 
+  static Future<ApiReturnValue<Discount>> getDiscountById(
+      {required int storeId, required int discountId}) async {
+    String url = "$baseUrl/stores/$storeId/discounts/$discountId";
+
+    var response = await ApiService.handleResponse(() async {
+      var result = await ApiService.get(
+        url: url,
+        errorMessage: "Failed to get discount",
+      );
+
+      return Discount.fromJson(result['discount']);
+    });
+
+    return response;
+  }
+
   static Future<ApiReturnValue<Discount>> addDiscount(
       {required int storeId, required String name, required int amount}) async {
     String url = "$baseUrl/stores/$storeId/discounts/create";
@@ -43,10 +59,12 @@ class DiscountService {
     return response;
   }
 
-  static Future<ApiReturnValue<Discount>> editDiscount(
-      {required int storeId,
-      required int discountId,
-      required String name, required int amount,}) async {
+  static Future<ApiReturnValue<Discount>> editDiscount({
+    required int storeId,
+    required int discountId,
+    required String name,
+    required int amount,
+  }) async {
     String url = "$baseUrl/stores/$storeId/discounts/$discountId/update";
 
     var response = await ApiService.handleResponse(() async {

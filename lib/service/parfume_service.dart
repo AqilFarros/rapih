@@ -6,12 +6,11 @@ class ParfumeService {
     String url = "$baseUrl/stores/$storeId/parfumes";
 
     var response = await ApiService.handleResponse(() async {
-      var result = await ApiService.get(
-          url: url, errorMessage: "Failed to get parfume");
+      var result =
+          await ApiService.get(url: url, errorMessage: "Failed to get parfume");
 
-      List<Parfume> parfume = (result['data'] as Iterable)
-          .map((e) => Parfume.fromJson(e))
-          .toList();
+      List<Parfume> parfume =
+          (result['data'] as Iterable).map((e) => Parfume.fromJson(e)).toList();
 
       return parfume;
     });
@@ -19,8 +18,25 @@ class ParfumeService {
     return response;
   }
 
-  static Future<ApiReturnValue<Parfume>> addParfume(
-      {required int storeId, required String name, required int price,}) async {
+  static Future<ApiReturnValue<Parfume>> getParfumeById(
+      {required int storeId, required int parfumeId}) async {
+    String url = "$baseUrl/stores/$storeId/parfumes/$parfumeId";
+
+    var response = await ApiService.handleResponse(() async {
+      var result =
+          await ApiService.get(url: url, errorMessage: "Failed to get parfume");
+
+      return Parfume.fromJson(result['data']);
+    });
+
+    return response;
+  }
+
+  static Future<ApiReturnValue<Parfume>> addParfume({
+    required int storeId,
+    required String name,
+    required int price,
+  }) async {
     String url = "$baseUrl/stores/$storeId/parfumes/create";
 
     var response = await ApiService.handleResponse(() async {
@@ -41,10 +57,12 @@ class ParfumeService {
     return response;
   }
 
-  static Future<ApiReturnValue<Parfume>> editParfume(
-      {required int storeId,
-      required int parfumeId,
-      required String name, required int price,}) async {
+  static Future<ApiReturnValue<Parfume>> editParfume({
+    required int storeId,
+    required int parfumeId,
+    required String name,
+    required int price,
+  }) async {
     String url = "$baseUrl/stores/$storeId/parfumes/$parfumeId/update";
 
     var response = await ApiService.handleResponse(() async {

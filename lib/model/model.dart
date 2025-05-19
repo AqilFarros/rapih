@@ -12,4 +12,5 @@ part 'delivery.dart';
 part 'wallet.dart';
 part 'cashier.dart';
 part 'absence.dart';
+part 'order.dart';
 part 'api_return_value.dart';

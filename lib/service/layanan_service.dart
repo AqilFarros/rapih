@@ -19,6 +19,20 @@ class LayananService {
     return response;
   }
 
+  static Future<ApiReturnValue<Layanan>> getLayananByid(
+      {required int storeId, required int layananId}) async {
+    String url = "$baseUrl/stores/$storeId/layanan/$layananId";
+
+    var response = await ApiService.handleResponse(() async {
+      var result = await ApiService.get(
+          url: url, errorMessage: "Failed to get layanan");
+
+      return Layanan.fromJson(result['data']);
+    });
+
+    return response;
+  }
+
   static Future<ApiReturnValue<Layanan>> addLayanan(
       {required int storeId, required String name, required int duration,}) async {
     String url = "$baseUrl/stores/$storeId/layanan/create";

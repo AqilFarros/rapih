@@ -19,6 +19,20 @@ class ProductService {
     return response;
   }
 
+  static Future<ApiReturnValue<Product>> getProductById(
+      {required int storeId, required int productId}) async {
+    String url = "$baseUrl/stores/$storeId/products/$productId";
+
+    var response = await ApiService.handleResponse(() async {
+      var result = await ApiService.get(
+          url: url, errorMessage: "Failed to get product");
+
+      return Product.fromJson(result['product']);
+    });
+
+    return response;
+  }
+
   static Future<ApiReturnValue<Product>> addProduct({
     required int storeId,
     required String name,

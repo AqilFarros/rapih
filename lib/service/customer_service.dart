@@ -19,8 +19,25 @@ class CustomerService {
     return response;
   }
 
+  static Future<ApiReturnValue<Customer>> getCustomerById(
+      {required int storeId, required int customerId}) async {
+    String url = "$baseUrl/stores/$storeId/customers/$customerId/show";
+
+    var response = await ApiService.handleResponse(() async {
+      var result = await ApiService.get(
+          url: url, errorMessage: "Failed to get customer");
+
+      return Customer.fromJson(result['customer']);
+    });
+
+    return response;
+  }
+
   static Future<ApiReturnValue<Customer>> addCustomer(
-      {required int storeId, required String name, required String address, required int number}) async {
+      {required int storeId,
+      required String name,
+      required String address,
+      required int number}) async {
     String url = "$baseUrl/stores/$storeId/customers/create";
 
     var response = await ApiService.handleResponse(() async {
