@@ -9,6 +9,7 @@ import 'package:rapih/cubit/delivery_cubit.dart';
 import 'package:rapih/cubit/discount_cubit.dart';
 import 'package:rapih/cubit/laundry_cubit.dart';
 import 'package:rapih/cubit/layanan_cubit.dart';
+import 'package:rapih/cubit/order_cubit.dart';
 import 'package:rapih/cubit/parfume_cubit.dart';
 import 'package:rapih/cubit/product_cubit.dart';
 import 'package:rapih/cubit/user_cubit.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ProductCubit()),
         BlocProvider(create: (context) => CashierCubit()),
         BlocProvider(create: (context) => AbsenceCubit()),
+        BlocProvider(create: (context) => OrderCubit()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

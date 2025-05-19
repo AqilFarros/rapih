@@ -31,7 +31,7 @@ class Product extends Equatable {
       price: json['price'] as int,
       storeId: json['store_id'] as int,
       categoryId: json['category_id'] as int,
-      categoryName: json['category_name'] as String,
+      categoryName: json['category_name'] ?? json['category']['name'],
     );
   }
 

@@ -75,36 +75,38 @@ class LaundryCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                              NumberFormat.currency(
-                                locale: 'id',
-                                symbol: 'Rp ',
-                                decimalDigits: 0,
-                              ).format(laundry.wallet != null ? laundry.wallet!.balance : 0),
-                              style: medium.copyWith(
-                                fontSize: heading1,
-                                color: mainColor,
-                              ),
-                            )
+                          NumberFormat.currency(
+                            locale: 'id',
+                            symbol: 'Rp ',
+                            decimalDigits: 0,
+                          ).format(laundry.wallet != null
+                              ? laundry.wallet!.balance
+                              : 0),
+                          style: medium.copyWith(
+                            fontSize: heading1,
+                            color: mainColor,
+                          ),
+                        )
                       ],
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Icon(
-                      CupertinoIcons.person,
-                      size: 32,
-                      color: mainColor,
-                    ),
-                    Text(
-                      "10",
-                      style: medium.copyWith(
-                        fontSize: heading1,
-                        color: mainColor,
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Icon(
+                //       CupertinoIcons.person,
+                //       size: 32,
+                //       color: mainColor,
+                //     ),
+                //     Text(
+                //       "10",
+                //       style: medium.copyWith(
+                //         fontSize: heading1,
+                //         color: mainColor,
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ],

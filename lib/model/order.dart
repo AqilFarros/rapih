@@ -2,14 +2,15 @@ part of 'model.dart';
 
 class Order extends Equatable {
   final int id;
-  final int orderCode;
+  final String orderCode;
   final int storeId;
   final String status;
   final Customer customer;
   final Layanan layanan;
-  final Product product;
-  final double productQuantity;
-  final int subTotal;
+  final List<ProductOrder> products;
+  // final List<Product> product;
+  // final double productQuantity;
+  // final int subTotal;
   final int totalPrice;
   final Discount? discount;
   final Parfume? parfume;
@@ -25,9 +26,10 @@ class Order extends Equatable {
     required this.status,
     required this.customer,
     required this.layanan,
-    required this.product,
-    required this.productQuantity,
-    required this.subTotal,
+    required this.products,
+    // required this.product,
+    // required this.productQuantity,
+    // required this.subTotal,
     required this.totalPrice,
     this.discount,
     this.parfume,
@@ -44,13 +46,21 @@ class Order extends Equatable {
         status: json['status'],
         customer: Customer.fromJson(json['customer']),
         layanan: Layanan.fromJson(json['layanans']),
-        product: Product.fromJson(json['products']),
-        productQuantity: json['products']['pivot']['quantity'],
-        subTotal: json['products']['pivot']['subtotal'],
+        products: (json['products'] as Iterable).map((item) => ProductOrder.fromJson(item)).toList(),
+        // product: (json['products'] as Iterable)
+        //     .map((item) => Product.fromJson(item))
+        //     .toList(),
+        // productQuantity: json['products']['pivot']['quantity'],
+        // subTotal: json['products']['pivot']['subtotal'],
         totalPrice: json['total_price'],
-        discount: json['discount'] != null ? Discount.fromJson(json['discount']) : null,
-        parfume: json['parfume'] != null ? Parfume.fromJson(json['parfume']) : null,
-        delivery: json['delivery'] != null ? Delivery.fromJson(json['delivery']) : null,
+        discount: json['discount'] != null
+            ? Discount.fromJson(json['discount'])
+            : null,
+        parfume:
+            json['parfume'] != null ? Parfume.fromJson(json['parfume']) : null,
+        delivery: json['delivery'] != null
+            ? Delivery.fromJson(json['delivery'])
+            : null,
         paymentMethod: json['payment_method'],
         isPaid: json['is_paid'] == 1 ? true : false,
         estDate: json['estimation_date'],
@@ -98,9 +108,10 @@ class Order extends Equatable {
         status,
         customer,
         layanan,
-        product,
-        productQuantity,
-        subTotal,
+        products,
+        // product,
+        // productQuantity,
+        // subTotal,
         totalPrice,
         discount,
         parfume,
@@ -109,4 +120,22 @@ class Order extends Equatable {
         isPaid,
         estDate,
       ];
+}
+
+class ProductOrder {
+  final Product product;
+  final int quantity;
+  final int subTotal;
+
+  const ProductOrder({
+    required this.product,
+    required this.quantity,
+    required this.subTotal,
+  });
+
+  factory ProductOrder.fromJson(Map<String, dynamic> json) => ProductOrder(
+        product: Product.fromJson(json),
+        quantity: json['pivot']['quantity'],
+        subTotal: json['pivot']['subtotal'],
+        );
 }

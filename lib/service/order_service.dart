@@ -9,12 +9,17 @@ class OrderService {
       var result =
           await ApiService.get(url: url, errorMessage: "Failed to get orders");
 
-      var orders =
-          Future.wait((result['data']['data'] as Iterable).map((item) async {
+      // print(result);
+
+      List<Order> orders = await Future.wait(
+          (result['data']['data'] as Iterable).map((item) async {
         ApiReturnValue<Order> order;
         order = await getOrderById(storeId: storeId, orderId: item['id']);
+        // print(order.value);
         return order.value!;
       }).toList());
+
+      // print(orders);
 
       return orders;
     });
@@ -30,7 +35,9 @@ class OrderService {
       var result =
           await ApiService.get(url: url, errorMessage: "Failed to get order");
 
-      return Order.fromJson(result['data']);
+      Order order = Order.fromJson(result['data']);
+
+      return order;
     });
 
     return response;

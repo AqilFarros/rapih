@@ -1,9 +1,20 @@
 part of '../page.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   const MainPage({super.key, required this.laundry});
 
   final Laundry laundry;
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  @override
+  void initState() {
+    context.read<OrderCubit>().getOrder(storeId: widget.laundry.id);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +26,7 @@ class MainPage extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AddOrderPage(laundry: laundry),
+                builder: (context) => AddOrderPage(laundry: widget.laundry),
               ),
             );
           },
@@ -66,7 +77,7 @@ class MainPage extends StatelessWidget {
                           locale: 'id',
                           symbol: 'Rp ',
                           decimalDigits: 0,
-                        ).format(laundry.wallet!.balance),
+                        ).format(widget.laundry.wallet!.balance),
                         style: semiBold.copyWith(
                           fontSize: heading1,
                           color: mainColor,
@@ -97,7 +108,7 @@ class MainPage extends StatelessWidget {
                             locale: 'id',
                             symbol: 'Rp ',
                             decimalDigits: 0,
-                          ).format(laundry.wallet!.income),
+                          ).format(widget.laundry.wallet!.income),
                           style: medium.copyWith(
                             fontSize: heading2,
                             color: greenColor,
@@ -125,7 +136,7 @@ class MainPage extends StatelessWidget {
                             locale: 'id',
                             symbol: 'Rp ',
                             decimalDigits: 0,
-                          ).format(laundry.wallet!.expense),
+                          ).format(widget.laundry.wallet!.expense),
                           style: medium.copyWith(
                             fontSize: heading2,
                             color: redColor,
@@ -146,102 +157,126 @@ class MainPage extends StatelessWidget {
         const SizedBox(
           height: defaultMargin / 2,
         ),
-        CardWidget(
-          content: Row(
-            children: [
-              Image.asset("asset/image/list.png", height: 70),
-              const SizedBox(
-                width: defaultMargin,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        BlocBuilder<OrderCubit, OrderState>(
+          builder: (context, state) {
+            if (state is OrderLoaded) {
+              return Column(
                 children: [
-                  Text(
-                    "12 pesanan belum selesai!",
-                    style: medium.copyWith(fontSize: heading2),
+                  CardWidget(
+                    content: Row(
+                      children: [
+                        Image.asset("asset/image/list.png", height: 70),
+                        const SizedBox(
+                          width: defaultMargin,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${state.orders.where((item) => item.status == "pending" || item.status == "dicuci").length} pesanan belum selesai!",
+                              style: medium.copyWith(fontSize: heading2),
+                            ),
+                            const SizedBox(
+                              height: defaultMargin / 2,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: mainColor,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: defaultMargin,
+                                  vertical: defaultMargin / 3,
+                                ),
+                                minimumSize: Size.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              child: Text(
+                                "Selesaikan Sekarang",
+                                style: semiBold.copyWith(
+                                  fontSize: heading4,
+                                  color: whiteColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(
-                    height: defaultMargin / 2,
+                    height: defaultMargin,
                   ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: mainColor,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: defaultMargin,
-                        vertical: defaultMargin / 3,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CardWidget(
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Pending",
+                                style: medium.copyWith(
+                                  fontSize: heading2,
+                                  color: mainColor,
+                                ),
+                              ),
+                              Text(
+                                state.orders
+                                    .where((item) =>
+                                        item.status == "pending")
+                                    .length
+                                    .toString(),
+                                style: medium.copyWith(
+                                  fontSize: heading,
+                                  color: mainColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: Text(
-                      "Selesaikan Sekarang",
-                      style: semiBold.copyWith(
-                        fontSize: heading4,
-                        color: whiteColor,
+                      const SizedBox(
+                        width: defaultMargin,
                       ),
-                    ),
+                      Expanded(
+                        child: CardWidget(
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Terlambat",
+                                style: medium.copyWith(
+                                  fontSize: heading2,
+                                  color: mainColor,
+                                ),
+                              ),
+                              Text(
+                                state.orders
+                                    .where((item) =>
+                                        item.status == "telat")
+                                    .length
+                                    .toString(),
+                                style: medium.copyWith(
+                                  fontSize: heading,
+                                  color: mainColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: defaultMargin,
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: CardWidget(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Belum selesai",
-                      style: medium.copyWith(
-                        fontSize: heading2,
-                        color: mainColor,
-                      ),
-                    ),
-                    Text(
-                      "7",
-                      style: medium.copyWith(
-                        fontSize: heading,
-                        color: mainColor,
-                      ),
-                    ),
-                  ],
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: mainColor,
                 ),
-              ),
-            ),
-            const SizedBox(
-              width: defaultMargin,
-            ),
-            Expanded(
-              child: CardWidget(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Terlambat",
-                      style: medium.copyWith(
-                        fontSize: heading2,
-                        color: mainColor,
-                      ),
-                    ),
-                    Text(
-                      "5",
-                      style: medium.copyWith(
-                        fontSize: heading,
-                        color: mainColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+              );
+            }
+          },
         ),
         const SizedBox(
           height: 70,
