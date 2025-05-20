@@ -2,8 +2,8 @@ part of 'service.dart';
 
 class OrderService {
   static Future<ApiReturnValue<List<Order>>> getOrders(
-      {required int storeId, String? range, String? status}) async {
-    String url = "$baseUrl/stores/$storeId/pesanans?range=${range ?? 'all'}&status=${status ?? 'all'}";
+      {required int storeId, String? range}) async {
+    String url = "$baseUrl/stores/$storeId/pesanans?range=${range ?? 'weekly'}";
 
     var response = await ApiService.handleResponse(() async {
       var result =
@@ -67,6 +67,9 @@ class OrderService {
                     "subtotal": e.quantity * e.product.price,
                   })
               .toList(),
+              "parfume_id": parfumeId,
+              "delivery_id": deliveryId,
+              "discount_id": discountId,
         },
         errorMessage: "Failed to create order",
       );

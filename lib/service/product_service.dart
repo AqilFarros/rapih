@@ -6,8 +6,8 @@ class ProductService {
     String url = "$baseUrl/stores/$storeId/products";
 
     var response = await ApiService.handleResponse(() async {
-      var result = await ApiService.get(
-          url: url, errorMessage: "Failed to get product");
+      var result =
+          await ApiService.get(url: url, errorMessage: "Failed to get product");
 
       List<Product> product = (result['products'] as Iterable)
           .map((e) => Product.fromJson(e))
@@ -24,8 +24,8 @@ class ProductService {
     String url = "$baseUrl/stores/$storeId/products/$productId";
 
     var response = await ApiService.handleResponse(() async {
-      var result = await ApiService.get(
-          url: url, errorMessage: "Failed to get product");
+      var result =
+          await ApiService.get(url: url, errorMessage: "Failed to get product");
 
       return Product.fromJson(result['product']);
     });

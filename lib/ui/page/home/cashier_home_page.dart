@@ -168,14 +168,27 @@ class _CashierHomePageState extends State<CashierHomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "${state.orders.where((item) => item.status == "pending" || item.status == "dicuci").length} pesanan belum selesai!",
+                                "${state.orders.where((item) => item.status == "pending" || item.status == "dicuci" || item.status == "telat").length} pesanan belum selesai!",
                                 style: medium.copyWith(fontSize: heading2),
                               ),
                               const SizedBox(
                                 height: defaultMargin / 2,
                               ),
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => OrderPage(
+                                        laundry: (context
+                                                .read<UserCubit>()
+                                                .state as UserLoaded)
+                                            .user
+                                            .laundry!,
+                                      ),
+                                    ),
+                                  );
+                                },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: mainColor,
                                   padding: const EdgeInsets.symmetric(
@@ -269,13 +282,20 @@ class _CashierHomePageState extends State<CashierHomePage> {
                       height: defaultMargin / 2,
                     ),
                     ...state.orders
+                        .where((item) =>
+                            item.status == "pending" ||
+                            item.status == "dicuci" ||
+                            item.status == "telat")
                         .map((e) => [
-                              TransactionWidget(order: e),
+                              TransactionWidget(
+                                  laundry: (context.read<UserCubit>().state
+                                          as UserLoaded)
+                                      .user
+                                      .laundry!,
+                                  order: e),
                               const SizedBox(height: defaultMargin),
                             ])
-                        .expand((pair) => pair)
-                        .toList()
-                      ..removeLast(),
+                        .expand((pair) => pair),
                     const SizedBox(
                       height: 70,
                     ),

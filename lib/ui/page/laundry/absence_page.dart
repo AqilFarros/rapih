@@ -12,9 +12,9 @@ class AbsencePage extends StatefulWidget {
 class _AbsencePageState extends State<AbsencePage> {
   @override
   void initState() {
+    super.initState();
     context.read<CashierCubit>().getCashier(storeId: widget.laundry.id);
     context.read<AbsenceCubit>().getAbsence(storeId: widget.laundry.id);
-    super.initState();
   }
 
   @override

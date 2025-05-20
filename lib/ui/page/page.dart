@@ -73,6 +73,7 @@ part 'laundry/cashier/cashire_page.dart';
 part 'laundry/cashier/add_cashier_page.dart';
 part 'laundry/order/add_order_page.dart';
 part 'laundry/order/order_page.dart';
+part 'laundry/order/order_detail_page.dart';
 part 'create/laundry/create_laundry_page.dart';
 part 'create/laundry/picture_laundry_page.dart';
 part 'profile/profile_page.dart';

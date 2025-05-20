@@ -64,7 +64,7 @@ class _OrderPageState extends State<OrderPage> {
   @override
   void initState() {
     selectedStatus = status[0]['value'];
-    selectedRange = range[0]['value'];
+    selectedRange = range[2]['value'];
     super.initState();
   }
 
@@ -99,11 +99,6 @@ class _OrderPageState extends State<OrderPage> {
                         setState(() {
                           selectedStatus = value;
                         });
-                        context.read<OrderCubit>().getOrder(
-                              storeId: widget.laundry.id,
-                              status: selectedStatus,
-                              range: selectedRange,
-                            );
                       },
                       validator: (value) {
                         return "";
@@ -126,7 +121,6 @@ class _OrderPageState extends State<OrderPage> {
                         });
                         context.read<OrderCubit>().getOrder(
                               storeId: widget.laundry.id,
-                              status: selectedStatus,
                               range: selectedRange,
                             );
                       },
@@ -156,7 +150,7 @@ class _OrderPageState extends State<OrderPage> {
                               style: medium.copyWith(fontSize: heading2),
                             ),
                             Text(
-                              " ${state.orders.length}",
+                              " ${selectedStatus != "all" ? state.orders.where((e) => e.status == selectedStatus).length : state.orders.length}",
                               style: semiBold.copyWith(
                                 fontSize: heading2,
                                 color: mainColor,
@@ -167,14 +161,22 @@ class _OrderPageState extends State<OrderPage> {
                         const SizedBox(
                           height: defaultMargin,
                         ),
-                        ...state.orders
-                            .map((e) => [
-                                  TransactionWidget(order: e),
-                                  const SizedBox(height: defaultMargin),
-                                ])
-                            .expand((pair) => pair)
-                            .toList()
-                          ..removeLast(),
+                        ...(selectedStatus != "all"
+                            ? state.orders
+                                .where((e) => e.status == selectedStatus)
+                                .map((e) => [
+                                      TransactionWidget(
+                                          laundry: widget.laundry, order: e),
+                                      const SizedBox(height: defaultMargin),
+                                    ])
+                                .expand((pair) => pair)
+                            : state.orders
+                                .map((e) => [
+                                      TransactionWidget(
+                                          laundry: widget.laundry, order: e),
+                                      const SizedBox(height: defaultMargin),
+                                    ])
+                                .expand((pair) => pair))
                       ],
                     );
                   }

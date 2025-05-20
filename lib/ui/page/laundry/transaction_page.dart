@@ -12,8 +12,11 @@ class TransactionPage extends StatefulWidget {
 class _TransactionPageState extends State<TransactionPage> {
   @override
   void initState() {
-    context.read<OrderCubit>().getOrder(storeId: widget.laundry.id);
     super.initState();
+    final cubit = context.read<OrderCubit>();
+    if (cubit.state is! OrderLoaded) {
+      cubit.getOrder(storeId: widget.laundry.id);
+    }
   }
 
   @override
@@ -27,19 +30,29 @@ class _TransactionPageState extends State<TransactionPage> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CardWidget(
-                content: Row(
-                  children: [
-                    Text(
-                      "Manage order",
-                      style: regular.copyWith(fontSize: heading2),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OrderPage(laundry: widget.laundry),
                     ),
-                    const Spacer(),
-                    const Icon(
-                      Icons.search_rounded,
-                      size: heading1,
-                    ),
-                  ],
+                  );
+                },
+                child: CardWidget(
+                  content: Row(
+                    children: [
+                      Text(
+                        "Manage order",
+                        style: regular.copyWith(fontSize: heading2),
+                      ),
+                      const Spacer(),
+                      const Icon(
+                        Icons.search_rounded,
+                        size: heading1,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(
@@ -56,14 +69,22 @@ class _TransactionPageState extends State<TransactionPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${state.orders.where((item) => item.status == "pending" || item.status == "dicuci").length} pesanan belum selesai!",
+                          "${state.orders.where((item) => item.status == "pending" || item.status == "dicuci" || item.status == "telat").length} pesanan belum selesai!",
                           style: medium.copyWith(fontSize: heading2),
                         ),
                         const SizedBox(
                           height: defaultMargin / 2,
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    OrderPage(laundry: widget.laundry),
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: mainColor,
                             padding: const EdgeInsets.symmetric(
@@ -156,8 +177,12 @@ class _TransactionPageState extends State<TransactionPage> {
                 height: defaultMargin / 2,
               ),
               ...state.orders
+                  .where((item) =>
+                      item.status == "pending" ||
+                      item.status == "dicuci" ||
+                      item.status == "telat")
                   .map((e) => [
-                        TransactionWidget(order: e),
+                        TransactionWidget(laundry: widget.laundry,order: e),
                         const SizedBox(height: defaultMargin),
                       ])
                   .expand((pair) => pair)

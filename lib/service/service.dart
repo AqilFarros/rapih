@@ -53,6 +53,8 @@ abstract class ApiService {
       headers: header(token: token),
     );
 
+    print(response.body);
+
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw Exception(errorMessage);
     } else {

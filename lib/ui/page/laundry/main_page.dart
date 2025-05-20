@@ -12,8 +12,11 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   void initState() {
-    context.read<OrderCubit>().getOrder(storeId: widget.laundry.id);
     super.initState();
+    final cubit = context.read<OrderCubit>();
+    if (cubit.state is! OrderLoaded) {
+      cubit.getOrder(storeId: widget.laundry.id);
+    }
   }
 
   @override
@@ -222,8 +225,7 @@ class _MainPageState extends State<MainPage> {
                               ),
                               Text(
                                 state.orders
-                                    .where((item) =>
-                                        item.status == "pending")
+                                    .where((item) => item.status == "pending")
                                     .length
                                     .toString(),
                                 style: medium.copyWith(
@@ -252,8 +254,7 @@ class _MainPageState extends State<MainPage> {
                               ),
                               Text(
                                 state.orders
-                                    .where((item) =>
-                                        item.status == "telat")
+                                    .where((item) => item.status == "telat")
                                     .length
                                     .toString(),
                                 style: medium.copyWith(

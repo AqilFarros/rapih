@@ -8,12 +8,11 @@ part 'order_state.dart';
 class OrderCubit extends Cubit<OrderState> {
   OrderCubit() : super(OrderInitial());
 
-  Future<void> getOrder(
-      {required int storeId, String? status, String? range}) async {
+  Future<void> getOrder({required int storeId, String? range}) async {
     emit(OrderInitial());
 
-    ApiReturnValue<List<Order>> result = await OrderService.getOrders(
-        storeId: storeId, status: status, range: range);
+    ApiReturnValue<List<Order>> result =
+        await OrderService.getOrders(storeId: storeId, range: range);
 
     if (result.value != null) {
       emit(OrderLoaded(result.value!));
@@ -34,12 +33,16 @@ class OrderCubit extends Cubit<OrderState> {
     int? discountId,
   }) async {
     ApiReturnValue<Order> result = await OrderService.createOrder(
-        storeId: storeId,
-        customerId: customerId,
-        layananId: layananId,
-        products: products,
-        paymentMethod: paymentMethod,
-        isPaid: isPaid);
+      storeId: storeId,
+      customerId: customerId,
+      layananId: layananId,
+      products: products,
+      paymentMethod: paymentMethod,
+      isPaid: isPaid,
+      parfumeId: parfumeId,
+      deliveryId: deliveryId,
+      discountId: discountId,
+    );
 
     if (result.value != null) {
       List<Order> currentOrder =
