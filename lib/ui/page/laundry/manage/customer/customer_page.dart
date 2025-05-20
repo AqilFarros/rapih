@@ -27,19 +27,19 @@ class _CustomerPageState extends State<CustomerPage> {
         children: [
           const SizedBox(height: defaultMargin),
           ManageWidget(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CreateCustomerPage(
-                    laundry: widget.laundry,
-                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CreateCustomerPage(
+                          laundry: widget.laundry,
+                        ),
+                      ),
+                    );
+                  },
+                  text: "Add a new customer",
+                  image: "asset/icon/customer.png",
                 ),
-              );
-            },
-            text: "Add a new customer",
-            image: "asset/icon/customer.png",
-          ),
           const SizedBox(height: defaultMargin),
           const TitleSection(text: "Current Customer"),
           const SizedBox(

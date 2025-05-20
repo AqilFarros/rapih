@@ -27,6 +27,8 @@ class _ParfumePageState extends State<ParfumePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: defaultMargin),
+          (context.read<UserCubit>().state as UserLoaded).user.role == "owner"
+          ?
           ManageWidget(
             onTap: () {
               Navigator.push(
@@ -40,7 +42,9 @@ class _ParfumePageState extends State<ParfumePage> {
             },
             text: "Add a new parfume",
             image: "asset/icon/parfume.png",
-          ),
+          )
+          :
+          const SizedBox(),
           const SizedBox(height: defaultMargin),
           const TitleSection(text: "Current parfume"),
           const SizedBox(
@@ -49,7 +53,7 @@ class _ParfumePageState extends State<ParfumePage> {
           BlocBuilder<ParfumeCubit, ParfumeState>(
             builder: (context, state) {
               if (state is ParfumeLoaded) {
-                if (state.parfume.isEmpty) {
+                if (state.parfume.isEmpty && (context.read<UserCubit>().state as UserLoaded).user.role == "owner") {
                   return AddIllustrationWidget(
                     image: 'asset/icon/parfume.png',
                     text: "a parfume",

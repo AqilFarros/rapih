@@ -245,7 +245,7 @@ List<Map<String, dynamic>> getLaundryWidget(Laundry laundry) => [
       {
         "icon": Icons.history,
         "text": "Order",
-        "widget": const TransactionPage(),
+        "widget": TransactionPage(laundry: laundry),
       },
       {
         "icon": Icons.person,

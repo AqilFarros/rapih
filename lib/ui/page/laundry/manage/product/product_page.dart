@@ -27,20 +27,22 @@ class _ProductPageState extends State<ProductPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: defaultMargin),
-          ManageWidget(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CreateProductPage(
-                    laundry: widget.laundry,
-                  ),
-                ),
-              );
-            },
-            text: "Add a new product",
-            image: "asset/icon/laundry-machine.png",
-          ),
+          (context.read<UserCubit>().state as UserLoaded).user.role == "owner"
+              ? ManageWidget(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CreateProductPage(
+                          laundry: widget.laundry,
+                        ),
+                      ),
+                    );
+                  },
+                  text: "Add a new product",
+                  image: "asset/icon/laundry-machine.png",
+                )
+              : const SizedBox(),
           const SizedBox(height: defaultMargin),
           const TitleSection(text: "Current product"),
           const SizedBox(
@@ -49,7 +51,9 @@ class _ProductPageState extends State<ProductPage> {
           BlocBuilder<ProductCubit, ProductState>(
             builder: (context, state) {
               if (state is ProductLoaded) {
-                if (state.product.isEmpty) {
+                if (state.product.isEmpty &&
+                    (context.read<UserCubit>().state as UserLoaded).user.role ==
+                        "owner") {
                   return AddIllustrationWidget(
                     image: 'asset/icon/laundry-machine.png',
                     text: "a product",

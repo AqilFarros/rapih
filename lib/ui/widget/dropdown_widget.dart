@@ -10,7 +10,7 @@ class DropdownWidget<T, D> extends StatelessWidget {
     required this.getValue,
     required this.onChanged,
     required this.validator,
-    required this.icon,
+    this.icon,
   });
 
   final String label;
@@ -20,7 +20,7 @@ class DropdownWidget<T, D> extends StatelessWidget {
   final dynamic Function(D item) getValue;
   final void Function(T?) onChanged;
   final String? Function(T?)? validator;
-  final IconData icon;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class DropdownWidget<T, D> extends StatelessWidget {
           decoration: InputDecoration(
             filled: true,
             fillColor: whiteColor,
-            prefixIcon: Icon(icon),
+            prefixIcon: icon != null ? Icon(icon) : null,
             hintText: "Select an item",
             hintStyle: light,
             border: OutlineInputBorder(

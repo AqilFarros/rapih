@@ -27,6 +27,8 @@ class _LayananPageState extends State<LayananPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: defaultMargin),
+          (context.read<UserCubit>().state as UserLoaded).user.role == "owner"
+          ?
           ManageWidget(
             onTap: () {
               Navigator.push(
@@ -40,7 +42,9 @@ class _LayananPageState extends State<LayananPage> {
             },
             text: "Add a new layanan",
             image: "asset/icon/layanan.png",
-          ),
+          )
+          :
+          const SizedBox(),
           const SizedBox(height: defaultMargin),
           const TitleSection(text: "Current layanan"),
           const SizedBox(
@@ -49,7 +53,7 @@ class _LayananPageState extends State<LayananPage> {
           BlocBuilder<LayananCubit, LayananState>(
             builder: (context, state) {
               if (state is LayananLoaded) {
-                if (state.layanan.isEmpty) {
+                if (state.layanan.isEmpty && (context.read<UserCubit>().state as UserLoaded).user.role == "owner") {
                   return AddIllustrationWidget(
                     image: 'asset/icon/layanan.png',
                     text: "a layanan",

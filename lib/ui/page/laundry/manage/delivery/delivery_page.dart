@@ -27,6 +27,8 @@ class _DeliveryPageState extends State<DeliveryPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: defaultMargin),
+          (context.read<UserCubit>().state as UserLoaded).user.role == "owner"
+          ?
           ManageWidget(
             onTap: () {
               Navigator.push(
@@ -40,7 +42,9 @@ class _DeliveryPageState extends State<DeliveryPage> {
             },
             text: "Add a new delivery",
             image: "asset/icon/delivery.png",
-          ),
+          )
+          :
+          const SizedBox(),
           const SizedBox(height: defaultMargin),
           const TitleSection(text: "Current delivery"),
           const SizedBox(
@@ -49,7 +53,7 @@ class _DeliveryPageState extends State<DeliveryPage> {
           BlocBuilder<DeliveryCubit, DeliveryState>(
             builder: (context, state) {
               if (state is DeliveryLoaded) {
-                if (state.delivery.isEmpty) {
+                if (state.delivery.isEmpty && (context.read<UserCubit>().state as UserLoaded).user.role == "owner") {
                   return AddIllustrationWidget(
                     image: 'asset/icon/delivery.png',
                     text: "a delivery",

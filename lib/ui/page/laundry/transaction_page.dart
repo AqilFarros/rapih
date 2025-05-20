@@ -1,155 +1,179 @@
 part of '../page.dart';
 
-class TransactionPage extends StatelessWidget {
-  const TransactionPage({super.key});
+class TransactionPage extends StatefulWidget {
+  const TransactionPage({super.key, required this.laundry});
+
+  final Laundry laundry;
+
+  @override
+  State<TransactionPage> createState() => _TransactionPageState();
+}
+
+class _TransactionPageState extends State<TransactionPage> {
+  @override
+  void initState() {
+    context.read<OrderCubit>().getOrder(storeId: widget.laundry.id);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CardWidget(
-          content: Row(
+    return BlocBuilder<OrderCubit, OrderState>(
+      builder: (context, state) {
+        if (state is OrderLoaded) {
+          if (state.orders.isEmpty) {
+            return const Center();
+          }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Search an order",
-                style: regular.copyWith(fontSize: heading2),
+              CardWidget(
+                content: Row(
+                  children: [
+                    Text(
+                      "Manage order",
+                      style: regular.copyWith(fontSize: heading2),
+                    ),
+                    const Spacer(),
+                    const Icon(
+                      Icons.search_rounded,
+                      size: heading1,
+                    ),
+                  ],
+                ),
               ),
-              const Spacer(),
-              const Icon(
-                Icons.search_rounded,
-                size: heading1,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: defaultMargin,
-        ),
-        CardWidget(
-          content: Row(
-            children: [
-              Image.asset("asset/image/list.png", height: 70),
               const SizedBox(
-                width: defaultMargin,
+                height: defaultMargin,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              CardWidget(
+                content: Row(
+                  children: [
+                    Image.asset("asset/image/list.png", height: 70),
+                    const SizedBox(
+                      width: defaultMargin,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${state.orders.where((item) => item.status == "pending" || item.status == "dicuci").length} pesanan belum selesai!",
+                          style: medium.copyWith(fontSize: heading2),
+                        ),
+                        const SizedBox(
+                          height: defaultMargin / 2,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: mainColor,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: defaultMargin,
+                              vertical: defaultMargin / 3,
+                            ),
+                            minimumSize: Size.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          child: Text(
+                            "Selesaikan Sekarang",
+                            style: semiBold.copyWith(
+                              fontSize: heading4,
+                              color: whiteColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: defaultMargin,
+              ),
+              Row(
                 children: [
-                  Text(
-                    "12 pesanan belum selesai!",
-                    style: medium.copyWith(fontSize: heading2),
+                  Expanded(
+                    child: CardWidget(
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Pending",
+                            style: medium.copyWith(
+                              fontSize: heading2,
+                              color: mainColor,
+                            ),
+                          ),
+                          Text(
+                            state.orders
+                                .where((item) => item.status == "pending")
+                                .length
+                                .toString(),
+                            style: medium.copyWith(
+                              fontSize: heading,
+                              color: mainColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   const SizedBox(
-                    height: defaultMargin / 2,
+                    width: defaultMargin,
                   ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: mainColor,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: defaultMargin,
-                        vertical: defaultMargin / 3,
-                      ),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: Text(
-                      "Selesaikan Sekarang",
-                      style: semiBold.copyWith(
-                        fontSize: heading4,
-                        color: whiteColor,
+                  Expanded(
+                    child: CardWidget(
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Terlambat",
+                            style: medium.copyWith(
+                              fontSize: heading2,
+                              color: mainColor,
+                            ),
+                          ),
+                          Text(
+                            state.orders
+                                .where((item) => item.status == "telat")
+                                .length
+                                .toString(),
+                            style: medium.copyWith(
+                              fontSize: heading,
+                              color: mainColor,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ],
               ),
+              const SizedBox(
+                height: defaultMargin,
+              ),
+              const TitleSection(text: "Pesanan belum selesai"),
+              const SizedBox(
+                height: defaultMargin / 2,
+              ),
+              ...state.orders
+                  .map((e) => [
+                        TransactionWidget(order: e),
+                        const SizedBox(height: defaultMargin),
+                      ])
+                  .expand((pair) => pair)
+                  .toList()
+                ..removeLast(),
+              const SizedBox(
+                height: 70,
+              ),
             ],
-          ),
-        ),
-        const SizedBox(
-          height: defaultMargin,
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: CardWidget(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Belum selesai",
-                      style: medium.copyWith(
-                        fontSize: heading2,
-                        color: mainColor,
-                      ),
-                    ),
-                    Text(
-                      "7",
-                      style: medium.copyWith(
-                        fontSize: heading,
-                        color: mainColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: defaultMargin,
-            ),
-            Expanded(
-              child: CardWidget(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Terlambat",
-                      style: medium.copyWith(
-                        fontSize: heading2,
-                        color: mainColor,
-                      ),
-                    ),
-                    Text(
-                      "5",
-                      style: medium.copyWith(
-                        fontSize: heading,
-                        color: mainColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: defaultMargin,
-        ),
-        const TitleSection(text: "Pesanan belum selesai"),
-        const SizedBox(
-          height: defaultMargin / 2,
-        ),
-        TransactionWidget(),
-        const SizedBox(
-          height: defaultMargin,
-        ),
-        TransactionWidget(),
-        const SizedBox(
-          height: defaultMargin,
-        ),
-        TransactionWidget(),
-        const SizedBox(
-          height: defaultMargin,
-        ),
-        TransactionWidget(),
-        const SizedBox(
-          height: defaultMargin,
-        ),
-        const SizedBox(
-          height: 70,
-        ),
-      ],
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(color: mainColor),
+          );
+        }
+      },
     );
   }
 }

@@ -27,6 +27,8 @@ class _CategoryPageState extends State<CategoryPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: defaultMargin),
+          (context.read<UserCubit>().state as UserLoaded).user.role == "owner"
+          ?
           ManageWidget(
             onTap: () {
               Navigator.push(
@@ -40,7 +42,9 @@ class _CategoryPageState extends State<CategoryPage> {
             },
             text: "Add a new category",
             image: "asset/icon/category.png",
-          ),
+          )
+          :
+          const SizedBox(),
           const SizedBox(height: defaultMargin),
           const TitleSection(text: "Current Category"),
           const SizedBox(

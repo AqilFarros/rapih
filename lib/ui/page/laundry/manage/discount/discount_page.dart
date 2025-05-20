@@ -1,7 +1,11 @@
 part of '../../../page.dart';
 
 class DiscountPage extends StatefulWidget {
-  const DiscountPage({super.key, required this.laundry, this.isOrder = false,});
+  const DiscountPage({
+    super.key,
+    required this.laundry,
+    this.isOrder = false,
+  });
 
   final Laundry laundry;
   final bool? isOrder;
@@ -27,20 +31,22 @@ class _DiscountPageState extends State<DiscountPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: defaultMargin),
-          ManageWidget(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CreateDiscountPage(
-                    laundry: widget.laundry,
-                  ),
-                ),
-              );
-            },
-            text: "Add a new discount",
-            image: "asset/icon/discount.png",
-          ),
+          (context.read<UserCubit>().state as UserLoaded).user.role == "owner"
+              ? ManageWidget(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CreateDiscountPage(
+                          laundry: widget.laundry,
+                        ),
+                      ),
+                    );
+                  },
+                  text: "Add a new discount",
+                  image: "asset/icon/discount.png",
+                )
+              : const SizedBox(),
           const SizedBox(height: defaultMargin),
           const TitleSection(text: "Current discount"),
           const SizedBox(
@@ -49,7 +55,9 @@ class _DiscountPageState extends State<DiscountPage> {
           BlocBuilder<DiscountCubit, DiscountState>(
             builder: (context, state) {
               if (state is DiscountLoaded) {
-                if (state.discount.isEmpty) {
+                if (state.discount.isEmpty &&
+                    (context.read<UserCubit>().state as UserLoaded).user.role ==
+                        "owner") {
                   return AddIllustrationWidget(
                     image: 'asset/icon/discount.png',
                     text: "a discount",
@@ -109,7 +117,8 @@ class _DiscountPageState extends State<DiscountPage> {
                                         .read<DiscountCubit>()
                                         .deleteDiscount(
                                             storeId: widget.laundry.id,
-                                            discountId: state.discount[index].id);
+                                            discountId:
+                                                state.discount[index].id);
 
                                     setState(() {
                                       isLoading = false;

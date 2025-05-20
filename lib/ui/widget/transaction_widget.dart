@@ -1,7 +1,9 @@
 part of 'widget.dart';
 
 class TransactionWidget extends StatelessWidget {
-  const TransactionWidget({super.key});
+  const TransactionWidget({super.key, required this.order});
+
+  final Order order;
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +22,21 @@ class TransactionWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Bambang Yanto",
+                order.customer.name,
                 style: medium.copyWith(
                   fontSize: heading4,
                   color: blackColor,
                 ),
               ),
               Text(
-                "1234567890123412",
+                order.orderCode,
                 style: medium.copyWith(
                   fontSize: description,
                   color: grayColor,
                 ),
               ),
               Text(
-                "Cuci dan setrika",
+                order.layanan.name,
                 style: medium.copyWith(
                   fontSize: description,
                   color: grayColor,
@@ -48,7 +50,7 @@ class TransactionWidget extends StatelessWidget {
               locale: 'id',
               symbol: 'Rp ',
               decimalDigits: 0,
-            ).format(100000),
+            ).format(order.totalPrice),
             style: medium.copyWith(
               fontSize: heading2,
               color: mainColor,
