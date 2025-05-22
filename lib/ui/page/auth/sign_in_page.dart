@@ -47,7 +47,8 @@ class _SignInPageState extends State<SignInPage> {
             BlocConsumer<UserCubit, UserState>(
               listener: (context, state) {
                 if (state is UserLoaded) {
-                  Navigator.pushReplacementNamed(context, roleNavigation(context));
+                  Navigator.pushReplacementNamed(
+                      context, roleNavigation(context));
                 } else if (state is UserLoadedFailed) {
                   print(state.message);
                 }
@@ -86,29 +87,29 @@ class _SignInPageState extends State<SignInPage> {
             const SizedBox(
               height: defaultMargin * 2,
             ),
-            Text(
-              "or sign in with",
-              style: light,
-            ),
-            const SizedBox(
-              height: defaultMargin * 2,
-            ),
-            SecondaryButton(
-              name: "Sign In With Google",
-              icon: "asset/icon/google.png",
-              function: () {},
-            ),
-            const SizedBox(
-              height: defaultMargin / 2,
-            ),
-            SecondaryButton(
-              name: "Sign In With Apple",
-              icon: "asset/icon/apple.png",
-              function: () {},
-            ),
-            const SizedBox(
-              height: defaultMargin * 2,
-            ),
+            // Text(
+            //   "or sign in with",
+            //   style: light,
+            // ),
+            // const SizedBox(
+            //   height: defaultMargin * 2,
+            // ),
+            // SecondaryButton(
+            //   name: "Sign In With Google",
+            //   icon: "asset/icon/google.png",
+            //   function: () {},
+            // ),
+            // const SizedBox(
+            //   height: defaultMargin / 2,
+            // ),
+            // SecondaryButton(
+            //   name: "Sign In With Apple",
+            //   icon: "asset/icon/apple.png",
+            //   function: () {},
+            // ),
+            // const SizedBox(
+            //   height: defaultMargin * 2,
+            // ),
           ],
         ),
       ),

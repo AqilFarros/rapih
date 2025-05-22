@@ -3,18 +3,15 @@ part of 'service.dart';
 class OrderService {
   static Future<ApiReturnValue<List<Order>>> getOrders(
       {required int storeId, String? range}) async {
-    String url = "$baseUrl/stores/$storeId/pesanans?range=${range ?? 'weekly'}";
+    String url = "$baseUrl/stores/$storeId/pesanans?range=${range ?? 'daily'}";
 
     var response = await ApiService.handleResponse(() async {
       var result =
           await ApiService.get(url: url, errorMessage: "Failed to get orders");
 
-      List<Order> orders = await Future.wait(
-          (result['data']['data'] as Iterable).map((item) async {
-        ApiReturnValue<Order> order;
-        order = await getOrderById(storeId: storeId, orderId: item['id']);
-        return order.value!;
-      }).toList());
+      List<Order> orders = (result['data']['data'] as Iterable)
+          .map<Order>((item) => Order.fromJson(item))
+          .toList();
 
       return orders;
     });
@@ -58,7 +55,9 @@ class OrderService {
           "store_id": storeId,
           "customer_id": customerId,
           "layanan_id": layananId,
-          "payment_method": paymentMethod.toLowerCase(),
+          "payment_method": paymentMethod == "E-Wallet"
+              ? "ewallet"
+              : paymentMethod.toLowerCase(),
           "is_paid": isPaid,
           "products": products
               .map((e) => {
@@ -67,9 +66,9 @@ class OrderService {
                     "subtotal": e.quantity * e.product.price,
                   })
               .toList(),
-              "parfume_id": parfumeId,
-              "delivery_id": deliveryId,
-              "discount_id": discountId,
+          "parfume_id": parfumeId,
+          "delivery_id": deliveryId,
+          "discount_id": discountId,
         },
         errorMessage: "Failed to create order",
       );
@@ -78,6 +77,39 @@ class OrderService {
           await getOrderById(storeId: storeId, orderId: result['data']['id']);
 
       return order.value!;
+    });
+
+    return response;
+  }
+
+  static Future<ApiReturnValue<String>> updateStatus(
+      {required int storeId,
+      required int orderId,
+      required String status}) async {
+    String url = "$baseUrl/stores/$storeId/pesanans/$orderId/update-status";
+
+    var response = await ApiService.handleResponse(() async {
+      await ApiService.post(
+          url: url,
+          body: {
+            "status": status,
+          },
+          errorMessage: "Failed to update status");
+
+      return status;
+    });
+
+    return response;
+  }
+
+  static Future<ApiReturnValue<String>> completedOrder(
+      {required int storeId, required int orderId}) async {
+    String url = "$baseUrl/stores/$storeId/pesanans/$orderId/completed";
+
+    var response = await ApiService.handleResponse(() async {
+      await ApiService.put(url: url, errorMessage: "Failed to complete order");
+
+      return "completed";
     });
 
     return response;

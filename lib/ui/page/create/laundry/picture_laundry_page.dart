@@ -85,7 +85,7 @@ class _PictureLaundryPageState extends State<PictureLaundryPage> {
                   },
                   child: ImageField(
                     image: logo,
-                    title: "Logo (optional)",
+                    title: "Logo",
                     errorMessage: logoError,
                     width: 150,
                     radius: 99,

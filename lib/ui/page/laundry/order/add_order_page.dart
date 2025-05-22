@@ -74,6 +74,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
         builder: (context) {
           final TextEditingController quantityController =
               TextEditingController();
+          final key = GlobalKey<FormState>();
 
           return AlertDialog(
             title: Text(
@@ -83,13 +84,23 @@ class _AddOrderPageState extends State<AddOrderPage> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                InputField(
-                  label: "Quantity",
-                  controller: quantityController,
-                  hintText: "Quantity",
-                  validator: (value) {
-                    return numberValidator(value, "Quantity");
-                  },
+                Form(
+                  key: key,
+                  child: InputField(
+                    label: "Quantity",
+                    controller: quantityController,
+                    hintText: "Quantity",
+                    validator: (value) {
+                      final parsedValue = double.tryParse(value ?? '');
+                      if (parsedValue == null) {
+                        return "Quantity must be a valid number";
+                      }
+                      if (parsedValue < 1) {
+                        return "Quantity must be greater than or equal to 1";
+                      }
+                      return numberValidator(value, "Quantity");
+                    },
+                  ),
                 ),
               ],
             ),
@@ -104,13 +115,14 @@ class _AddOrderPageState extends State<AddOrderPage> {
                 name: "Ok",
                 function: () {
                   final text = quantityController.text.trim();
-                  if (text.isNotEmpty) {
+                  if (text.isNotEmpty && key.currentState!.validate()) {
                     final doubleValue = double.tryParse(text);
                     if (doubleValue != null && doubleValue > 0) {
                       quantity = doubleValue;
                     }
+
+                    Navigator.pop(context);
                   }
-                  Navigator.pop(context);
                 },
               ),
             ],
@@ -591,6 +603,9 @@ class _AddOrderPageState extends State<AddOrderPage> {
                                                   "Sudah Dibayar"
                                               ? true
                                               : false,
+                                          deliveryId: selectedDelivery?.id,
+                                          parfumeId: selectedParfume?.id,
+                                          discountId: selectedDiscount?.id,
                                         );
                                   }
                                 },

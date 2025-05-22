@@ -6,18 +6,16 @@ class Order extends Equatable {
   final int storeId;
   final String status;
   final Customer customer;
-  final Layanan layanan;
-  final List<ProductOrder> products;
-  // final List<Product> product;
-  // final double productQuantity;
-  // final int subTotal;
-  final int totalPrice;
+  final Layanan? layanan;
+  final List<ProductOrder>? products;
+  final double totalPrice;
   final Discount? discount;
   final Parfume? parfume;
   final Delivery? delivery;
   final String paymentMethod;
   final bool isPaid;
   final String estDate;
+  final String createdAt;
 
   const Order({
     required this.id,
@@ -25,11 +23,8 @@ class Order extends Equatable {
     required this.storeId,
     required this.status,
     required this.customer,
-    required this.layanan,
-    required this.products,
-    // required this.product,
-    // required this.productQuantity,
-    // required this.subTotal,
+    this.layanan,
+    this.products,
     required this.totalPrice,
     this.discount,
     this.parfume,
@@ -37,6 +32,7 @@ class Order extends Equatable {
     required this.paymentMethod,
     required this.isPaid,
     required this.estDate,
+    required this.createdAt,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
@@ -45,14 +41,13 @@ class Order extends Equatable {
         storeId: json['store_id'],
         status: json['status'],
         customer: Customer.fromJson(json['customer']),
-        layanan: Layanan.fromJson(json['layanans']),
-        products: (json['products'] as Iterable).map((item) => ProductOrder.fromJson(item)).toList(),
-        // product: (json['products'] as Iterable)
-        //     .map((item) => Product.fromJson(item))
-        //     .toList(),
-        // productQuantity: json['products']['pivot']['quantity'],
-        // subTotal: json['products']['pivot']['subtotal'],
-        totalPrice: json['total_price'],
+        layanan: json['layanans'] != null
+            ? Layanan.fromJson(json['layanans']) : null,
+        products: json['products'] != null
+            ? (json['products'] as Iterable)
+            .map((item) => ProductOrder.fromJson(item))
+            .toList() : null,
+        totalPrice: double.parse(json['total_price'].toString()),
         discount: json['discount'] != null
             ? Discount.fromJson(json['discount'])
             : null,
@@ -64,41 +59,44 @@ class Order extends Equatable {
         paymentMethod: json['payment_method'],
         isPaid: json['is_paid'] == 1 ? true : false,
         estDate: json['estimation_date'],
+        createdAt: json['created_at'],
       );
 
-  // Order copyWith({
-  //   int? id,
-  //   int? storeId,
-  //   String? status,
-  //   Customer? customer,
-  //   Layanan? layanan,
-  //   Product? product,
-  //   double? productQuantity,
-  //   int? subTotal,
-  //   Discount? discount,
-  //   Parfume? parfume,
-  //   Delivery? delivery,
-  //   String? paymentMethod,
-  //   bool? isPaid,
-  //   String? estDate,
-  // }) {
-  //   return Order(
-  //     id: id ?? this.id,
-  //     storeId: storeId ?? this.storeId,
-  //     status: status ?? this.status,
-  //     customer: customer ?? this.customer,
-  //     layanan: layanan ?? this.layanan,
-  //     product: product ?? this.product,
-  //     productQuantity: productQuantity ?? this.productQuantity,
-  //     subTotal: subTotal ?? this.subTotal,
-  //     discount: discount ?? this.discount,
-  //     parfume: parfume ?? this.parfume,
-  //     delivery: delivery ?? this.delivery,
-  //     paymentMethod: paymentMethod ?? this.paymentMethod,
-  //     isPaid: isPaid ?? this.isPaid,
-  //     estDate: estDate ?? this.estDate,
-  //   );
-  // }
+  Order copyWith({
+    int? id,
+    String? orderCode,
+    int? storeId,
+    String? status,
+    Customer? customer,
+    Layanan? layanan,
+    List<ProductOrder>? products,
+    double? totalPrice,
+    Discount? discount,
+    Parfume? parfume,
+    Delivery? delivery,
+    String? paymentMethod,
+    bool? isPaid,
+    String? estDate,
+    String? createdAt,
+  }) {
+    return Order(
+      id: id ?? this.id,
+      orderCode: orderCode ?? this.orderCode,
+      storeId: storeId ?? this.storeId,
+      status: status ?? this.status,
+      customer: customer ?? this.customer,
+      layanan: layanan ?? this.layanan,
+      products: products ?? this.products,
+      totalPrice: totalPrice ?? this.totalPrice,
+      discount: discount ?? this.discount,
+      parfume: parfume ?? this.parfume,
+      delivery: delivery ?? this.delivery,
+      paymentMethod: paymentMethod ?? this.paymentMethod,
+      isPaid: isPaid ?? this.isPaid,
+      estDate: estDate ?? this.estDate,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
 
   @override
   List<Object?> get props => [
@@ -109,9 +107,6 @@ class Order extends Equatable {
         customer,
         layanan,
         products,
-        // product,
-        // productQuantity,
-        // subTotal,
         totalPrice,
         discount,
         parfume,
@@ -119,13 +114,14 @@ class Order extends Equatable {
         paymentMethod,
         isPaid,
         estDate,
+        createdAt,
       ];
 }
 
 class ProductOrder {
   final Product product;
-  final int quantity;
-  final int subTotal;
+  final double quantity;
+  final double subTotal;
 
   const ProductOrder({
     required this.product,
@@ -135,7 +131,7 @@ class ProductOrder {
 
   factory ProductOrder.fromJson(Map<String, dynamic> json) => ProductOrder(
         product: Product.fromJson(json),
-        quantity: json['pivot']['quantity'],
-        subTotal: json['pivot']['subtotal'],
-        );
+        quantity: double.parse(json['pivot']['quantity'].toString()),
+        subTotal: double.parse(json['pivot']['subtotal'].toString()),
+      );
 }

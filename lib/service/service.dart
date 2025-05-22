@@ -21,7 +21,7 @@ part 'absence_service.dart';
 part 'cashier_service.dart';
 part 'order_service.dart';
 
-String baseUrl = "http://192.168.0.29:8000/api";
+String baseUrl = "http://192.168.0.31:8000/api";
 var client = http.Client();
 
 abstract class ApiService {
@@ -52,8 +52,6 @@ abstract class ApiService {
       Uri.parse(url),
       headers: header(token: token),
     );
-
-    print(response.body);
 
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw Exception(errorMessage);

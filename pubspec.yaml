@@ -32,6 +32,10 @@ dependencies:
   cupertino_icons: ^1.0.8
   dotted_border: ^2.1.0
   equatable: ^2.0.7
+  esc_pos_bluetooth: ^0.4.1
+  # esc_pos_bluetooth:
+  #   git:
+  #     url: https://github.com/andrey-ushakov/esc_pos_bluetooth.git
   fl_chart: ^0.70.2
   flutter:
     sdk: flutter
@@ -44,6 +48,7 @@ dependencies:
   intl: ^0.20.2
   shared_preferences: ^2.5.3
   supercharged: ^2.1.1
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_lints: ^4.0.0

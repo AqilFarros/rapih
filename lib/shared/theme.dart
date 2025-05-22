@@ -1,6 +1,6 @@
 part of 'shared.dart';
 
-final Color mainColor = "#6c63ff".toColor();
+final Color mainColor = "#1E40AF".toColor();
 final Color secondaryColor = "#A1B8FF".toColor();
 final Color blackColor = "#000000".toColor();
 final Color grayColor = '#808080'.toColor();

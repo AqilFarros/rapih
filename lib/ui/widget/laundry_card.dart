@@ -25,30 +25,33 @@ class LaundryCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      laundry.name,
-                      style: medium.copyWith(
-                        fontSize: heading4,
-                        color: blackColor,
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        laundry.name,
+                        style: medium.copyWith(
+                          fontSize: heading4,
+                          color: blackColor,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                    Text(
-                      laundry.address,
-                      style: regular.copyWith(
-                        fontSize: description,
-                        color: grayColor,
+                      Text(
+                        laundry.address,
+                        style: regular.copyWith(
+                          fontSize: description,
+                          color: grayColor,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                       ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+                const SizedBox(),
                 Container(
                   width: 140,
                   height: 80,

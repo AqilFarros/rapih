@@ -115,29 +115,29 @@ class _SignUpPageState extends State<SignUpPage> {
             const SizedBox(
               height: defaultMargin * 2,
             ),
-            Text(
-              "or sign up with",
-              style: light,
-            ),
-            const SizedBox(
-              height: defaultMargin * 2,
-            ),
-            SecondaryButton(
-              name: "Sign Up With Google",
-              icon: "asset/icon/google.png",
-              function: () {},
-            ),
-            const SizedBox(
-              height: defaultMargin / 2,
-            ),
-            SecondaryButton(
-              name: "Sign Up With Apple",
-              icon: "asset/icon/apple.png",
-              function: () {},
-            ),
-            const SizedBox(
-              height: defaultMargin * 2,
-            ),
+            // Text(
+            //   "or sign up with",
+            //   style: light,
+            // ),
+            // const SizedBox(
+            //   height: defaultMargin * 2,
+            // ),
+            // SecondaryButton(
+            //   name: "Sign Up With Google",
+            //   icon: "asset/icon/google.png",
+            //   function: () {},
+            // ),
+            // const SizedBox(
+            //   height: defaultMargin / 2,
+            // ),
+            // SecondaryButton(
+            //   name: "Sign Up With Apple",
+            //   icon: "asset/icon/apple.png",
+            //   function: () {},
+            // ),
+            // const SizedBox(
+            //   height: defaultMargin * 2,
+            // ),
           ],
         ),
       ),

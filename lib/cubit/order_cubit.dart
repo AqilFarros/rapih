@@ -21,6 +21,31 @@ class OrderCubit extends Cubit<OrderState> {
     }
   }
 
+  Future<void> getOrderById(
+      {required int storeId, required int orderId}) async {
+    List<Order> currentOrder =
+        (state is OrderLoaded) ? (state as OrderLoaded).orders : [];
+
+    emit(OrderInitial());
+
+    ApiReturnValue<Order> result =
+        await OrderService.getOrderById(storeId: storeId, orderId: orderId);
+
+    if (result.value != null) {
+      List<Order> order = currentOrder.map((item) {
+        if (item.id == orderId) {
+          return result.value!;
+        } else {
+          return item;
+        }
+      }).toList();
+
+      emit(OrderLoaded(order));
+    } else {
+      emit(OrderLoadedFailed(result.message!));
+    }
+  }
+
   Future<void> createOrder({
     required int storeId,
     required int customerId,
@@ -50,6 +75,62 @@ class OrderCubit extends Cubit<OrderState> {
 
       List<Order> updatedOrderList = List.from(currentOrder)
         ..insert(0, result.value!);
+
+      emit(OrderLoaded(updatedOrderList));
+    } else {
+      emit(OrderLoadedFailed(result.message!));
+    }
+  }
+
+  Future<void> updateStatus({
+    required int storeId,
+    required int orderId,
+    required String status,
+  }) async {
+    ApiReturnValue<String> result = await OrderService.updateStatus(
+      storeId: storeId,
+      orderId: orderId,
+      status: status,
+    );
+
+    if (result.value != null) {
+      List<Order> currentOrder =
+          (state is OrderLoaded) ? (state as OrderLoaded).orders : [];
+
+      List<Order> updatedOrderList = currentOrder.map((item) {
+        if (item.id == orderId) {
+          return item.copyWith(status: status);
+        } else {
+          return item;
+        }
+      }).toList();
+
+      emit(OrderLoaded(updatedOrderList));
+    } else {
+      emit(OrderLoadedFailed(result.message!));
+    }
+  }
+
+  Future<void> completedOrder({
+    required int storeId,
+    required int orderId,
+  }) async {
+    ApiReturnValue<String> result = await OrderService.completedOrder(
+      storeId: storeId,
+      orderId: orderId,
+    );
+
+    if (result.value != null) {
+      List<Order> currentOrder =
+          (state is OrderLoaded) ? (state as OrderLoaded).orders : [];
+
+      List<Order> updatedOrderList = currentOrder.map((item) {
+        if (item.id == orderId) {
+          return item.copyWith(status: result.value);
+        } else {
+          return item;
+        }
+      }).toList();
 
       emit(OrderLoaded(updatedOrderList));
     } else {

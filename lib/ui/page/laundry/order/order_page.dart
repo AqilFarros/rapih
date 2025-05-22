@@ -64,7 +64,7 @@ class _OrderPageState extends State<OrderPage> {
   @override
   void initState() {
     selectedStatus = status[0]['value'];
-    selectedRange = range[2]['value'];
+    selectedRange = range[1]['value'];
     super.initState();
   }
 
@@ -135,59 +135,71 @@ class _OrderPageState extends State<OrderPage> {
             const SizedBox(
               height: defaultMargin,
             ),
-            BlocBuilder<OrderCubit, OrderState>(
-              builder: (context, state) {
-                if (state is OrderLoaded) {
-                  if (state.orders.isEmpty) {
-                    return const SizedBox();
-                  } else {
-                    return Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              "Total pesanan:",
-                              style: medium.copyWith(fontSize: heading2),
-                            ),
-                            Text(
-                              " ${selectedStatus != "all" ? state.orders.where((e) => e.status == selectedStatus).length : state.orders.length}",
-                              style: semiBold.copyWith(
-                                fontSize: heading2,
-                                color: mainColor,
+            Expanded(
+              child: BlocBuilder<OrderCubit, OrderState>(
+                builder: (context, state) {
+                  if (state is OrderLoaded) {
+                    final filteredOrders = selectedStatus != "all"
+                        ? state.orders
+                            .where((e) => e.status == selectedStatus)
+                            .toList()
+                        : state.orders;
+
+                    if (filteredOrders.isEmpty) {
+                      return Center(
+                        child: Text(
+                          "Belum ada pesanan.",
+                          style: medium.copyWith(fontSize: 16),
+                        ),
+                      );
+                    }
+
+                    return ListView.builder(
+                      padding: const EdgeInsets.only(bottom: defaultMargin),
+                      itemCount: filteredOrders.length +
+                          1,
+                      itemBuilder: (context, index) {
+                        if (index == 0) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    "Total pesanan:",
+                                    style: medium.copyWith(fontSize: heading2),
+                                  ),
+                                  Text(
+                                    " ${filteredOrders.length}",
+                                    style: semiBold.copyWith(
+                                      fontSize: heading2,
+                                      color: mainColor,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
+                              const SizedBox(height: defaultMargin),
+                            ],
+                          );
+                        }
+
+                        final order = filteredOrders[index - 1];
+                        return Column(
+                          children: [
+                            TransactionWidget(
+                                laundry: widget.laundry, order: order),
+                            const SizedBox(height: defaultMargin),
                           ],
-                        ),
-                        const SizedBox(
-                          height: defaultMargin,
-                        ),
-                        ...(selectedStatus != "all"
-                            ? state.orders
-                                .where((e) => e.status == selectedStatus)
-                                .map((e) => [
-                                      TransactionWidget(
-                                          laundry: widget.laundry, order: e),
-                                      const SizedBox(height: defaultMargin),
-                                    ])
-                                .expand((pair) => pair)
-                            : state.orders
-                                .map((e) => [
-                                      TransactionWidget(
-                                          laundry: widget.laundry, order: e),
-                                      const SizedBox(height: defaultMargin),
-                                    ])
-                                .expand((pair) => pair))
-                      ],
+                        );
+                      },
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(color: mainColor),
                     );
                   }
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: mainColor,
-                    ),
-                  );
-                }
-              },
+                },
+              ),
             ),
           ],
         ),

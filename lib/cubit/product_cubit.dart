@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rapih/model/model.dart';
 import 'package:rapih/service/service.dart';
-import 'package:supercharged/supercharged.dart';
 
 part 'product_state.dart';
 
