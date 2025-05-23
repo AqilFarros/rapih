@@ -3,13 +3,31 @@ part of 'service.dart';
 class OrderService {
   static Future<ApiReturnValue<List<Order>>> getOrders(
       {required int storeId, String? range}) async {
-    String url = "$baseUrl/stores/$storeId/pesanans?range=${range ?? 'daily'}";
+    String url = "$baseUrl/stores/$storeId/pesanans?range=${range ?? ''}";
 
     var response = await ApiService.handleResponse(() async {
       var result =
           await ApiService.get(url: url, errorMessage: "Failed to get orders");
 
-      List<Order> orders = (result['data']['data'] as Iterable)
+      List<Order> orders = (result['data']['pesanans'] as Iterable)
+          .map<Order>((item) => Order.fromJson(item))
+          .toList();
+
+      return orders;
+    });
+
+    return response;
+  }
+
+  static Future<ApiReturnValue<List<Order>>> getOrdersByQuery(
+      {required int storeId, required String query}) async {
+    String url = "$baseUrl/stores/$storeId/pesanans?search=$query";
+
+    var response = await ApiService.handleResponse(() async {
+      var result =
+          await ApiService.get(url: url, errorMessage: "Failed to get orders");
+
+      List<Order> orders = (result['data']['pesanans'] as Iterable)
           .map<Order>((item) => Order.fromJson(item))
           .toList();
 

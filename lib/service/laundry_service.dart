@@ -10,9 +10,9 @@ class LaundryService {
 
       List<Laundry> laundry =
           await Future.wait((result['data'] as Iterable).map((e) async {
-        Laundry laundry = Laundry.fromJson(e['store']);
+        Laundry laundry = Laundry.fromJson(e);
         ApiReturnValue<Wallet> wallet =
-            await WalletService.getWallet(storeId: e['store']['id']);
+            await WalletService.getWallet(storeId: e['id']);
         laundry = laundry.copyWith(wallet: wallet.value);
 
         return laundry;

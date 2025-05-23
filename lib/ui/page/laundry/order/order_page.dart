@@ -85,6 +85,34 @@ class _OrderPageState extends State<OrderPage> {
         ),
         child: Column(
           children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SearchOrderPage(laundry: widget.laundry),
+                  ),
+                );
+              },
+              child: CardWidget(
+                content: Row(
+                  children: [
+                    Text(
+                      "Search order",
+                      style: regular.copyWith(fontSize: heading2),
+                    ),
+                    const Spacer(),
+                    const Icon(
+                      Icons.search_rounded,
+                      size: heading1,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: defaultMargin,
+            ),
             CardWidget(
               content: Row(
                 children: [
@@ -156,8 +184,7 @@ class _OrderPageState extends State<OrderPage> {
 
                     return ListView.builder(
                       padding: const EdgeInsets.only(bottom: defaultMargin),
-                      itemCount: filteredOrders.length +
-                          1,
+                      itemCount: filteredOrders.length + 1,
                       itemBuilder: (context, index) {
                         if (index == 0) {
                           return Column(

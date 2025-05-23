@@ -31,6 +31,7 @@ class AttendHistoryWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: defaultMargin / 4),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(
                       Icons.timer,
@@ -42,7 +43,7 @@ class AttendHistoryWidget extends StatelessWidget {
                           ? " ${formatDateMonthYear(attendance.fromDate!)} - ${formatDateMonthYear(attendance.toDate!)}"
                           : " ${convertToHourMinute(attendance.createdAt!)}, ${formatDate(attendance.createdAt!)}",
                       style: medium.copyWith(
-                        fontSize: heading3,
+                        fontSize: description,
                         color: grayColor,
                       ),
                     ),

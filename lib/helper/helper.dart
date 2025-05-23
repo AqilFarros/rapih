@@ -8,7 +8,7 @@ import 'package:rapih/cubit/user_cubit.dart';
 import 'package:rapih/model/model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-String imageUrl = "http://192.168.0.31:8000/storage";
+String imageUrl = "http://192.168.0.34:8000/storage";
 
 String roleNavigation(BuildContext context) {
   final role = ((context.read<UserCubit>()).state as UserLoaded).user.role;
@@ -133,9 +133,10 @@ Future<String> generateInvoiceText({
 
   buffer.writeln("Pelanggan: ${order.customer.name}");
   buffer.writeln("Alamat   : ${order.customer.address}");
-  buffer.writeln("No. HP   : ${order.customer.number}");
+  buffer.writeln("No. HP   : 0${order.customer.number}");
   buffer.writeln("--------------------------------");
 
+  buffer.writeln("Kasir     : ${order.cashierName}");
   buffer.writeln("Pembayaran: ${order.paymentMethod}");
   buffer.writeln("Layanan   : ${order.layanan!.name}");
   buffer.writeln("--------------------------------");

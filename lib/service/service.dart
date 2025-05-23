@@ -21,7 +21,7 @@ part 'absence_service.dart';
 part 'cashier_service.dart';
 part 'order_service.dart';
 
-String baseUrl = "http://192.168.0.31:8000/api";
+String baseUrl = "http://192.168.0.34:8000/api";
 var client = http.Client();
 
 abstract class ApiService {

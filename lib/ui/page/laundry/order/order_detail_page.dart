@@ -268,7 +268,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                               fontSize: heading2,
                               color: mainColor,
                             ),
-                          ),const SizedBox(height: defaultMargin / 2),
+                          ),
+                          const SizedBox(height: defaultMargin / 2),
                           Text(
                             "Estismasi selesai:",
                             style: medium.copyWith(
@@ -827,9 +828,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  // sendOrderDetailsViaWhatsapp(
-                                  //     customer: selectedOrder.customer,
-                                  //     order: selectedOrder);
+                                  sendOrderDetailsViaWhatsapp(
+                                      customer: selectedOrder.customer,
+                                      order: selectedOrder);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(

@@ -82,8 +82,6 @@ class ProductService {
 
       Product product = Product.fromJson(result['product']);
 
-      print(product);
-
       return product;
     });
 

@@ -8,7 +8,7 @@ class Laundry extends Equatable {
   final String contactNumber;
   final String picture;
   final String logo;
-  final String? qris;
+  // final String? qris;
   final Wallet? wallet;
 
   const Laundry({
@@ -19,7 +19,7 @@ class Laundry extends Equatable {
     required this.contactNumber,
     required this.picture,
     required this.logo,
-    this.qris,
+    // this.qris,
     this.wallet,
   });
 
@@ -31,7 +31,7 @@ class Laundry extends Equatable {
         contactNumber: json["contact_number"],
         picture: json["picture"],
         logo: json["logo"],
-        qris: json["qris"] != "" ? json["qris"] : null,
+        // qris: json["qris"] != "" ? json["qris"] : null,
       );
 
   Laundry copyWith(
@@ -42,7 +42,7 @@ class Laundry extends Equatable {
       String? contactNumber,
       String? picture,
       String? logo,
-      String? qris,
+      // String? qris,
       Wallet? wallet}) {
     return Laundry(
       id: id ?? this.id,
@@ -52,7 +52,7 @@ class Laundry extends Equatable {
       contactNumber: contactNumber ?? this.contactNumber,
       picture: picture ?? this.picture,
       logo: logo ?? this.logo,
-      qris: qris ?? this.qris,
+      // qris: qris ?? this.qris,
       wallet: wallet ?? this.wallet,
     );
   }
@@ -65,7 +65,7 @@ class Laundry extends Equatable {
         contactNumber,
         picture,
         logo,
-        qris,
+        // qris,
         wallet,
       ];
 }
