@@ -106,9 +106,9 @@ class _AbsenceHistoryPageState extends State<AbsenceHistoryPage> {
               child: BlocBuilder<AbsenceCubit, AbsenceState>(
                 builder: (context, state) {
                   if (state is AbsenceLoaded) {
-                    return SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    return Expanded(
+                      child: ListView(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const TitleSection(text: "Sudah absen"),
                           const SizedBox(height: defaultMargin / 2),

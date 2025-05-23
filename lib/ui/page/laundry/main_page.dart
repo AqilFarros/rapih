@@ -65,28 +65,30 @@ class _MainPageState extends State<MainPage> {
                   const SizedBox(
                     width: defaultMargin,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Total uang saat ini adalah",
-                        style: medium.copyWith(fontSize: heading2),
-                      ),
-                      const SizedBox(
-                        height: defaultMargin / 3,
-                      ),
-                      Text(
-                        NumberFormat.currency(
-                          locale: 'id',
-                          symbol: 'Rp ',
-                          decimalDigits: 0,
-                        ).format(widget.laundry.wallet!.balance),
-                        style: semiBold.copyWith(
-                          fontSize: heading1,
-                          color: mainColor,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Total uang saat ini adalah",
+                          style: medium.copyWith(fontSize: heading2),
                         ),
-                      ),
-                    ],
+                        const SizedBox(
+                          height: defaultMargin / 3,
+                        ),
+                        Text(
+                          NumberFormat.currency(
+                            locale: 'id',
+                            symbol: 'Rp ',
+                            decimalDigits: 0,
+                          ).format(widget.laundry.wallet!.balance),
+                          style: semiBold.copyWith(
+                            fontSize: heading1,
+                            color: mainColor,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -172,36 +174,47 @@ class _MainPageState extends State<MainPage> {
                         const SizedBox(
                           width: defaultMargin,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${state.orders.where((item) => item.status == "pending" || item.status == "dicuci").length} pesanan belum selesai!",
-                              style: medium.copyWith(fontSize: heading2),
-                            ),
-                            const SizedBox(
-                              height: defaultMargin / 2,
-                            ),
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: mainColor,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: defaultMargin,
-                                  vertical: defaultMargin / 3,
-                                ),
-                                minimumSize: Size.zero,
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${state.orders.where((item) => item.status == "pending" || item.status == "dicuci").length} pesanan belum selesai!",
+                                style: medium.copyWith(fontSize: heading2),
                               ),
-                              child: Text(
-                                "Selesaikan Sekarang",
-                                style: semiBold.copyWith(
-                                  fontSize: heading4,
-                                  color: whiteColor,
+                              const SizedBox(
+                                height: defaultMargin / 2,
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          OrderPage(laundry: widget.laundry),
+                                    ),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: mainColor,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: defaultMargin,
+                                    vertical: defaultMargin / 3,
+                                  ),
+                                  minimumSize: Size.zero,
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: Text(
+                                  "Selesaikan Sekarang",
+                                  style: semiBold.copyWith(
+                                    fontSize: heading4,
+                                    color: whiteColor,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),

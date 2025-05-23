@@ -28,14 +28,11 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  blue_thermal_printer: ^1.2.3
   camera: ^0.11.1
   cupertino_icons: ^1.0.8
   dotted_border: ^2.1.0
   equatable: ^2.0.7
-  esc_pos_bluetooth: ^0.4.1
-  # esc_pos_bluetooth:
-  #   git:
-  #     url: https://github.com/andrey-ushakov/esc_pos_bluetooth.git
   fl_chart: ^0.70.2
   flutter:
     sdk: flutter

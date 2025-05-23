@@ -33,43 +33,46 @@ class _CashierHomePageState extends State<CashierHomePage> {
                         const SizedBox(
                           width: defaultMargin,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Kamu belum absen hari ini!",
-                              style: medium.copyWith(fontSize: heading2),
-                            ),
-                            const SizedBox(
-                              height: defaultMargin / 2,
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                absentDialog(
-                                    context,
-                                    ((context.read<UserCubit>()).state
-                                            as UserLoaded)
-                                        .user
-                                        .laundry!);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: mainColor,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: defaultMargin,
-                                  vertical: defaultMargin / 3,
-                                ),
-                                minimumSize: Size.zero,
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Kamu belum absen hari ini!",
+                                style: medium.copyWith(fontSize: heading2),
                               ),
-                              child: Text(
-                                "Absen Sekarang",
-                                style: semiBold.copyWith(
-                                  fontSize: heading4,
-                                  color: whiteColor,
+                              const SizedBox(
+                                height: defaultMargin / 2,
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  absentDialog(
+                                      context,
+                                      ((context.read<UserCubit>()).state
+                                              as UserLoaded)
+                                          .user
+                                          .laundry!);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: mainColor,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: defaultMargin,
+                                    vertical: defaultMargin / 3,
+                                  ),
+                                  minimumSize: Size.zero,
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: Text(
+                                  "Absen Sekarang",
+                                  style: semiBold.copyWith(
+                                    fontSize: heading4,
+                                    color: whiteColor,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -164,50 +167,52 @@ class _CashierHomePageState extends State<CashierHomePage> {
                           const SizedBox(
                             width: defaultMargin,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${state.orders.where((item) => item.status == "pending" || item.status == "dicuci" || item.status == "telat").length} pesanan belum selesai!",
-                                style: medium.copyWith(fontSize: heading2),
-                              ),
-                              const SizedBox(
-                                height: defaultMargin / 2,
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => OrderPage(
-                                        laundry: (context
-                                                .read<UserCubit>()
-                                                .state as UserLoaded)
-                                            .user
-                                            .laundry!,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "${state.orders.where((item) => item.status == "pending" || item.status == "dicuci" || item.status == "telat").length} pesanan belum selesai!",
+                                  style: medium.copyWith(fontSize: heading2),
+                                ),
+                                const SizedBox(
+                                  height: defaultMargin / 2,
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => OrderPage(
+                                          laundry: (context
+                                                  .read<UserCubit>()
+                                                  .state as UserLoaded)
+                                              .user
+                                              .laundry!,
+                                        ),
                                       ),
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: mainColor,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: defaultMargin,
+                                      vertical: defaultMargin / 3,
                                     ),
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: mainColor,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: defaultMargin,
-                                    vertical: defaultMargin / 3,
+                                    minimumSize: Size.zero,
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
                                   ),
-                                  minimumSize: Size.zero,
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                ),
-                                child: Text(
-                                  "Selesaikan Sekarang",
-                                  style: semiBold.copyWith(
-                                    fontSize: heading4,
-                                    color: whiteColor,
+                                  child: Text(
+                                    "Selesaikan Sekarang",
+                                    style: semiBold.copyWith(
+                                      fontSize: heading4,
+                                      color: whiteColor,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),

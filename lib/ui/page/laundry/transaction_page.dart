@@ -65,44 +65,46 @@ class _TransactionPageState extends State<TransactionPage> {
                     const SizedBox(
                       width: defaultMargin,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "${state.orders.where((item) => item.status == "pending" || item.status == "dicuci" || item.status == "telat").length} pesanan belum selesai!",
-                          style: medium.copyWith(fontSize: heading2),
-                        ),
-                        const SizedBox(
-                          height: defaultMargin / 2,
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    OrderPage(laundry: widget.laundry),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${state.orders.where((item) => item.status == "pending" || item.status == "dicuci" || item.status == "telat").length} pesanan belum selesai!",
+                            style: medium.copyWith(fontSize: heading2),
+                          ),
+                          const SizedBox(
+                            height: defaultMargin / 2,
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      OrderPage(laundry: widget.laundry),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: mainColor,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: defaultMargin,
+                                vertical: defaultMargin / 3,
                               ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: mainColor,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: defaultMargin,
-                              vertical: defaultMargin / 3,
+                              minimumSize: Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
-                            minimumSize: Size.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          child: Text(
-                            "Selesaikan Sekarang",
-                            style: semiBold.copyWith(
-                              fontSize: heading4,
-                              color: whiteColor,
+                            child: Text(
+                              "Selesaikan Sekarang",
+                              style: semiBold.copyWith(
+                                fontSize: heading4,
+                                color: whiteColor,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),

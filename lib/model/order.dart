@@ -5,6 +5,7 @@ class Order extends Equatable {
   final String orderCode;
   final int storeId;
   final String status;
+  final String cashierName;
   final Customer customer;
   final Layanan? layanan;
   final List<ProductOrder>? products;
@@ -22,6 +23,7 @@ class Order extends Equatable {
     required this.orderCode,
     required this.storeId,
     required this.status,
+    required this.cashierName,
     required this.customer,
     this.layanan,
     this.products,
@@ -40,13 +42,16 @@ class Order extends Equatable {
         orderCode: json['kode_pesanan'],
         storeId: json['store_id'],
         status: json['status'],
+        cashierName: json['kasir_id'],
         customer: Customer.fromJson(json['customer']),
         layanan: json['layanans'] != null
-            ? Layanan.fromJson(json['layanans']) : null,
+            ? Layanan.fromJson(json['layanans'])
+            : null,
         products: json['products'] != null
             ? (json['products'] as Iterable)
-            .map((item) => ProductOrder.fromJson(item))
-            .toList() : null,
+                .map((item) => ProductOrder.fromJson(item))
+                .toList()
+            : null,
         totalPrice: double.parse(json['total_price'].toString()),
         discount: json['discount'] != null
             ? Discount.fromJson(json['discount'])
@@ -67,6 +72,7 @@ class Order extends Equatable {
     String? orderCode,
     int? storeId,
     String? status,
+    String? cashierName,
     Customer? customer,
     Layanan? layanan,
     List<ProductOrder>? products,
@@ -84,6 +90,7 @@ class Order extends Equatable {
       orderCode: orderCode ?? this.orderCode,
       storeId: storeId ?? this.storeId,
       status: status ?? this.status,
+      cashierName: cashierName ?? this.cashierName,
       customer: customer ?? this.customer,
       layanan: layanan ?? this.layanan,
       products: products ?? this.products,
@@ -104,6 +111,7 @@ class Order extends Equatable {
         orderCode,
         storeId,
         status,
+        cashierName,
         customer,
         layanan,
         products,

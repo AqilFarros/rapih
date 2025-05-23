@@ -43,11 +43,26 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   @override
   void initState() {
     super.initState();
+    initPrinter();
     selectedStatus = widget.order.status;
     if (widget.order.products == null) {
       context
           .read<OrderCubit>()
           .getOrderById(storeId: widget.laundry.id, orderId: widget.order.id);
+    }
+  }
+
+  final BlueThermalPrinter printer = BlueThermalPrinter.instance;
+  List<BluetoothDevice> devices = [];
+
+  void initPrinter() async {
+    bool isConnected = await printer.isConnected ?? false;
+    if (!isConnected) {
+      devices = await printer.getBondedDevices();
+      // pilih salah satu device secara manual atau otomatis
+      if (devices.isNotEmpty) {
+        await printer.connect(devices[0]); // konek ke perangkat pertama
+      }
     }
   }
 
@@ -180,6 +195,24 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                           Row(
                             children: [
                               Text(
+                                "Nama kasir: ",
+                                style: medium.copyWith(
+                                  fontSize: heading2,
+                                ),
+                              ),
+                              Text(
+                                selectedOrder.cashierName,
+                                style: medium.copyWith(
+                                  fontSize: heading2,
+                                  color: mainColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: defaultMargin / 2),
+                          Row(
+                            children: [
+                              Text(
                                 "Metode pembayaran: ",
                                 style: medium.copyWith(
                                   fontSize: heading2,
@@ -196,6 +229,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                           ),
                           const SizedBox(height: defaultMargin / 2),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 "Status pembayaran: ",
@@ -203,20 +237,38 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                   fontSize: heading2,
                                 ),
                               ),
-                              Text(
-                                selectedOrder.isPaid
-                                    ? "sudah dibayar"
-                                    : "belum dibayar",
-                                style: medium.copyWith(
-                                  fontSize: heading2,
-                                  color: selectedOrder.isPaid
-                                      ? greenColor
-                                      : redColor,
+                              Expanded(
+                                child: Text(
+                                  selectedOrder.isPaid
+                                      ? "sudah dibayar"
+                                      : "belum dibayar",
+                                  style: medium.copyWith(
+                                    fontSize: heading2,
+                                    color: selectedOrder.isPaid
+                                        ? greenColor
+                                        : redColor,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                           const SizedBox(height: defaultMargin / 2),
+                          Text(
+                            "Tanggal kirim:",
+                            style: medium.copyWith(
+                              fontSize: heading2,
+                            ),
+                          ),
+                          Text(
+                            DateFormat("EEEE, dd MMMM yyyy HH:mm", 'id_ID')
+                                .format(
+                              DateTime.parse(selectedOrder.createdAt),
+                            ),
+                            style: medium.copyWith(
+                              fontSize: heading2,
+                              color: mainColor,
+                            ),
+                          ),const SizedBox(height: defaultMargin / 2),
                           Text(
                             "Estismasi selesai:",
                             style: medium.copyWith(
@@ -719,20 +771,38 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                             children: [
                               GestureDetector(
                                 onTap: () async {
-                                  final printerManager = PrinterBluetoothManager();
+                                  final isConnected =
+                                      await printer.isConnected ?? false;
 
-                                  final devices =
-                                      await printerManager.scanResults.first;
+                                  if (!isConnected) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content:
+                                              Text("Printer belum terhubung")),
+                                    );
+                                    return;
+                                  }
 
-                                  final printer = devices.firstWhere(
-                                      (d) => d.name == "Printer Kamu");
+                                  final invoiceText = await generateInvoiceText(
+                                    title: "Nota Transaksi",
+                                    order:
+                                        selectedOrder, // pastikan `order` sudah tersedia
+                                  );
 
-                                  printerManager.selectPrinter(printer);
+                                  final lines = invoiceText.split('\n');
 
-                                  final bytes = await generateInvoice(
-                                      title: "INVOICE", order: selectedOrder);
+                                  for (var line in lines) {
+                                    if (line.trim().isEmpty) {
+                                      printer.printNewLine();
+                                    } else {
+                                      printer.printCustom(line, 1,
+                                          0); // ukuran normal, rata kiri
+                                    }
+                                  }
 
-                                  await printerManager.printTicket(bytes);
+                                  printer.printNewLine();
+                                  printer.printNewLine();
+                                  printer.paperCut(); // jika printer support
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(

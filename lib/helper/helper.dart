@@ -84,34 +84,106 @@ Future<void> sendOrderDetailsViaWhatsapp(
 ''';
 
   String encodedText = Uri.encodeComponent(text);
-  String androidUrl = "whatsapp://send?phone=62${customer.number}&text=$encodedText";
+  String androidUrl =
+      "whatsapp://send?phone=62${customer.number}&text=$encodedText";
   String iosUrl = "https://wa.me/62${customer.number}?text=$encodedText";
   String webUrl =
       'https://api.whatsapp.com/send/?phone=62${customer.number}&text=$encodedText';
 
   try {
-  final url = Platform.isIOS ? iosUrl : androidUrl;
-  final uri = Uri.parse(url);
+    final url = Platform.isIOS ? iosUrl : androidUrl;
+    final uri = Uri.parse(url);
 
-  final canLaunch = await canLaunchUrl(uri);
-  if (canLaunch) {
-    await launchUrl(uri);
-  } else {
+    final canLaunch = await canLaunchUrl(uri);
+    if (canLaunch) {
+      await launchUrl(uri);
+    } else {
+      final webUri = Uri.parse(webUrl);
+      if (await canLaunchUrl(webUri)) {
+        await launchUrl(webUri, mode: LaunchMode.externalApplication);
+      } else {
+        print("Tidak bisa membuka WhatsApp atau fallback web.");
+      }
+    }
+  } catch (e) {
     final webUri = Uri.parse(webUrl);
     if (await canLaunchUrl(webUri)) {
       await launchUrl(webUri, mode: LaunchMode.externalApplication);
     } else {
-      print("Tidak bisa membuka WhatsApp atau fallback web.");
+      print("Gagal membuka semua URL: $e");
     }
   }
-} catch (e) {
-  final webUri = Uri.parse(webUrl);
-  if (await canLaunchUrl(webUri)) {
-    await launchUrl(webUri, mode: LaunchMode.externalApplication);
-  } else {
-    print("Gagal membuka semua URL: $e");
-  }
 }
+
+Future<String> generateInvoiceText({
+  required String title,
+  required Order order,
+}) async {
+  print(order);
+  final df = DateFormat("dd MMM yyyy HH:mm", 'id_ID');
+  final buffer = StringBuffer();
+
+  buffer.writeln(centerText(title.toUpperCase()));
+  buffer.writeln("--------------------------------");
+
+  buffer.writeln("Kode     : ${order.orderCode}");
+  buffer.writeln("Tanggal  : ${df.format(DateTime.parse(order.createdAt))}");
+  buffer.writeln("Selesai  : ${df.format(DateTime.parse(order.estDate))}");
+  buffer.writeln("--------------------------------");
+
+  buffer.writeln("Pelanggan: ${order.customer.name}");
+  buffer.writeln("Alamat   : ${order.customer.address}");
+  buffer.writeln("No. HP   : ${order.customer.number}");
+  buffer.writeln("--------------------------------");
+
+  buffer.writeln("Pembayaran: ${order.paymentMethod}");
+  buffer.writeln("Layanan   : ${order.layanan!.name}");
+  buffer.writeln("--------------------------------");
+
+  buffer.writeln("Item              Qty   Harga");
+  for (var item in order.products!) {
+    buffer.writeln("${item.product.name.padRight(16).substring(0, 16)}"
+        "${item.quantity.toString().padLeft(3)}x "
+        "${formatRupiah(item.product.price)}");
+  }
+
+  buffer.writeln("--------------------------------");
+
+  buffer.writeln("Subtotal      : ${formatRupiah(
+    order.products!.fold(0.0, (sum, item) => sum + item.subTotal),
+  )}");
+
+  if (order.parfume != null) {
+    buffer.writeln("Parfume       : ${formatRupiah(order.parfume!.price)}");
+  }
+
+  if (order.delivery != null) {
+    buffer.writeln("Ongkir        : ${formatRupiah(order.delivery!.amount)}");
+  }
+
+  if (order.discount != null) {
+    buffer.writeln("Diskon        : -${formatRupiah(order.discount!.amount)}");
+  }
+
+  buffer.writeln("--------------------------------");
+  buffer.writeln("TOTAL         : ${formatRupiah(order.totalPrice)}");
+  buffer.writeln("--------------------------------");
+
+  buffer.writeln(centerText("Terima kasih!"));
+
+  return buffer.toString();
+}
+
+String formatRupiah(amount) {
+  return "Rp${amount.toInt().toString().replaceAllMapped(
+        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+        (Match m) => '${m[1]}.',
+      )}";
+}
+
+String centerText(String text, [int width = 32]) {
+  final pad = ((width - text.length) / 2).floor();
+  return ' ' * pad + text;
 }
 
 Future<List<int>> generateInvoice({
@@ -133,14 +205,17 @@ Future<List<int>> generateInvoice({
 
   final df = DateFormat("dd MMM yyyy HH:mm", 'id_ID');
   bytes += generator.text("Kode: ${order.orderCode}");
-  bytes += generator.text("Tanggal: ${df.format(DateTime.parse(order.createdAt))}");
+  bytes +=
+      generator.text("Tanggal: ${df.format(DateTime.parse(order.createdAt))}");
   bytes += generator.hr();
 
   for (var item in order.products!) {
     bytes += generator.row([
       PosColumn(text: item.product.name, width: 6),
       PosColumn(
-          text: "${item.quantity}x", width: 2, styles: PosStyles(align: PosAlign.right)),
+          text: "${item.quantity}x",
+          width: 2,
+          styles: PosStyles(align: PosAlign.right)),
       PosColumn(
           text: "Rp${item.product.price.toInt()}",
           width: 4,

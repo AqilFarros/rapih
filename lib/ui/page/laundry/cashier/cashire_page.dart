@@ -81,7 +81,7 @@ class _CashirePageState extends State<CashirePage> {
                             (index) => SizedBox(
                               width: itemWidth,
                               child: ManageCard(
-                                title: "Name kasir",
+                                title: state.cashier[index].name!,
                                 image: "asset/icon/cashier.png",
                                 edit: () async {
                                   if (!isLoading) {
